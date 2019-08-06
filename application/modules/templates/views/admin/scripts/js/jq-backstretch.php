@@ -1,0 +1,1 @@
+<script src="<?= base_url('assets/global/plugins/backstretch/jquery.backstretch.min.js')?>" type="text/javascript"></script>

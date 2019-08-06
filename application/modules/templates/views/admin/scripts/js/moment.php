@@ -1,0 +1,1 @@
+<script src="<?= base_url("assets/global/plugins/moment.min.js")?>" type="text/javascript"></script>

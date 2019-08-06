@@ -1,0 +1,2 @@
+<script src="<?= base_url('assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js')?>" type="text/javascript"></script>
+<script src="<?= base_url('assets/pages/scripts/components-bootstrap-select.js')?>" type="text/javascript"></script>

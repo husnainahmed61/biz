@@ -1,0 +1,1 @@
+<script type="text/javascript" src="<?= base_url("assets_u/js/swipebox/src/js/jquery.swipebox.min.js")?>"></script>

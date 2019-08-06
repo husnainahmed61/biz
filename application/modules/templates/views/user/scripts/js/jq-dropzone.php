@@ -1,0 +1,1 @@
+<script src="<?= base_url('assets_u/vendors/dropzone/dropzone.js')?>"></script>

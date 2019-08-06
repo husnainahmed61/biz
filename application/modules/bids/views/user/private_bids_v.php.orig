@@ -1,0 +1,498 @@
+<div class="container">
+    <!-- Breadcrumb Start-->
+    <ul class="breadcrumb">
+        <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="index.html" itemprop="url"><span
+                    itemprop="title"><i class="fa fa-home"></i></span></a></li>
+        <li><a href="<?= base_url('/profile') ?>"><span>My Profile</span></a></li>
+        <li><a href="<?= base_url('/bids') ?>"><span>My Auctions</span></a></li>
+    </ul>
+    <!-- Breadcrumb End-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h1 class="title">My Bids</h1>
+                </div>
+
+
+                <div class="col-md-12 col-sm-12  posts">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#buy" aria-controls="home" role="tab" data-toggle="tab">
+                                <i class="fa fa-home"></i> 
+                                <span>Buy</span>
+                            </a>
+                        </li>
+                        <li role="presentation"><a href="#sell" aria-controls="profile" role="tab" data-toggle="tab"><i
+                                        class="fa fa-user"></i>  <span>Sell</span></a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="buy">
+                            <div id="content" class="col-sm-12 col-sm-12">
+                                <div class="product-filter">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-5">
+                                            <div class="btn-group">
+                                                <button type="button" id="list-view" class="btn btn-default"
+                                                        data-toggle="tooltip"
+                                                        title="List"><i class="fa fa-th-list"></i></button>
+                                                <button type="button" id="grid-view" class="btn btn-default"
+                                                        data-toggle="tooltip"
+                                                        title="Grid"><i class="fa fa-th"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <label class="control-label" for="input-sort">Sort By:</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-2 text-right">
+                                            <select id="input-sort" class="form-control col-sm-3">
+                                                <option value="" selected="selected">Default</option>
+                                                <option value="">Name (A - Z)</option>
+                                                <option value="">Name (Z - A)</option>
+                                                <option value="">Price (Low &gt; High)</option>
+                                                <option value="">Price (High &gt; Low)</option>
+                                                <option value="">Rating (Highest)</option>
+                                                <option value="">Rating (Lowest)</option>
+                                                <option value="">Model (A - Z)</option>
+                                                <option value="">Model (Z - A)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1 text-right">
+                                            <label class="control-label" for="input-limit">Show:</label>
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <select id="input-limit" class="form-control">
+                                                <option value="" selected="selected">20</option>
+                                                <option value="">25</option>
+                                                <option value="">50</option>
+                                                <option value="">75</option>
+                                                <option value="">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <?php
+                                    if (isset($buyingAuctions) && !empty($buyingAuctions)) {
+                                        foreach ($buyingAuctions AS $buyingAuction) :
+                                            $image = 'image_sm_' . $buyingAuction['auction'][0]['display_image'];
+                                            $startAt = explode(' ', $buyingAuction['created_at']);
+                                            $expiresAt = explode(' ', $buyingAuction['expires_at']);
+
+                                            $amount = $buyingAuction['amount'];
+                                            $currency = $buyingAuction['currency'];
+                                            $price = $currency . ' ' . $amount;
+
+<<<<<<< HEAD
+
+                                            if ($buyingAuction['expires_at'] > $currentDate) {
+=======
+                                            if($buyingAuction['expires_at'] > $currentDate)
+                                            {
+>>>>>>> uzair_development
+                                                $status = $buyingAuction['status'];
+                                                $statusType = '';
+
+                                                if ($status == 'pending') {
+                                                    $statusType = 'primary';
+                                                }
+
+                                                else if ($status == 'cancel') {
+                                                    $statusType = 'danger';
+                                                }
+
+                                                else {
+                                                    $statusType = 'success';
+                                                }
+
+                                            }
+
+                                            else {
+                                                $status = 'Expired';
+                                                $statusType = 'default';
+                                            }
+
+
+                                            ?>
+                                            <div class="product-layout product-list col-md-4 col-xs-12">
+                                                <div class="product-thumb">
+                                                    <div class="image"><a
+                                                                href="<?= base_url('bid/' . $buyingAuction['auction'][0]['slug']) ?>">
+                                                            <img
+                                                                    src="<?= $resources_path . "images/auctions/" . $buyingAuction['auction'][0][$image] ?>"
+                                                                    alt="<?= $buyingAuction['auction'][0]['name'] ?>"
+                                                                    title="<?= $buyingAuction['auction'][0]['name'] ?>"
+                                                                    class="img-responsive" width="200"
+                                                                    height="200"/></a>
+                                                    </div>
+                                                    <div>
+                                                        <div class="caption">
+                                                            <h4>
+                                                                <a href="<?= base_url('bid/' . $buyingAuction['auction'][0]['slug']) ?>"> <?= $buyingAuction['auction'][0]['name'] ?> </a>
+                                                            </h4>
+                                                            <div class="post-rating ">
+                                                                <div class="rating">
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="description">
+                                                                <?= $buyingAuction['auction'][0]['description'] ?>
+                                                            </p>
+                                                            <ul class="list-unstyled list-inline details">
+                                                                <li data-toggle="tooltip"
+                                                                    title="Auction Code">
+                                                                    <span class="name">Code: </span>
+                                                                    <span class="value">VB0001</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="name">Start at: </span>
+                                                                    <span class="value"><?= $startAt[0] ?></span>
+                                                                </li>
+                                                                <li data-toggle="tooltip"
+                                                                    title="Bid Before">
+                                                                    <span class="name">Expire at: </span>
+                                                                    <span class="value"><?= $expiresAt[0] ?></span>
+                                                                </li>
+                                                                <li data-toggle="tooltip"
+                                                                    title="Bid Before">
+                                                                    <span class="name">Auctioneer: </span>
+                                                                    <span class="value">
+                                                                        <a href="<?= base_url($buyingAuction['auction'][0]['auctioneer']['slug'] . '/merchant/') ?>"
+                                                                           target="_blank"> <?= $buyingAuction['auction'][0]['auctioneer']['first_name'] . ' ' . $buyingAuction['auction'][0]['auctioneer']['last_name'] ?></a>
+                                                                    </span>
+                                                                </li>
+                                                                <li data-toggle="tooltip"
+                                                                    title="Bid Before">
+                                                                    <span class="name">Auctioneer Type: </span>
+                                                                    <span class="value"><?= $buyingAuction['auction'][0]['auctioneer']['type'] ?></span>
+                                                                </li>
+                                                                <!--<li>
+                                                                    <span class="name">Availability:</span>
+                                                                    <span class="instock value ">In Stock</span>
+                                                                </li>-->
+                                                            </ul>
+                                                            <h3 class="price" itemprop="offers" itemscope
+                                                                itemtype="http://schema.org/Offer">
+                                                                <span class="price-new"
+                                                                      itemprop="price"><?= $price ?></span>
+                                                                <span class="price-tax"
+                                                                      style="">Quantity: <?= $buyingAuction['auction'][0]['qty'] . ' ' . $buyingAuction['auction'][0]['qty_unit'] ?> </span>
+                                                                <span itemprop="availability" content="In Stock"></span>
+
+                                                            </h3>
+                                                            <div class="button-group">
+                                                                <?php if (($buyingAuction['expires_at'] > $currentDate) && $status == 'pending'): ?>
+                                                                    <form id="bid-cancel-form"
+                                                                          action="<?= base_url('bids/action/' . $buyingAuction['id']) ?>"
+                                                                          method="POST">
+                                                                        <input type="hidden"
+                                                                               name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                                                               value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                                                        <input type="hidden" name="status"
+                                                                               value="cancel">
+                                                                        <button type="submit" data-toggle="tooltip"
+                                                                                title="" class="btn btn-danger"
+                                                                                data-original-title="Cancel">Cancel
+                                                                        </button>
+                                                                    </form>
+                                                                <?php endif; ?>
+                                                                <div class="add-to-links">
+                                                                    <label class="label label-<?= $statusType ?> bid-status"
+                                                                           data-toggle="tooltip"
+                                                                           title="Bid Status"
+                                                                           onClick="">
+                                                                        <?= ucfirst($status); ?>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php
+                                        endforeach;
+                                    }
+                                    else {
+                                        ?>
+                                        <div class="col-md-4 col-xs-12">
+                                            <span>No auction found.</span>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6 text-left">
+                                        <ul class="pagination">
+                                            <li class="active"><span>1</span></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">&gt;</a></li>
+                                            <li><a href="#">&gt;|</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-6 text-right">Showing 1 to 12 of 15 (2 Pages)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane " id="sell">
+                            <div id="content" class="col-sm-12 col-sm-12">
+                                <div class="product-filter">
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-5">
+                                            <div class="btn-group">
+                                                <button type="button" id="list-view" class="btn btn-default"
+                                                        data-toggle="tooltip"
+                                                        title="List"><i class="fa fa-th-list"></i></button>
+                                                <button type="button" id="grid-view" class="btn btn-default"
+                                                        data-toggle="tooltip"
+                                                        title="Grid"><i class="fa fa-th"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <label class="control-label" for="input-sort">Sort By:</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-2 text-right">
+                                            <select id="input-sort" class="form-control col-sm-3">
+                                                <option value="" selected="selected">Default</option>
+                                                <option value="">Name (A - Z)</option>
+                                                <option value="">Name (Z - A)</option>
+                                                <option value="">Price (Low &gt; High)</option>
+                                                <option value="">Price (High &gt; Low)</option>
+                                                <option value="">Rating (Highest)</option>
+                                                <option value="">Rating (Lowest)</option>
+                                                <option value="">Model (A - Z)</option>
+                                                <option value="">Model (Z - A)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1 text-right">
+                                            <label class="control-label" for="input-limit">Show:</label>
+                                        </div>
+                                        <div class="col-sm-2 text-right">
+                                            <select id="input-limit" class="form-control">
+                                                <option value="" selected="selected">20</option>
+                                                <option value="">25</option>
+                                                <option value="">50</option>
+                                                <option value="">75</option>
+                                                <option value="">100</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <?php
+                                    if (isset($sellingAuctions) && !empty($sellingAuctions)) {
+                                        foreach ($sellingAuctions AS $sellingAuction) :
+                                            $image = 'image_sm_' . $sellingAuction['auction'][0]['display_image'];
+                                            $startAt = explode(' ', $sellingAuction['auction'][0]['created_at']);
+                                            $expiresAt = explode(' ', $sellingAuction['auction'][0]['expires_at']);
+
+                                            $amount = $sellingAuction['amount'];
+                                            $currency = $sellingAuction['currency'];
+                                            $price = $currency . ' ' . $amount;
+
+
+                                            if ($sellingAuction['expires_at'] > $currentDate) {
+                                                $status = $sellingAuction['status'];
+                                                $statusType = '';
+
+                                                if ($status == 'pending') {
+                                                    $statusType = 'primary';
+                                                }
+
+                                                else if ($status == 'cancel') {
+                                                    $statusType = 'danger';
+                                                }
+
+                                                else {
+                                                    $statusType = 'success';
+                                                }
+                                            }
+
+                                            else {
+                                                $status = 'Expired';
+                                                $statusType = 'default';
+                                            }
+
+
+                                            ?>
+                                            <div class="product-layout product-list col-md-4 col-xs-12">
+                                                <div class="product-thumb">
+                                                    <div class="image"><a
+                                                                href="<?= base_url('bid/' . $sellingAuction['auction'][0]['slug']) ?>">
+                                                            <img
+                                                                    src="<?= $resources_path . "images/auctions/" . $sellingAuction['auction'][0][$image] ?>"
+                                                                    alt="<?= $sellingAuction['auction'][0]['name'] ?>"
+                                                                    title="<?= $sellingAuction['auction'][0]['name'] ?>"
+                                                                    class="img-responsive" width="200"
+                                                                    height="200"/></a>
+                                                    </div>
+                                                    <div>
+                                                        <div class="caption">
+                                                            <h4>
+                                                                <a href="<?= base_url('bid/' . $sellingAuction['auction'][0]['slug']) ?>"> <?= $sellingAuction['auction'][0]['name'] ?> </a>
+                                                            </h4>
+
+                                                            <div class="post-rating ">
+                                                                <div class="rating">
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star fa-stack-2x"></i>
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                    <span class="fa fa-stack">
+                                                                        <i class="fa fa-star-o fa-stack-2x"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="description">
+                                                                <?= $sellingAuction['auction'][0]['description'] ?>
+                                                            </p>
+                                                            <ul class="list-unstyled list-inline details">
+                                                                <li data-toggle="tooltip"
+                                                                    title="Auction Code">
+                                                                    <span class="name">Code: </span>
+                                                                    <span class="value">VB0001</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="name">Start at: </span>
+                                                                    <span class="value"><?= $startAt[0] ?></span>
+                                                                </li>
+                                                                <li data-toggle="tooltip"
+                                                                    title="Bid Before">
+                                                                    <span class="name">Expire at: </span>
+                                                                    <span class="value"><?= $expiresAt[0] ?></span>
+                                                                </li>
+                                                                <li data-toggle="tooltip"
+                                                                    title="Bid Before">
+                                                                    <span class="name">Auctioneer: </span>
+                                                                    <span class="value">
+                                                                        <a href="<?= base_url($sellingAuction['auction'][0]['auctioneer']['slug'] . '/merchant/') ?>"
+                                                                           target="_blank"> <?= $sellingAuction['auction'][0]['auctioneer']['first_name'] . ' ' . $sellingAuction['auction'][0]['auctioneer']['last_name'] ?></a>
+                                                                    </span>
+                                                                </li>
+                                                                <li data-toggle="tooltip"
+                                                                    title="Bid Before">
+                                                                    <span class="name">Auctioneer Type: </span>
+                                                                    <span class="value"><?= $sellingAuction['auction'][0]['auctioneer']['type'] ?></span>
+                                                                </li>
+                                                                <!--<li>
+                                                                    <span class="name">Availability:</span>
+                                                                    <span class="instock value ">In Stock</span>
+                                                                </li>-->
+                                                            </ul>
+                                                            <h3 class="price" itemprop="offers" itemscope
+                                                                itemtype="http://schema.org/Offer">
+                                                                <span class="price-new"
+                                                                      itemprop="price"><?= $price ?></span>
+                                                                <span class="price-tax"
+                                                                      style="">Quantity: <?= $sellingAuction['auction'][0]['qty'] . ' ' . $sellingAuction['auction'][0]['qty_unit'] ?></span>
+                                                                <span itemprop="availability" content="In Stock"></span>
+
+                                                            </h3>
+                                                            <div class="button-group">
+
+                                                                <?php if (($sellingAuction['expires_at'] > $currentDate) && $status == 'pending'): ?>
+                                                                    <form id="bid-cancel-form"
+                                                                          action="<?= base_url('bids/action/' . $sellingAuction['id']) ?>"
+                                                                          method="POST">
+                                                                        <input type="hidden"
+                                                                               name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                                                               value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                                                        <input type="hidden" name="status" id="status"
+                                                                               value="cancel">
+                                                                        <button type="submit" data-toggle="tooltip"
+                                                                                title="" class="btn btn-danger"
+                                                                                data-original-title="Cancel">Cancel
+                                                                        </button>
+                                                                    </form>
+                                                                <?php endif; ?>
+
+                                                                <div class="add-to-links">
+                                                                    <label class="label label-<?= $statusType ?> bid-status"
+                                                                           data-toggle="tooltip"
+                                                                           title="Bid Status"
+                                                                           onClick="">
+                                                                        <?= ucfirst($status); ?>
+                                                                    </label>
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php
+                                        endforeach;
+                                    }
+                                    else {
+                                        ?>
+                                        <div class="col-md-4 col-xs-12">
+                                            <span>No auction found.</span>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-sm-6 text-left">
+                                        <ul class="pagination">
+                                            <li class="active"><span>1</span></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">&gt;</a></li>
+                                            <li><a href="#">&gt;|</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-sm-6 text-right">Showing 1 to 12 of 15 (2 Pages)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

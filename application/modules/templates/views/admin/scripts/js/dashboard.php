@@ -1,0 +1,1 @@
+<script src="../assets/pages/scripts/dashboard.min.js" type="text/javascript"></script>

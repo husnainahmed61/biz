@@ -1,0 +1,1 @@
+<script src="../assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>

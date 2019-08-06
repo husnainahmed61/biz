@@ -1,0 +1,1 @@
+<script src="<?= base_url('assets/pages/scripts/ui-buttons.min.js')?>" type="text/javascript"></script>

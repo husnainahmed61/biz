@@ -1,0 +1,1 @@
+<link rel="stylesheet" type="text/css" href="<?= base_url("assets_u/js/swipebox/src/css/swipebox.min.css")?>">

@@ -1,0 +1,1 @@
+<script src="<?= base_url('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js')?>" type="text/javascript"></script>

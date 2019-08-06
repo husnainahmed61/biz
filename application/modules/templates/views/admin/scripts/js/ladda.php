@@ -1,0 +1,2 @@
+<script src="<?= base_url('assets/global/plugins/ladda/spin.min.js')?>" type="text/javascript"></script>
+<script src="<?= base_url('assets/global/plugins/ladda/ladda.min.js')?>" type="text/javascript"></script>

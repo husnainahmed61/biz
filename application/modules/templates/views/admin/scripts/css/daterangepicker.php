@@ -1,0 +1,1 @@
+<link href="<?= base_url("assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css")?>" rel="stylesheet" type="text/css"/>

@@ -1,0 +1,1 @@
+<link href="<?= base_url('assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')?>" rel="stylesheet" type="text/css" />
