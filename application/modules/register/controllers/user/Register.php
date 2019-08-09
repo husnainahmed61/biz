@@ -68,9 +68,9 @@ class Register extends User_Controller
         if($userType == "business"){
             $this->merchants->usersM->rules['insert']['business_name']['rules']            = "trim|required";
             $this->merchants->usersM->rules['insert']['business_description']['rules']            = "trim|required";
-            $this->merchants->usersM->rules['insert']['tax_number']['rules']           = "trim|required";
+           
             $this->merchants->usersM->rules['insert']['registered_address']['rules']           = "trim|required";
-            $this->merchants->usersM->rules['insert']['website_url']['rules']           = "trim|required";
+            //$this->merchants->usersM->rules['insert']['website_url']['rules']           = "trim|required";
         }
         $rules = $this->merchants->usersM->rules['insert'];
         $this->form_validation->set_rules($rules);

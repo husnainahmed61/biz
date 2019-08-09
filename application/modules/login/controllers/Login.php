@@ -121,6 +121,7 @@ class Login extends MY_Base_Controller
                             'sess_logged_in'=>0,
                             'profile_image' => $user[0]['profile_picture'],
                             'slug' => $user[0]['slug'],
+                            'is_company' => 1,
                         ]
 
                     ];

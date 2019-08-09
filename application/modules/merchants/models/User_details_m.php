@@ -84,6 +84,8 @@ class User_details_m extends MY_Model
         $this->db->from("$this->table as ud");
         $this->db->join('users as u', "ud.user_id = u.id", 'inner');
         $this->db->where($where);
+        //$this->db->where("is_company","1");
+
         return $this->db->get()->result_array();
     }
 

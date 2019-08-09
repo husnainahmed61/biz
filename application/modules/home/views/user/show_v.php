@@ -1,4 +1,36 @@
-
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <form class="form-horizontal" id="login-form" action='<?= base_url('login/authenticate_user') ?>' method="POST">
+              <fieldset>
+                <div id="legend">
+                  <legend class="">Login</legend>
+                </div>
+                <div class="control-group">
+                  <!-- Username -->
+                  <label class="control-label"  for="username">Username</label>
+                  <div class="controls">
+                    <input type="email" id="login_email" name="login_email" placeholder="Enter your email here..." required class="input-xlarge">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <!-- Password-->
+                  <label class="control-label" for="password">Password</label>
+                  <div class="controls">
+                    <input type="password" id="login_password" name="login_password" placeholder="Enter your password here..." required class="input-xlarge">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <!-- Button -->
+                  <div class="controls">
+                    <button class="btn btn-success" type="submit">Login</button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- BANNER 
 <div class="banner-wrap banner-cs">
     <section class=" banner-v2 container">
@@ -42,7 +74,7 @@
     </section>
 </div>
 /BANNER -->
-
+<div style="display: none;">
 <div class="carousel-wrap home-banner-main hidden-sm visible-md visible-lg">
   <div class="owl-carousel home-top-banner">
     
@@ -254,3 +286,4 @@
     </section>
 </div>
 <!-- /SERVICES -->
+</div>

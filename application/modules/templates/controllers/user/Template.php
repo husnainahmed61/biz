@@ -25,6 +25,11 @@ class Template extends MY_Base_Controller
     	
         $this->load->view('templates/user/template_v', $data);
     }
+    function setup_template_company($data = NULL)
+    {
+        
+        $this->load->view('templates/user/company_template_v', $data);
+    }
 
     function setup_private_template($data = NULL)
     {

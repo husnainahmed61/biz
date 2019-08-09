@@ -66,12 +66,12 @@ class Home extends User_Controller
         //$this->data['user']['auctions'] = $auctions;
         $this->data['user']['content_view'] = "$this->modulePath/show_v";
 
-        $this->setupHeader1();
-        $this->setupNav();
-        $this->header_notification();
-        $this->quick_menu();
+        //$this->setupHeader1();
+        //$this->setupNav();
+        //$this->header_notification();
+        //$this->quick_menu();
         //echo"<pre>"; print_r($this->data['user']);die;
-        $this->template->setup_template($this->data['user']);
+        $this->template->setup_template_company($this->data['user']);
     }
 
     public function getMoreAuctions()

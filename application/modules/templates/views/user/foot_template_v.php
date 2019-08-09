@@ -206,7 +206,7 @@ $(document).ready(function () {
                     showstatusMessage('messageSuccess',response.title, message , 3000);
 
                     setTimeout(function () {
-                        window.location.reload();
+                        window.location.href = base_url +"profile";
                     },1500);
                 } else if (response.status === false) {
                     var dur = 1000;

@@ -116,6 +116,46 @@ $user_login = $this->session->userdata("user_login");
                 <!-- /PIN -->
             </li>
             <!-- /DROPDOWN ITEM -->
+            <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item interactive">
+                <a href="#">
+                    <span class="sl-icon icon-tag"></span>
+                    Company Configuration
+                    <!-- SVG ARROW -->
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                    <!-- /SVG ARROW -->
+                </a>
+
+                <!-- INNER DROPDOWN -->
+                <ul class="inner-dropdown">
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?= base_url()?>company/basic_settings">Basic Settings</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?=base_url('alerts')?>">Tax Settings</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?= base_url()?>company/user_managment">User Management</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?=base_url('alerts')?>">Location Management</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+                   
+                </ul>
+                <!-- INNER DROPDOWN -->
+
+            </li>
+            <!-- /DROPDOWN ITEM -->
 
         </ul>
         <!-- /DROPDOWN -->

@@ -26,7 +26,8 @@ class User extends MY_Base_Controller
             'locations/user/cities',
             'login/user/login',
             'search/user/search', // UZair works
-            'alerts/user/alerts' // UZair works
+            'alerts/user/alerts', // UZair works
+            'company/user/company', // hasnain works
 
 
         ]);
@@ -268,6 +269,14 @@ class User extends MY_Base_Controller
             $this->alerts->$method($param1);
         } else {
             $this->alerts->index();
+        }
+    }
+    public function company($method = NULL,$param1 = NULL){
+        //$this->load->module('search/user/search');
+        if (method_exists($this->company, $method)) {
+            $this->company->$method($param1);
+        } else {
+            $this->company->index();
         }
     }
 }

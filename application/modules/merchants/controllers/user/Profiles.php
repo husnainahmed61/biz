@@ -72,7 +72,6 @@ class Profiles extends User_Controller
                 //print_r($res);
                 //exit();
             }
-
             $userId = $this->loggedInUser['id'];
             $user = $this->merchants->getTokenById($userId);
             $token = $user['email_token'];
@@ -153,7 +152,7 @@ class Profiles extends User_Controller
           // echo "<pre>";
           // print_r($this->input->post());
           // exit;
-        if ($this->validateFields()) {
+        if (1/*$this->validateFields()*/) {
             $this->usersM->setUpdateFields();
             $user = $this->get_logged_in_user();
             

@@ -73,12 +73,6 @@ class Users_m extends MY_Model
                 'rules' => 'trim'
             ],
 
-            'tax_number' => [
-                'field' => 'tax_number',
-                'label' => 'Tax Number',
-                'rules' => 'trim'
-            ],
-
             'registered_address' => [
                 'field' => 'registered_address',
                 'label' => 'Registered Address',
@@ -190,6 +184,24 @@ class Users_m extends MY_Model
                 'rules' => 'trim'
             ],
 
+            'RFQ_expiry' => [
+                'field' => 'RFQ_expiry',
+                'label' => 'RFQ expiry',
+                'rules' => 'trim'
+            ],
+
+            'currency_id' => [
+                'field' => 'currency_id',
+                'label' => 'currency id',
+                'rules' => 'trim'
+            ],
+
+            'legal_address' => [
+                'field' => 'legal_address',
+                'label' => 'legal address',
+                'rules' => 'trim'
+            ],
+
 
         ]
     ];
@@ -239,7 +251,7 @@ class Users_m extends MY_Model
         else if ($userType == 'business') {
             $this->userFields['business_name'] = $this->input->post('business_name');
             $this->userFields['business_description'] = $this->input->post('business_description');
-            $this->userFields['tax_number'] = $this->input->post('tax_number');
+            
             $this->userFields['registered_address'] = $this->input->post('registered_address');
             $this->userFields['website_url'] = $this->input->post('website_url');
         }
@@ -257,6 +269,10 @@ class Users_m extends MY_Model
         $this->userFields['facebook_link'] = $this->input->post('facebook_link');
         $this->userFields['twitter_link'] = $this->input->post('twitter_link');
         $this->userFields['google_link'] = $this->input->post('google_link');
+
+        $this->userFields['RFQ_expiry'] = $this->input->post('rfq_expiry');
+        $this->userFields['currency_id'] = $this->input->post('currency');
+        $this->userFields['legal_address'] = $this->input->post('legal_address');
 
         $this->userDetailFields['email'] = $this->input->post('email');
         $this->userDetailFields['email_token'] = $this->my_encrypt->encode($this->input->post('email'));
@@ -308,6 +324,10 @@ class Users_m extends MY_Model
         $this->userFields['twitter_link'] = $this->input->post('twitter_link');
         $this->userFields['google_link'] = $this->input->post('google_link');
 
+        $this->userFields['RFQ_expiry'] = $this->input->post('rfq_expiry');
+        $this->userFields['currency_id'] = $this->input->post('currency');
+        $this->userFields['legal_address'] = $this->input->post('legal_address');
+
         /*$this->userDetailFields['email'] = $this->input->post('email');
         $this->userDetailFields['email_token'] = $this->my_encrypt->encode($this->input->post('email'));
         $this->userDetailFields['password_en'] = $this->my_encrypt->encode($this->input->post('password'));*/
@@ -342,6 +362,17 @@ class Users_m extends MY_Model
         $this->db->where(['id' => $id]);
         //$res = 
         $this->db->update($this->table,$this->userFields);
+        //print_r($res); exit();
+        $this->db->trans_complete();
+        return $this->db->trans_status();
+    }
+
+    public function updateProfileDetail($id)
+    {
+        $this->db->trans_start();
+        $this->db->where(['user_id' => $id]);
+        //$res = 
+        $this->db->update($this->table2,$this->userFields);
         //print_r($res); exit();
         $this->db->trans_complete();
         return $this->db->trans_status();
