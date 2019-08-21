@@ -302,5 +302,15 @@ class Company_m extends MY_Model
 
         return $query->result_array();
     }
+    public function get_suppliers($value='')
+    {
+        $res = $this->db->select("*")->from("ssx_dummy_supplier")->get()->result_array();
+        return $res;
+    }
+     public function get_items($value='')
+    {
+        $res = $this->db->select("*")->from("ssx_dummy_items")->get()->result_array();
+        return $res;
+    }
 
 }

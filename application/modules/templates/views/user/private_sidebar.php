@@ -120,7 +120,7 @@ $user_login = $this->session->userdata("user_login");
             <li class="dropdown-item interactive">
                 <a href="#">
                     <span class="sl-icon icon-tag"></span>
-                    Company Configuration
+                    Company Settings
                     <!-- SVG ARROW -->
                     <svg class="svg-arrow">
                         <use xlink:href="#svg-arrow"></use>
@@ -137,7 +137,7 @@ $user_login = $this->session->userdata("user_login");
                     <!-- /INNER DROPDOWN ITEM -->
                     <!-- INNER DROPDOWN ITEM -->
                     <li class="inner-dropdown-item">
-                        <a href="<?=base_url('alerts')?>">Tax Settings</a>
+                        <a href="<?=base_url('company/tax_Settings')?>">Tax Settings</a>
                     </li>
                     <!-- /INNER DROPDOWN ITEM -->
                     <!-- INNER DROPDOWN ITEM -->
@@ -147,13 +147,117 @@ $user_login = $this->session->userdata("user_login");
                     <!-- /INNER DROPDOWN ITEM -->
                     <!-- INNER DROPDOWN ITEM -->
                     <li class="inner-dropdown-item">
-                        <a href="<?=base_url('alerts')?>">Location Management</a>
+                        <a href="<?=base_url('company/location_managment')?>">Location Management</a>
                     </li>
                     <!-- /INNER DROPDOWN ITEM -->
                    
                 </ul>
                 <!-- INNER DROPDOWN -->
 
+            </li>
+            <!-- /DROPDOWN ITEM -->
+            <li class="dropdown-item interactive">
+                <a href="#">
+                    <span class="sl-icon icon-tag"></span>
+                    Inventory
+                    <!-- SVG ARROW -->
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                    <!-- /SVG ARROW -->
+                </a>
+
+                <!-- INNER DROPDOWN -->
+                <ul class="inner-dropdown">
+                   
+                     <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?=base_url('company/add_inventory')?>">Add Inventory</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?=base_url('company/inventory_list')?>">Inventory List</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->                   
+                </ul>
+                <!-- INNER DROPDOWN -->
+
+            </li>
+            <!-- /DROPDOWN ITEM -->
+            <li class="dropdown-item interactive">
+                <a href="#">
+                    <span class="sl-icon icon-tag"></span>
+                    Supplier
+                    <!-- SVG ARROW -->
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                    <!-- /SVG ARROW -->
+                </a>
+
+                <!-- INNER DROPDOWN -->
+                <ul class="inner-dropdown">
+                   
+                      <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?=base_url('company/add_supplier')?>">Add Supplier</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?=base_url('company/supplier_list')?>">Supplier List</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->                   
+                </ul>
+                <!-- INNER DROPDOWN -->
+
+            </li>
+            
+             <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item">
+                <a href="<?=base_url('company/pr_list')?>">
+                    <span class="sl-icon icon-arrow-up-circle"></span>
+                    PR
+                </a>
+            </li>
+            <!-- /DROPDOWN ITEM -->
+            <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item interactive">
+                <a href="#">
+                    <span class="sl-icon icon-tag"></span>
+                    RFQ
+                    <!-- SVG ARROW -->
+                    <svg class="svg-arrow">
+                        <use xlink:href="#svg-arrow"></use>
+                    </svg>
+                    <!-- /SVG ARROW -->
+                </a>
+
+                <!-- INNER DROPDOWN -->
+                <ul class="inner-dropdown">
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?= base_url()?>company/rfq_list">RFQ List</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+                    <!-- INNER DROPDOWN ITEM -->
+                    <li class="inner-dropdown-item">
+                        <a href="<?=base_url('company/rfq_log')?>">RFQ Log</a>
+                    </li>
+                    <!-- /INNER DROPDOWN ITEM -->
+
+                </ul>
+                <!-- INNER DROPDOWN -->
+
+            </li>
+            <!-- /DROPDOWN ITEM -->
+             <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item">
+                <a href="<?=base_url('company/po_list')?>">
+                    <span class="sl-icon icon-arrow-up-circle"></span>
+                    PO
+                </a>
             </li>
             <!-- /DROPDOWN ITEM -->
 

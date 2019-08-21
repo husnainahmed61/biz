@@ -10,7 +10,8 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.sumoselect.js"></script>
 <script src="<?= base_url('assets_u/js/vendor/jquery.uploadPreview.js');?>"></script>
-
+<!-- Magnific Popup -->
+<script src="<?= base_url('assets_u/js/vendor/jquery.magnific-popup.min.js');?>"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/croppie.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.sumoselect.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.xmlinefill.min.js"></script>

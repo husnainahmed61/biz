@@ -433,4 +433,147 @@
         });
 });
         /*UZair Work End*/
+$(document).ready(function () {
+    $('.supplier_list').SumoSelect(
+        {
+            search: true, 
+            searchText: 'Enter here.',
+            okCancelInMulti: true, 
+            selectAll: true,
+            triggerChangeCombined: true,
+            forceCustomRendering: true,
+            
+        });
+    $('.follower_div').click(function () {
+        //alert();
+        // $( ".follower_div" ).prop( "checked", true );
+        // $( ".public_div" ).prop( "checked", false );
+        $('a.titleee').trigger('click');
+        
+            //$('#exampleModalCenter').modal('show'); 
+
+       });
+    $('.email_pop').click(function () {
+        //alert();
+        // $( ".follower_div" ).prop( "checked", true );
+        // $( ".public_div" ).prop( "checked", false );
+        
+        $('a.email-pop').trigger('click');
+        
+            //$('#exampleModalCenter').modal('show'); 
+
+       });
+    $('.public_div').click(function () {
+            $('.supplier_list_div').hide(500);
+       });
+});
+(function($){
+        console.log("DOC READY");
+        /*-----------------------
+            NEW MESSAGE POPUP
+        -----------------------*/
+        $('#message-pop').magnificPopup({
+            type: 'inline',
+            removalDelay: 300,
+            mainClass: 'mfp-fade',
+            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
+        });
+    })(jQuery);
+    (function($){
+        console.log("DOC READY");
+        /*-----------------------
+            NEW MESSAGE POPUP
+        -----------------------*/
+        $('#email-pop').magnificPopup({
+            type: 'inline',
+            removalDelay: 300,
+            mainClass: 'mfp-fade',
+            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
+        });
+    })(jQuery);
+</script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+ $("#checkAll").click(function () {
+     $('input:checkbox').not(this).prop('checked', this.checked);
+ });
+
+ var loadCountries = function () {
+            var $countryInput = $('select[name="country_id"]');
+            $.ajax({
+                url: base_url + "register/getCountries",
+                method: "GET",
+                /*data: {csrf_token: getCSRF()},*/
+                dataType: "JSON",
+                success: function (response) {
+                    //console.log(response);
+                    //resetCSRF(response.csrf_token);
+                    $.each(response.countries,function(i, item){
+                        $countryInput.append('<option value="'+item.id+'">'+item.name+ '</option>');
+
+                       // console.log (i+ ': '+item.id+ ': '+item.name);
+                    });
+                    $countryInput.select2({
+                        placeholder: "Select a Country",
+                        allowClear: true
+                    });
+                    
+                },
+
+            });
+            //console.log($countryInput);
+        };
+        loadCountries();
+
+        $('select[name="country_id"]').on('change',function(){
+            var $stateInput = $('select[name="state_id"]');
+            var seletedCountry = $(this).val();
+           $.ajax({
+               url: base_url + "register/getStates/"+seletedCountry,
+               method: "GET",
+               /*data: {csrf_token: getCSRF()},*/
+               dataType: "JSON",
+               success: function (response) {
+                   console.log(response);
+                   $stateInput.empty();
+                   /*resetCSRF(response.csrf_token);*/
+                   $.each(response.states,function(i, item){
+                       $stateInput.append('<option value="'+item.id+'">'+item.name+ '</option>');
+
+                       //console.log (i+ ': '+item.id+ ': '+item.name);
+                   });
+                   $stateInput.select2();
+               }
+           });
+        });
+
+        $('select[name="state_id"]').on('change',function(){
+            var $cityInput = $('select[name="city_id"]');
+            var seletedstate = $(this).val();
+            $.ajax({
+                url: base_url + "register/getCities/"+seletedstate,
+                method: "GET",
+                /*data: {csrf_token: getCSRF()},*/
+                dataType: "JSON",
+                success: function (response) {
+                    console.log(response);
+                    $cityInput.empty();
+                    /*resetCSRF(response.csrf_token);*/
+                    $.each(response.cities,function(i, item){
+                        $cityInput.append('<option value="'+item.id+'">'+item.name+ '</option>');
+
+                       // console.log (i+ ': '+item.id+ ': '+item.name);
+                    });
+                    $cityInput.select2();
+                }
+            });
+
+        });
 </script>
