@@ -398,25 +398,48 @@ class Users_m extends MY_Model
     }
     public function getUserConvo($value='')
     {
+        $auction_chats = [];
+        $auction_convo = [];
         $this->db->trans_start();
-        $this->db->select("ssxc.*");
+        $this->db->distinct('ssxc.auction_id');
+        $this->db->select("ssxc.auction_id");
         $this->db->from("ssx_conversations ssxc");
         //$this->db->join("ssx_users ssxu","ssxc.recieved_by_user=ssxu.id","Left");
         //$this->db->join("ssx_auctions ssxa","ssxc.auction_id = ssxa.id","Left");
         $this->db->where("recieved_by_user",$value);
         $this->db->or_where("sent_by_user",$value);
+        // /$this->db->group_by("ssxc.auction_id");
         $res = $this->db->get();
         $this->db->trans_complete();
         //print_r($this->db->trans_status());
         //exit();
-        return $res->result_array();
+        $res = $res->result_array();
+        foreach ($res as $key => $value) {
+            $this->db->select("ssxc.*");
+            $this->db->from("ssx_conversations ssxc");
+            $this->db->where("auction_id",$value['auction_id']);
+            $convo = $this->db->get()->result_array();
+
+            $auction_convo["name"] = $convo[0]['auction_name'];
+            $auction_convo["slug"] = $convo[0]['auction_slug'];
+            $auction_convo["auction_id"] = $convo[0]['auction_id'];
+            $auction_convo["created_at"] = $convo[0]['created_at'];
+            $auction_convo["result"] = $convo;
+
+            array_push($auction_chats, $auction_convo);
+
+            //$auction_chats[$value['auction_id']]
+
+        }
+        return $auction_chats;
     }
 
     public function getMessagesById($value='')
     {
         $this->db->trans_start();
-        $this->db->select("*");
-        $this->db->from("ssx_messages");
+        $this->db->select("ssxm.*,ssxu.first_name,ssxu.last_name");
+        $this->db->from("ssx_messages ssxm");
+        $this->db->join("ssx_users ssxu","ssxu.id=ssxm.sender_user_id","Left");
         $this->db->where("convo_id",$value);
         $res = $this->db->get();
         $this->db->trans_complete();

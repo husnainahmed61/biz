@@ -2,7 +2,7 @@
 <div class="dashboard-content">
     <!-- HEADLINE -->
     <div class="headline simple primary col-sm-12">
-        <h4>Add Inventory</h4>
+        <h4>Add Item</h4>
     </div>
     <!-- /HEADLINE -->
 

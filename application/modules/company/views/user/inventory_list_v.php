@@ -21,7 +21,7 @@
     <!-- HEADLINE -->
     <div class="headline purchases primary">
            <div class="col-lg-8 col-md-8">
-                <h4>Inventory List</h4>
+                <h4>Items List</h4>
             </div>
     </div>
     
@@ -89,15 +89,14 @@
             </div>
             
             <div class="recommendation-wrap bid_actions col-xs-2">
-                   
-                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
-                       style="" data-method="accept" data-id="">
-                        <span class="tick-icon">✓</span>
+                  <div class="recommendation-wrap">
+                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
+                        <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
-                    style="" data-method="cancel" data-id="" >
-                        <span class="close-icon">✕</span>
+                    <a href="#recommendation-popup" class="recommendation bad hoverable open-recommendation-form">
+                        <span class="glyphicon glyphicon-trash"></span>
                     </a>
+                </div>
                 </div>
             
         </div>

@@ -512,6 +512,7 @@ class Auctions_m extends MY_Model
 
         return $check->result_array();
     }
+    
     public function getLimitedByTypeFollwing($type, $start, $end, $case,$UserFollowing)
     {
 

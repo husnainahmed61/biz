@@ -54,37 +54,11 @@ $('input[name=message_box]').val(data.result.fileName);
         });
 </script>
         <script type="text/javascript">
-
-            function get_messages(convo_id) {
-            //alert(auction_id);
-                $.ajax({
-                url: base_url + "profile/getMessagesByConvoId/?convo_id="+convo_id,
-                type: 'get',
-                data: '',
-                dataType:"JSON",
-                success: function (data) {
-                 
-                    //console.log(data.html);
-                    $('.info_messages').empty();
-                    $('.info_messages').html(data.html);
-                    $( ".info_messages" ).addClass( "convo_id_"+convo_id );
-                    //$('input[name=message_box]').removeAttr("readonly");
-                    //$('input[name=message_box]').attr("autofocus","true");
-                    $("#reply_button").attr("convo_id",convo_id);
-                    //$("#check_messages").attr("convo_id",convo_id);
-                    //$("#send_button").attr("reciever_id",convo_id);
-                    //$('#response').html('<h2>here will be the template</h2>');
-
-                },
-                error: function (jqXhr, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                }
-            });
-
-
-            }
+            var w;
     $(document).ready(function() 
     {
+        
+       
         /*var websocket;
         websocket = new WebSocket("ws://localhost:8080");
 
@@ -96,7 +70,7 @@ $('input[name=message_box]').val(data.result.fileName);
             $("#reply_button").click(function () {
             // alert("button");
             // return;
-            var w;
+            
             var convo_id = $("#reply_button").attr("convo_id");
             var message_box = $('input[name=message_box]').val();
             var message = '';
@@ -164,6 +138,7 @@ $('input[name=message_box]').val(data.result.fileName);
                   
             });
 
+             
             //#### Message received from server?
             /*websocket.onmessage = function(ev) {
                 var msg = JSON.parse(ev.data); //PHP sends Json data
@@ -185,6 +160,36 @@ $('input[name=message_box]').val(data.result.fileName);
                  $('input[name=message_box]').val(''); //reset text
             };*/
     });
+function get_messages(convo_id) {
+               
+            //alert(auction_id);
+                $.ajax({
+                url: base_url + "profile/getMessagesByConvoId/?convo_id="+convo_id,
+                type: 'get',
+                data: '',
+                dataType:"JSON",
+                success: function (data) {
+                 
+                    //console.log(data.html);
+                    $('.info_messages').empty();
+                    $('.info_messages').html(data.html);
+                    $( ".info_messages" ).addClass( "convo_id_"+convo_id );
+                    //$('input[name=message_box]').removeAttr("readonly");
+                    //$('input[name=message_box]').attr("autofocus","true");
+                    $("#reply_button").attr("convo_id",convo_id);
+                    //$("#check_messages").attr("convo_id",convo_id);
+                    //$("#send_button").attr("reciever_id",convo_id);
+                    //$('#response').html('<h2>here will be the template</h2>');
+
+                },
+                error: function (jqXhr, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
+            });
+                w.terminate();
+                w = undefined;
+
+            }
         </script>
 <script type="text/javascript">
     $(document).ready(function() 
@@ -1048,4 +1053,18 @@ function follow(user_id) {
         getNotifications();
         
 });        
+</script>
+<script type="text/javascript">
+    // $( ".open_chats" ).click(function() {
+    //     //$(".chats").show(200); icon-envelope-open
+    //     $(this).removeClass( "icon-envelope" ).addClass( "icon-envelope-open" );
+    //     var btnId = $(this).data('id');
+    //     $('.t_edit_cont[data-id=' + btnId + ']').toggle("slide");
+    //     //$(this).closest("div.chats").show();
+    // });
+     $(".open_chats").hover(function () {
+    $(this).animate({ top: "-5" });
+  }, function () {
+    $(this).animate({ top: "0" });
+  });
 </script>

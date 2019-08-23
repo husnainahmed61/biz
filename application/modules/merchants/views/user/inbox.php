@@ -1,11 +1,14 @@
 <?php
 $user_id = $this->session->userdata("user_login");
 $user_id = $user_id['id'];
+// echo "<pre>";
+// print_r($conversations);
+// exit();
 ?>
         <!-- DASHBOARD CONTENT -->
-        <div class="dashboard-content">
+        <div class="dashboard-content" style="padding: 4px 0 90px;"> 
             <!-- HEADLINE -->
-            <div class="headline buttons two primary col-sm-12 latest-item-main">
+            <div class="headline buttons two primary col-sm-12 latest-item-main" style="margin-bottom: 4px;">
                 <h4>Your Inbox (<?=count($conversations)?>)</h4>
                   
 				<a href="" class="button mid-short secondary open-new-message" data-toggle="modal" data-target="#myModal">New Message</a>
@@ -18,14 +21,16 @@ $user_id = $user_id['id'];
                 <!-- INBOX MESSAGES -->
                 <div class="col-xs-12 col-lg-5 no-padding f-left">
                     <div class="inbox-messages ">
-                        <?php foreach ($conversations as $key => $value) {
+                        <?php foreach (array_reverse($conversations) as $key => $value) {
+                            
                           ?>
+
                         <!-- INBOX MESSAGE -->
-                        <div class="inbox-message v2">
+                        <div class="inbox-message v2" style="height: auto; overflow: auto;">
                             <div class="inbox-message-actions">
                                 <!-- CHECKBOX -->
-                                <input type="checkbox" id="msg_<?=$value['id']?>" name="msg1[]">
-                                <label for="msg_<?=$value['id']?>" class="label-check">
+                                <input type="checkbox" id="msg_<?php //echo $value['id']?>" name="msg1[]">
+                                <label for="msg_<?php //echo $value['id']?>" class="label-check">
                                     <span class="checkbox primary"><span></span></span>
                                 </label>
                                 <!-- /CHECKBOX -->
@@ -36,31 +41,34 @@ $user_id = $user_id['id'];
                                 <figure class="user-avatar">
                                     <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-img">
                                 </figure>
-                                <p class="text-header">
-                                    <?php if ($value['sent_by_user'] == $user_id) { ?>
-
-                                        <?=$value['auctioneer_name']?>
-                                    <?php } else {?>
-                                        <?=$value['user_name']?>
-                                    <?php } ?>    
-                                    <span class="message-icon icon-envelope secondary"></span>
-                                </p>
+                               <p class="text-header">
+                                   
+                                    
+                                </p>                                
                             </div>
-
-                            <a href="javascript:get_messages(<?=$value['id']?>);">
-                                <div class="inbox-message-content">
-                                    <p class="text-header"><?=$value['auction_name']?></p>
-                                    <p class="description"></p>
+                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo_<?=$value['auction_id']?>" style="width: 180px;margin-bottom: 20px;background-color: white;color: black;"><?=$value['name']?></button>
+                             <div class="inbox-message-date">
+                                <p><?php echo date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>
+                            </div>
+                              <div id="demo_<?=$value['auction_id']?>" class="collapse">
+                               <?php foreach ($value['result'] as $key => $value) { ?>
+                                <div class="chats t_edit_cont" data-id="<?=$value['auction_id']?>">    
+                                    <a href="javascript:get_messages(<?=$value['id']?>);">
+                                        <div class="inbox-message-content" style="margin-left: 15px;border-bottom: 1px solid;">
+                                            <p class="text-header"><?php if ($value['sent_by_user'] == $user_id) { ?>
+                                                <?=$value['auctioneer_name']?>
+                                            <?php } else {?>
+                                                <?=$value['user_name']?>
+                                            <?php } ?></p>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-
-                            <div class="inbox-message-type">
-                                <span class="message-icon icon-envelope secondary"></span>
+                             <?php } ?>
                             </div>
-
-                            <div class="inbox-message-date">
-                                <p><?=date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>
-                            </div>
+                           
+                            
+                            
+                           
                         </div>
                         <!-- INBOX MESSAGE -->
                     <?php } ?>

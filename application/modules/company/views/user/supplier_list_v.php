@@ -96,14 +96,11 @@
             
             <div class="recommendation-wrap bid_actions col-xs-2">
                    
-                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
-                       style="" data-method="accept" data-id="">
-                        <span class="tick-icon">✓</span>
+                    <div class="recommendation-wrap">
+                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
+                        <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
-                    style="" data-method="cancel" data-id="" >
-                        <span class="close-icon">✕</span>
-                    </a>
+                </div>
                 </div>
             
         </div>

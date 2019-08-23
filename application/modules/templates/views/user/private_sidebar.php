@@ -156,63 +156,20 @@ $user_login = $this->session->userdata("user_login");
 
             </li>
             <!-- /DROPDOWN ITEM -->
-            <li class="dropdown-item interactive">
-                <a href="#">
-                    <span class="sl-icon icon-tag"></span>
-                    Inventory
-                    <!-- SVG ARROW -->
-                    <svg class="svg-arrow">
-                        <use xlink:href="#svg-arrow"></use>
-                    </svg>
-                    <!-- /SVG ARROW -->
+             <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item">
+                <a href="<?=base_url('company/inventory_list')?>">
+                    <span class="sl-icon icon-arrow-up-circle"></span>
+                    Item Management
                 </a>
-
-                <!-- INNER DROPDOWN -->
-                <ul class="inner-dropdown">
-                   
-                     <!-- INNER DROPDOWN ITEM -->
-                    <li class="inner-dropdown-item">
-                        <a href="<?=base_url('company/add_inventory')?>">Add Inventory</a>
-                    </li>
-                    <!-- /INNER DROPDOWN ITEM -->
-                    <!-- INNER DROPDOWN ITEM -->
-                    <li class="inner-dropdown-item">
-                        <a href="<?=base_url('company/inventory_list')?>">Inventory List</a>
-                    </li>
-                    <!-- /INNER DROPDOWN ITEM -->                   
-                </ul>
-                <!-- INNER DROPDOWN -->
-
             </li>
-            <!-- /DROPDOWN ITEM -->
-            <li class="dropdown-item interactive">
-                <a href="#">
-                    <span class="sl-icon icon-tag"></span>
-                    Supplier
-                    <!-- SVG ARROW -->
-                    <svg class="svg-arrow">
-                        <use xlink:href="#svg-arrow"></use>
-                    </svg>
-                    <!-- /SVG ARROW -->
+             <li class="dropdown-item">
+                <a href="<?=base_url('company/supplier_list')?>">
+                    <span class="sl-icon icon-arrow-up-circle"></span>
+                    Supplier Management
                 </a>
-
-                <!-- INNER DROPDOWN -->
-                <ul class="inner-dropdown">
-                   
-                      <!-- INNER DROPDOWN ITEM -->
-                    <li class="inner-dropdown-item">
-                        <a href="<?=base_url('company/add_supplier')?>">Add Supplier</a>
-                    </li>
-                    <!-- /INNER DROPDOWN ITEM -->
-                    <!-- INNER DROPDOWN ITEM -->
-                    <li class="inner-dropdown-item">
-                        <a href="<?=base_url('company/supplier_list')?>">Supplier List</a>
-                    </li>
-                    <!-- /INNER DROPDOWN ITEM -->                   
-                </ul>
-                <!-- INNER DROPDOWN -->
-
             </li>
+            
             
              <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
@@ -243,7 +200,7 @@ $user_login = $this->session->userdata("user_login");
                     <!-- /INNER DROPDOWN ITEM -->
                     <!-- INNER DROPDOWN ITEM -->
                     <li class="inner-dropdown-item">
-                        <a href="<?=base_url('company/rfq_log')?>">RFQ Log</a>
+                        <a href="<?=base_url('company/rfq_log')?>">Approved RFQ</a>
                     </li>
                     <!-- /INNER DROPDOWN ITEM -->
 

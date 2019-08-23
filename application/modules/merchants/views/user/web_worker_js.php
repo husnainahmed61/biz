@@ -16,7 +16,7 @@ function timedCount()
 
 
                    
-setTimeout("timedCount()",2000);
+setTimeout("timedCount()",3000);
 }
 
 timedCount();

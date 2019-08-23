@@ -21,11 +21,11 @@
     <!-- HEADLINE -->
     <div class="headline purchases primary">
            <div class="col-lg-8 col-md-8">
-                <h4>Inventory List</h4>
+                <h4>PO List</h4>
             </div>
     </div>
     
-       <div class="col-xs-12">
+      <!--  <div class="col-xs-12">
             <div class="btn pull-right">
                 <a href="<?=base_url('company/add_supplier')?>"><button type="Submit" class="button small dark" >Add <span class="primary">Inventory</span></button></a>
             </div>
@@ -33,7 +33,7 @@
                 <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #1cbdf9 !important;">Import Inventory<span class="primary"></span></button></a>
             </div>
            
-        </div>
+        </div> -->
    
     
     <!-- /HEADLINE -->
@@ -46,25 +46,25 @@
             <div class="col-xs-1">
                 <p class="text-header small">#</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 <p class="text-header small">Item Title</p>
             </div>
             <div class="col-xs-2">
                 <p class="text-header small">Selected Suppliers</p>
             </div>
             <div class="col-xs-2">
-                <p class="text-header small">Bid Amount with Currency & UoM</p>
-            </div>
-            <div class="col-xs-1">
-                <p class="text-header small">Select Warehouse</p>
-            </div>
-            <div class="col-xs-1">
-                <p class="text-header small">Enter Delivery Date</p>
-            </div>
-            <div class="col-xs-1">
-                <p class="text-header small">Shipment Details (description)</p>
+                <p class="text-header small">Bid Amount</p>
             </div>
             <div class="col-xs-2">
+                <p class="text-header small">Warehouse</p>
+            </div>
+            <div class="col-xs-1">
+                <p class="text-header small">Delivery Date</p>
+            </div>
+            <div class="col-xs-2">
+                <p class="text-header small">Shipment Details</p>
+            </div>
+            <div class="col-xs-1">
                 <p class="text-header small text-center">Action</p>
             </div>
             
@@ -75,29 +75,195 @@
         <div class="purchase-item row">
            
             <div class="col-xs-1">
-                <p><1</p>
+                <p>1</p>
             </div>
-           
-            <div class="col-xs-2 visible-lg">
+            <div class="col-xs-1 visible-lg">
                 <a href="#"><p class="category primary">Nut Bolt 4.3mm</p></a>
             </div>
-             <div class="col-xs-2 visible-lg">
+            <div class="col-xs-2 visible-lg">
                 <a href="#"><p class="category primary">Robert Bosch GmbH</p></a>
             </div>
 
             <div class="col-xs-2">
                  <p>PKR 1000 each</p>
             </div>
-            <div class="col-xs-1">
-                 <p>Korangi Warehouse</p>
+            <div class="col-xs-2">
+                <select class="form-control" id="sel1">
+                    <option value="AUD" selected>Korangi Warehouse</option>
+                    <option value="CAD">Headoffice</option>
+                  </select>
             </div>
             <div class="col-xs-1">
                  <p>09/30/2019</p>
             </div>
-            <div class="col-xs-1">
-                 <p>Air Shipment</p>
+            <div class="col-xs-2">
+                <input type="text" name="" value="Air Shipment">
             </div>
-            <div class="recommendation-wrap bid_actions col-xs-2">
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                   style="" data-method="accept" data-id="">
+                    <span class="tick-icon">✓</span>
+                </a>
+                <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                style="" data-method="cancel" data-id="" >
+                    <span class="close-icon">✕</span>
+                </a>
+            </div>
+            
+        </div>
+         <div class="purchase-item row">
+           
+            <div class="col-xs-1">
+                <p>2</p>
+            </div>
+           
+            <div class="col-xs-1 visible-lg">
+                <a href="#"><p class="category primary">Shoes 7"</p></a>
+            </div>
+             <div class="col-xs-2 visible-lg">
+                <a href="#"><p class="category primary">Continental AG</p></a>
+            </div>
+
+            <div class="col-xs-2">
+                 <p>PKR 900 each</p>
+            </div>
+            <div class="col-xs-2">
+                <select class="form-control" id="sel1">
+                    <option value="AUD" >Korangi Warehouse</option>
+                    <option value="CAD" selected>Headoffice</option>
+                  </select>
+            </div>
+            <div class="col-xs-1">
+                 <p>10/03/2019</p>
+            </div>
+            <div class="col-xs-2">
+                <input type="text" name="" value="Sea Shipment">
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                       style="" data-method="accept" data-id="">
+                        <span class="tick-icon">✓</span>
+                    </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    style="" data-method="cancel" data-id="" >
+                        <span class="close-icon">✕</span>
+                    </a>
+                </div>
+            
+        </div>
+         <div class="purchase-item row">
+           
+            <div class="col-xs-1">
+                <p>3</p>
+            </div>
+           
+            <div class="col-xs-1 visible-lg">
+                <a href="#"><p class="category primary">CNC machining parts</p></a>
+            </div>
+             <div class="col-xs-2 visible-lg">
+                <a href="#"><p class="category primary">Hyundai Mobis</p></a>
+            </div>
+
+            <div class="col-xs-2">
+                 <p>PKR 6000 each</p>
+            </div>
+            <div class="col-xs-2">
+                <select class="form-control" id="sel1">
+                    <option value="AUD" selected>Korangi Warehouse</option>
+                    <option value="CAD">Headoffice</option>
+                  </select>
+            </div>
+            <div class="col-xs-1">
+                 <p>10/06/2019</p>
+            </div>
+            <div class="col-xs-2">
+                <input type="text" name="" value="Sea Shipment">
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                       style="" data-method="accept" data-id="">
+                        <span class="tick-icon">✓</span>
+                    </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    style="" data-method="cancel" data-id="" >
+                        <span class="close-icon">✕</span>
+                    </a>
+                </div>
+            
+        </div>
+         <div class="purchase-item row">
+           
+            <div class="col-xs-1">
+                <p>4</p>
+            </div>
+           
+            <div class="col-xs-1 visible-lg">
+                <a href="#"><p class="category primary">knuckles</p></a>
+            </div>
+             <div class="col-xs-2 visible-lg">
+                <a href="#"><p class="category primary">Yazaki Corp.</p></a>
+            </div>
+
+            <div class="col-xs-2">
+                 <p>PKR 500 each</p>
+            </div>
+            <div class="col-xs-2">
+                <select class="form-control" id="sel1">
+                    <option value="AUD" selected>Korangi Warehouse</option>
+                    <option value="CAD">Headoffice</option>
+                  </select>
+            </div>
+            <div class="col-xs-1">
+                 <p>10/09/2019</p>
+            </div>
+            <div class="col-xs-2">
+                <input type="text" name="" value="Sea Shipment">
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                       style="" data-method="accept" data-id="">
+                        <span class="tick-icon">✓</span>
+                    </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    style="" data-method="cancel" data-id="" >
+                        <span class="close-icon">✕</span>
+                    </a>
+                </div>
+            
+        </div>
+         <div class="purchase-item row">
+           
+            <div class="col-xs-1">
+                <p>5</p>
+            </div>
+           
+            <div class="col-xs-1 visible-lg">
+                <a href="#"><p class="category primary">Lubricant</p></a>
+            </div>
+             <div class="col-xs-2 visible-lg">
+                <a href="#"><p class="category primary">Thyssenkrupp AG</p></a>
+            </div>
+
+            <div class="col-xs-2">
+                 <p>PKR 1000 kg</p>
+            </div>
+            <div class="col-xs-2">
+                <select class="form-control" id="sel1">
+                    <option value="AUD" selected>Korangi Warehouse</option>
+                    <option value="CAD">Headoffice</option>
+                  </select>
+            </div>
+            <div class="col-xs-1">
+                 <p>10/12/2019</p>
+            </div>
+            <div class="col-xs-2">
+                <input type="text" name="" value="Sea Shipment">
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
                    
                     <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
                        style="" data-method="accept" data-id="">
@@ -114,6 +280,7 @@
         <!-- /PAGER -->
     </div>
     <!-- /PURCHASES LIST -->
+
 
 </div>
 <!-- DASHBOARD CONTENT -->

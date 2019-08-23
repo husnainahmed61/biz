@@ -4,13 +4,13 @@ $user_id = $user_id['id'];
  ?>
 <?php foreach ($messages as $key => $value) { ?>
 
-<?php if ($user_id == $value['sender_user_id']) {?>	
+<?php if ($user_id == $value['sender_user_id']) { ?>	
 <!-- MESSAGE PREVIEW -->
 <div class="message-preview user-msg">
     <figure class="user-avatar">
         <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-avatar">
     </figure>
-    <p class="text-header">Your Message</p>
+    <p class="text-header"><?=$value['first_name'].' '.$value['last_name']?></p>
         <p class="timestamp"><?=date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>
     <?php if ($value['type']  == "attach") { ?>
         <a href="<?=$base_resources_url_user_attach?><?=$value['message']?>" download="attachment">Download</a>
@@ -24,7 +24,7 @@ $user_id = $user_id['id'];
     <figure class="user-avatar">
         <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-avatar">
     </figure>
-    <p class="text-header">Auctioneer Message</p>
+    <p class="text-header"><?=$value['first_name'].' '.$value['last_name']?></p>
         <p class="timestamp"><?=date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>
     <?php if ($value['type']  == "attach") { ?>
         <a href="<?=$base_resources_url_user_attach?><?=$value['message']?>" download="attachment">Download</a>
