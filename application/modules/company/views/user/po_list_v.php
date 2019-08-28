@@ -21,19 +21,16 @@
     <!-- HEADLINE -->
     <div class="headline purchases primary">
            <div class="col-lg-8 col-md-8">
-                <h4>PO List</h4>
+                <h4>Purchase Order List</h4>
             </div>
     </div>
     
-      <!--  <div class="col-xs-12">
-            <div class="btn pull-right">
-                <a href="<?=base_url('company/add_supplier')?>"><button type="Submit" class="button small dark" >Add <span class="primary">Inventory</span></button></a>
+      <div class="col-xs-12">
+            
+            <div class="btn pull-left">
+                <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button></a>
             </div>
-            <div class="btn pull-right">
-                <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #1cbdf9 !important;">Import Inventory<span class="primary"></span></button></a>
-            </div>
-           
-        </div> -->
+        </div>
    
     
     <!-- /HEADLINE -->
@@ -42,7 +39,9 @@
     <div class="purchases-list col-sm-12 purchase-lst-cs">
         <!-- PURCHASES LIST HEADER -->
         <div class="purchases-list-header row">
-            
+            <div class="col-xs-1">
+                <input class="form-check-input" type="checkbox" id="checkAll" value="option1" style="display: block;">
+            </div>
             <div class="col-xs-1">
                 <p class="text-header small">#</p>
             </div>
@@ -73,7 +72,11 @@
         <!-- PURCHASE ITEM -->
        
         <div class="purchase-item row">
-           
+           <div class="col-xs-1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+            </div>
             <div class="col-xs-1">
                 <p>1</p>
             </div>
@@ -113,7 +116,11 @@
             
         </div>
          <div class="purchase-item row">
-           
+           <div class="col-xs-1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+            </div>
             <div class="col-xs-1">
                 <p>2</p>
             </div>
@@ -154,7 +161,11 @@
             
         </div>
          <div class="purchase-item row">
-           
+           <div class="col-xs-1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+            </div>
             <div class="col-xs-1">
                 <p>3</p>
             </div>
@@ -195,7 +206,11 @@
             
         </div>
          <div class="purchase-item row">
-           
+           <div class="col-xs-1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+            </div>
             <div class="col-xs-1">
                 <p>4</p>
             </div>
@@ -236,7 +251,11 @@
             
         </div>
          <div class="purchase-item row">
-           
+           <div class="col-xs-1">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+            </div>
             <div class="col-xs-1">
                 <p>5</p>
             </div>

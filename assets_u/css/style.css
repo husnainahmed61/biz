@@ -321,7 +321,7 @@ header, .banner, #services, #product-sideshow, #subscribe-banner, .category-nav,
 .dropdown.cart .dropdown-item .category{ margin-bottom:2px }
 .dropdown.cart .dropdown-item .button{ bottom:-54px }
 .dropdown.dark{ background-color:#222b2d;border-color:#2b373a }
-.dropdown.dark .dropdown-item{ border-color:#2b373a }
+.dropdown.dark .dropdown-item{ border-color:#2b373a2b }
 .dropdown.dark .dropdown-item.active > a{ color:#fff;border-left:6px solid #00d7b3 }
 .dropdown.dark .dropdown-item.active > a .svg-arrow{ fill:#fff }
 .dropdown.dark .dropdown-item.active > a .sl-icon{ color:#00d7b3 }

@@ -8,7 +8,12 @@ $user_id = $user_id['id'];
 <!-- MESSAGE PREVIEW -->
 <div class="message-preview user-msg">
     <figure class="user-avatar">
-        <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-avatar">
+        <?php if (isset($value['profile_picture']) && !empty($value['profile_picture'])) { ?>
+            <img src="<?=$base_resources_url_userImage?><?=$value['profile_picture']?>" alt="user-avatar">
+        <?php } else{ ?>
+            <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-avatar">
+        <?php } ?>
+        
     </figure>
     <p class="text-header"><?=$value['first_name'].' '.$value['last_name']?></p>
         <p class="timestamp"><?=date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>
@@ -22,7 +27,11 @@ $user_id = $user_id['id'];
 <?php } else { ?>
 	<div class="message-preview">
     <figure class="user-avatar">
-        <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-avatar">
+        <?php if (isset($value['profile_picture']) && !empty($value['profile_picture'])) { ?>
+            <img src="<?=$base_resources_url_userImage?><?=$value['profile_picture']?>" alt="user-avatar">
+        <?php } else{ ?>
+            <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-avatar">
+        <?php } ?>
     </figure>
     <p class="text-header"><?=$value['first_name'].' '.$value['last_name']?></p>
         <p class="timestamp"><?=date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>

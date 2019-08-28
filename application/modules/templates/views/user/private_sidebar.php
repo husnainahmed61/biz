@@ -42,84 +42,24 @@ $user_login = $this->session->userdata("user_login");
         <!-- /SIDE MENU HEADER -->
 
         <!-- SIDE MENU TITLE -->
-        <p class="side-menu-title">Your Account</p>
+        <p class="side-menu-title" style="
+    border: 1px solid #ebebeb;
+">Your Account</p>
         <!-- /SIDE MENU TITLE -->
 
         <!-- DROPDOWN -->
         <ul class="dropdown dark hover-effect interactive">
-            <!-- DROPDOWN ITEM -->
+             <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
-                <a href="<?=base_url('profile')?>">
+                <a href="<?=base_url('company')?>">
+                    <span class="sl-icon icon-wallet"></span>
+                    Dashboard
+                </a>
+            </li>
+            <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item interactive">
+                <a href="#">
                     <span class="sl-icon icon-settings"></span>
-                    Account Settings
-                </a>
-            </li>
-            <!-- /DROPDOWN ITEM -->
-            <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item">
-                <a href="<?=base_url('Notifications')?>">
-                    <span class="sl-icon icon-star"></span>
-                    Notifications
-                </a>
-                <!-- PIN -->
-                <span class="pin soft-edged big primary">49</span>
-                <!-- /PIN -->
-            </li>
-            <!-- /DROPDOWN ITEM -->
-            <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item">
-                <a href="<?=base_url('inbox')?>">
-                    <span class="sl-icon icon-envelope"></span>
-                    Messages
-                </a>
-                <!-- PIN -->
-                <span class="pin soft-edged big secondary">!</span>
-                <!-- /PIN -->
-            </li>
-            <!-- /DROPDOWN ITEM -->
-            <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item interactive">
-                <a href="#">
-                    <span class="sl-icon icon-tag"></span>
-                    Alerts
-                    <!-- SVG ARROW -->
-                    <svg class="svg-arrow">
-                        <use xlink:href="#svg-arrow"></use>
-                    </svg>
-                    <!-- /SVG ARROW -->
-                </a>
-
-                <!-- INNER DROPDOWN -->
-                <ul class="inner-dropdown">
-                    <!-- INNER DROPDOWN ITEM -->
-                    <li class="inner-dropdown-item">
-                        <a href="<?= base_url()?>alerts/create">Create Alert</a>
-                    </li>
-                    <!-- /INNER DROPDOWN ITEM -->
-                    <!-- INNER DROPDOWN ITEM -->
-                    <li class="inner-dropdown-item">
-                        <a href="<?=base_url('alerts')?>">My Alerts</a>
-                        <!-- PIN -->
-                        <span class="pin soft-edged secondary">2</span>
-                        <!-- /PIN -->
-                    </li>
-                    <!-- /INNER DROPDOWN ITEM -->
-
-                    
-
-                   
-                </ul>
-                <!-- INNER DROPDOWN -->
-
-                <!-- PIN -->
-                <span class="pin soft-edged big secondary">!</span>
-                <!-- /PIN -->
-            </li>
-            <!-- /DROPDOWN ITEM -->
-            <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item interactive">
-                <a href="#">
-                    <span class="sl-icon icon-tag"></span>
                     Company Settings
                     <!-- SVG ARROW -->
                     <svg class="svg-arrow">
@@ -159,13 +99,13 @@ $user_login = $this->session->userdata("user_login");
              <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('company/inventory_list')?>">
-                    <span class="sl-icon icon-arrow-up-circle"></span>
+                    <span class="sl-icon icon-layers"></span>
                     Item Management
                 </a>
             </li>
              <li class="dropdown-item">
                 <a href="<?=base_url('company/supplier_list')?>">
-                    <span class="sl-icon icon-arrow-up-circle"></span>
+                    <span class="sl-icon icon-folder-alt"></span>
                     Supplier Management
                 </a>
             </li>
@@ -212,52 +152,35 @@ $user_login = $this->session->userdata("user_login");
              <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('company/po_list')?>">
-                    <span class="sl-icon icon-arrow-up-circle"></span>
+                    <span class="sl-icon icon-chart"></span>
                     PO
                 </a>
             </li>
             <!-- /DROPDOWN ITEM -->
-
+              <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item">
+                <a href="<?=base_url('Notifications')?>">
+                    <span class="sl-icon icon-star"></span>
+                    Notifications
+                </a>
+               
+            </li>
+            <!-- /DROPDOWN ITEM -->
+            <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item">
+                <a href="<?=base_url('inbox')?>">
+                    <span class="sl-icon icon-envelope"></span>
+                    Messages
+                </a>
+                
+            </li>
+            <!-- /DROPDOWN ITEM -->
         </ul>
         <!-- /DROPDOWN -->
 
 
-         <!-- SIDE MENU TITLE -->
-        <p class="side-menu-title">Author Tools</p>
-        <!-- /SIDE MENU TITLE -->
-
-        <!-- DROPDOWN -->
-        <ul class="dropdown dark hover-effect">
-            <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item">
-                <a href="<?=base_url('auction/create')?>">
-                    <span class="sl-icon icon-arrow-up-circle"></span>
-                    Create Ad
-                </a>
-            </li>
-            <!-- /DROPDOWN ITEM -->
-
-            <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item">
-                <a href="<?=base_url('auctions')?>">
-                    <span class="sl-icon icon-folder-alt"></span>
-                    My Ads
-                </a>
-            </li>
-            <!-- /DROPDOWN ITEM -->
-            <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item">
-                <a href="<?=base_url('bids')?>">
-                    <span class="sl-icon icon-chart"></span>
-                    My Bids
-                </a>
-            </li>
-            <!-- /DROPDOWN ITEM -->
-           
 
 
-        </ul>
-        <!-- /DROPDOWN -->
 
         <a href="<?= base_url('merchant/logout?'.$return_url)?>" class="button medium secondary">Logout</a>
     </div>

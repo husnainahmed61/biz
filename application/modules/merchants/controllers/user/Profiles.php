@@ -348,6 +348,7 @@ class Profiles extends User_Controller
             }
             else{
                 $this->data['user']['base_resources_url_user_attach'] = $this->config->item('base_resources_url') . "users/message_attach/";
+                 $this->data['user']['base_resources_url_userImage'] = $this->config->item('base_resources_url') . "users/profile_picture/";
                 $this->data['user']['messages'] = $res;
                 $this->data['user']['sender_reciever'] = $sender_reciever;
                 $this->data['user']['content_view'] = "$this->modulePath/show_messages";
@@ -369,6 +370,7 @@ class Profiles extends User_Controller
     }
     public function getMessagesByConvoId_WW($value='')
     {
+        $this->data['user']['base_resources_url_userImage'] = $this->config->item('base_resources_url') . "users/profile_picture/";
 
         if (!empty($value)) {
             $convo_id = $value;
@@ -381,7 +383,7 @@ class Profiles extends User_Controller
             //return $res;
                  $this->data['user']['messages'] = $res;
                  $this->data['user']['sender_reciever'] = $sender_reciever;
-                 $this->data['user']['content_view'] = "$this->modulePath/show_messages";
+                 //$this->data['user']['content_view'] = "$this->modulePath/show_messages";
                  $this->data['user']['base_resources_url_user_attach'] = $this->config->item('base_resources_url') . "users/message_attach/";
 
                 // $this->response['data'] = $res;
@@ -530,6 +532,7 @@ class Profiles extends User_Controller
     {
         if ($this->check_user_authentication('', 'home'))
         {
+            $this->data['user']['base_resources_url_auction'] = $this->config->item('base_resources_url') . "images/auctions/";
             $user = $this->get_logged_in_user(); //$user['id']; user id can get
 
             $this->data['user']['conversations'] = $this->getUserConvo();

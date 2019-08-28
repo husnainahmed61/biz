@@ -515,7 +515,6 @@ class Auctions_m extends MY_Model
     
     public function getLimitedByTypeFollwing($type, $start, $end, $case,$UserFollowing)
     {
-
         //return $this->db->query("SELECT * FROM ssx_auctions WHERE expires_at >= CURDATE() AND type ='$type' AND deleted_at IS NULL ORDER BY id DESC LIMIT $start,$end" )->result_array();
         $this->db->select("ssxa.*,ssxu.first_name,ssxu.last_name,ssxu.slug as user_slug,ssxu.profile_picture,ssxc3.name as cat3name,ssxc3.slug as cat3slug,
             (SELECT ssx_auction_for_followers.follower_id FROM ssx_auction_for_followers WHERE ssx_auction_for_followers.auction_id = ssxa.id AND ssx_auction_for_followers.follower_id =".$UserFollowing." )AS Followers_List");

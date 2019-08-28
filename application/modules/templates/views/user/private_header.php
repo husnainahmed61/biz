@@ -3,7 +3,7 @@
         <div class="dashboard-header retracted">
             <!-- DB CLOSE BUTTON -->
             <a href="<?=base_url()?>" class="db-close-button">
-               <img src="<?=base_url();?>assets_u/images/dashboard/home-5.png" alt="back-icon">
+               <img src="<?=base_url();?>assets_u/images/dashboard/home6.png" alt="back-icon">
             </a>
             <!-- DB CLOSE BUTTON -->
 

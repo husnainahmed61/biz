@@ -81,6 +81,10 @@ color: white;
    top: 2px;
 
 }
+.glyphicon {
+    color: #ffff;
+    top: 0px;
+    line-height: 1;
 
 </style>
 <style type="text/css">
@@ -202,6 +206,28 @@ color: white;
         font-size: 12px;
     }
 </style>
+<style type="text/css">
+  #table-wrapper {
+  position:relative;
+}
+#table-scroll {
+  height:250px;
+  overflow:auto;
+}
+#table-wrapper table {
+  width:100%;
+
+}
+
+#table-wrapper table thead th .text {
+  position:absolute;   
+  top:-20px;
+  z-index:2;
+  height:20px;
+  width:35%;
+  border:1px solid red;
+}
+</style>
 <!-- DASHBOARD CONTENT -->
 <div class="dashboard-content">
     <!-- HEADLINE -->
@@ -284,12 +310,344 @@ color: white;
             </div>
              <div class="purchase-item-info col-xs-3 visible-lg ">
                <label class="radio-inline">
-                  <input type="radio" name="optradio" style="display: block;" class="public_div" checked>Public
+                  <input type="radio" name="optradio1" style="display: block;" class="public_div" checked>Public
                 </label>
                 <label class="radio-inline">
-                  <input type="radio" name="optradio" style="display: block;" class="follower_div">Suppliers
+                  <input type="radio" name="optradio1" style="display: block;" class="follower_div">Suppliers
                 </label>
                 <a href="#message-popup" id="message-pop" data-mfp-src="#message-popup" class="titleee">
+                    </a>
+                  
+            </div>
+            <div class="col-xs-2">
+                 <div id="image-preview1" class="image-preview">
+                  <label for="image-upload1" id="image-label1" class="image-label">+</label>
+                  <input type="file" name="image0" id="image-upload1" class="image-upload" style="width: 0px;"/>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                </button>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info email_pop">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
+                <a href="#email-popup" id="email-pop" data-mfp-src="#email-popup" class="email-pop">
+                    </a>
+            </div>
+            <div class="col-xs-1">
+              <select class="form-control" id="sel1">
+                <option value="AUD">AUD</option>
+                <option value="CAD">CAD</option>
+                <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
+                <option value="GBP">GBP</option>
+                <option value="USD">USD</option>
+                <option value="CNY">CNY</option>
+                <option value="SAR">SAR</option>
+                <option value="PKR" selected="">PKR</option>
+              </select>
+                
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                       style="" data-method="accept" data-id="">
+                        <span class="tick-icon">✓</span>
+                    </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    style="" data-method="cancel" data-id="" >
+                        <span class="close-icon">✕</span>
+                    </a>
+                </div>
+           
+            
+        </div>
+
+        <!-- /PURCHASE ITEM -->
+        <!-- /PURCHASES LIST HEADER -->
+       
+        <div class="purchase-item row">
+            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+              <div class="col-xs-6">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+                </div>
+                <div class="col-xs-6">
+                    <p>2</p>
+                </div>  
+            </div>
+            
+           
+            <div class="purchase-item-info col-xs-2 visible-lg">
+               
+                    <p class="text-header">47532-PLFDD</p>
+                    <p class="description">Shoes 7"</p>
+                
+            </div>
+             <div class="purchase-item-info col-xs-2">
+                <input class="form-control" type="date" id="example-date-input">
+            </div>
+             <div class="purchase-item-info col-xs-3 visible-lg ">
+               <label class="radio-inline">
+                  <input type="radio" name="optradio2" style="display: block;" class="public_div" checked>Public
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio2" style="display: block;" class="follower_div2">Suppliers
+                </label>
+                <a href="#message-popup2" id="message-pop2" data-mfp-src="#message-popup2" class="titleee2">
+                    </a>
+                  
+            </div>
+            <div class="col-xs-2">
+                 <div id="image-preview1" class="image-preview">
+                  <label for="image-upload1" id="image-label1" class="image-label">+</label>
+                  <input type="file" name="image0" id="image-upload1" class="image-upload" style="width: 0px;"/>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                </button>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info email_pop">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
+                <a href="#email-popup" id="email-pop" data-mfp-src="#email-popup" class="email-pop">
+                    </a>
+            </div>
+            <div class="col-xs-1">
+              <select class="form-control" id="sel1">
+                <option value="AUD">AUD</option>
+                <option value="CAD">CAD</option>
+                <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
+                <option value="GBP">GBP</option>
+                <option value="USD">USD</option>
+                <option value="CNY">CNY</option>
+                <option value="SAR">SAR</option>
+                <option value="PKR" selected="">PKR</option>
+              </select>
+                
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                       style="" data-method="accept" data-id="">
+                        <span class="tick-icon">✓</span>
+                    </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    style="" data-method="cancel" data-id="" >
+                        <span class="close-icon">✕</span>
+                    </a>
+                </div>
+           
+            
+        </div>
+
+        <!-- /PURCHASE ITEM -->
+        <!-- /PURCHASES LIST HEADER -->
+       
+        <div class="purchase-item row">
+            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+              <div class="col-xs-6">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+                </div>
+                <div class="col-xs-6">
+                    <p>3</p>
+                </div>  
+            </div>
+            
+           
+            <div class="purchase-item-info col-xs-2 visible-lg">
+               
+                    <p class="text-header">47549-QWEQE</p>
+                    <p class="description">CNC machining parts</p>
+                
+            </div>
+             <div class="purchase-item-info col-xs-2">
+                <input class="form-control" type="date" id="example-date-input">
+            </div>
+             <div class="purchase-item-info col-xs-3 visible-lg ">
+               <label class="radio-inline">
+                  <input type="radio" name="optradio3" style="display: block;" class="public_div" checked>Public
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio3" style="display: block;" class="follower_div3">Suppliers
+                </label>
+                <a href="#message-popup3" id="message-pop3" data-mfp-src="#message-popup3" class="titleee3">
+                    </a>
+                  
+            </div>
+            <div class="col-xs-2">
+                 <div id="image-preview1" class="image-preview">
+                  <label for="image-upload1" id="image-label1" class="image-label">+</label>
+                  <input type="file" name="image0" id="image-upload1" class="image-upload" style="width: 0px;"/>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                </button>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info email_pop">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
+                <a href="#email-popup" id="email-pop" data-mfp-src="#email-popup" class="email-pop">
+                    </a>
+            </div>
+            <div class="col-xs-1">
+              <select class="form-control" id="sel1">
+                <option value="AUD">AUD</option>
+                <option value="CAD">CAD</option>
+                <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
+                <option value="GBP">GBP</option>
+                <option value="USD">USD</option>
+                <option value="CNY">CNY</option>
+                <option value="SAR">SAR</option>
+                <option value="PKR" selected="">PKR</option>
+              </select>
+                
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                       style="" data-method="accept" data-id="">
+                        <span class="tick-icon">✓</span>
+                    </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    style="" data-method="cancel" data-id="" >
+                        <span class="close-icon">✕</span>
+                    </a>
+                </div>
+           
+            
+        </div>
+
+        <!-- /PURCHASE ITEM -->
+        <!-- /PURCHASES LIST HEADER -->
+       
+        <div class="purchase-item row">
+            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+              <div class="col-xs-6">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+                </div>
+                <div class="col-xs-6">
+                    <p>4</p>
+                </div>  
+            </div>
+            
+           
+            <div class="purchase-item-info col-xs-2 visible-lg">
+               
+                    <p class="text-header">47566-TRRGR</p>
+                    <p class="description">knuckles</p>
+                
+            </div>
+             <div class="purchase-item-info col-xs-2">
+                <input class="form-control" type="date" id="example-date-input">
+            </div>
+             <div class="purchase-item-info col-xs-3 visible-lg ">
+               <label class="radio-inline">
+                  <input type="radio" name="optradio4" style="display: block;" class="public_div" checked>Public
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio4" style="display: block;" class="follower_div4">Suppliers
+                </label>
+                <a href="#message-popup4" id="message-pop4" data-mfp-src="#message-popup4" class="titleee4">
+                    </a>
+                  
+            </div>
+            <div class="col-xs-2">
+                 <div id="image-preview1" class="image-preview">
+                  <label for="image-upload1" id="image-label1" class="image-label">+</label>
+                  <input type="file" name="image0" id="image-upload1" class="image-upload" style="width: 0px;"/>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info">
+                    <span class="glyphicon glyphicon-cloud-upload"></span>
+                </button>
+            </div>
+            <div class="col-xs-1">
+                 <button type="button" class="btn btn-info email_pop">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
+                <a href="#email-popup" id="email-pop" data-mfp-src="#email-popup" class="email-pop">
+                    </a>
+            </div>
+            <div class="col-xs-1">
+              <select class="form-control" id="sel1">
+                <option value="AUD">AUD</option>
+                <option value="CAD">CAD</option>
+                <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
+                <option value="GBP">GBP</option>
+                <option value="USD">USD</option>
+                <option value="CNY">CNY</option>
+                <option value="SAR">SAR</option>
+                <option value="PKR" selected="">PKR</option>
+              </select>
+                
+            </div>
+            <div class="recommendation-wrap bid_actions col-xs-1">
+                   
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action "
+                       style="" data-method="accept" data-id="">
+                        <span class="tick-icon">✓</span>
+                    </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    style="" data-method="cancel" data-id="" >
+                        <span class="close-icon">✕</span>
+                    </a>
+                </div>
+           
+            
+        </div>
+
+        <!-- /PURCHASE ITEM -->
+        <!-- /PURCHASES LIST HEADER -->
+       
+        <div class="purchase-item row">
+            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+              <div class="col-xs-6">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                </div>
+                </div>
+                <div class="col-xs-6">
+                    <p>5</p>
+                </div>  
+            </div>
+            
+           
+            <div class="purchase-item-info col-xs-2 visible-lg">
+               
+                    <p class="text-header">47583-IUIYY</p>
+                    <p class="description">Lubricant</p>
+                
+            </div>
+             <div class="purchase-item-info col-xs-2">
+                <input class="form-control" type="date" id="example-date-input">
+            </div>
+             <div class="purchase-item-info col-xs-3 visible-lg ">
+               <label class="radio-inline">
+                  <input type="radio" name="optradio5" style="display: block;" class="public_div" checked>Public
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio5" style="display: block;" class="follower_div5">Suppliers
+                </label>
+                <a href="#message-popup5" id="message-pop5" data-mfp-src="#message-popup5" class="titleee5">
                     </a>
                   
             </div>
@@ -361,8 +719,9 @@ color: white;
         <p class="spaced"></p>
 
   <input class="form-control" id="myInput" type="text" placeholder="Search..">
-  <br>
-  <table class="table table-bordered table-striped">
+  <div id="table-wrapper">
+    <div id="table-scroll">
+       <table class="table table-bordered table-striped">
     <thead>
       <tr>
         <th>Suppliers List</th>
@@ -373,33 +732,690 @@ color: white;
       <tr>
         <td>
             <div class="funkyradio-info">    
-                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Hasnain</label>
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked />Robert Bosch GmbH</label>
             </div></td>
         
       </tr>
       <tr>
         <td>
             <div class="funkyradio-info">
-                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>ahmed</label>
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked />Denso Corp</label>
             </div></td>
        
       </tr>
       <tr>
         <td>
             <div class="funkyradio-info">
-                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>saad</label>
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked />Magna International Inc</label>
             </div></td>
         
       </tr>
       <tr>
         <td>
             <div class="funkyradio-info">
-                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>daniyal</label>
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Continental AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>ZF Friedrichshafen AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Aisin Seiki Co.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Hyundai Mobis</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Lear Corp</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Valeo SA</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Yazaki Corp.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Panasonic Automotive Co</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Sumitomo Electric Industries</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Thyssenkrupp AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>BASF SE</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Autoliv Inc.</label>
             </div></td>
         
       </tr>
     </tbody>
   </table>
+    </div>
+  </div>
+ 
+       
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <div id="restore-pwd-form">
+            <input type="hidden" name="auctioneer_id" value="" id="auctioneer_id_message">
+            <input type="hidden" name="auction_id" value="" id="auction_id_message">
+            <button class="button mid dark no-space send_message">Save <span class="primary">Now</span></button>
+        </div>
+    </div>
+    <!-- /FORM POPUP CONTENT -->
+</div>
+<!-- /FORM POPUP -->
+<div id="message-popup2" class="form-popup mfp-hide">
+    
+
+    <!-- FORM POPUP CONTENT -->
+    <div class="form-popup-content">
+        <h4 class="popup-title">Select suppliers</h4>
+        <!-- LINE SEPARATOR -->
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <p class="spaced"></p>
+
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <div id="table-wrapper">
+    <div id="table-scroll">
+       <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Suppliers List</th>
+        
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr>
+        <td>
+            <div class="funkyradio-info">    
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Robert Bosch GmbH</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Denso Corp</label>
+            </div></td>
+       
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Magna International Inc</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Continental AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>ZF Friedrichshafen AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Aisin Seiki Co.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Hyundai Mobis</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Lear Corp</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Valeo SA</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Yazaki Corp.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Panasonic Automotive Co</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Sumitomo Electric Industries</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Thyssenkrupp AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>BASF SE</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Autoliv Inc.</label>
+            </div></td>
+        
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  </div>
+ 
+       
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <div id="restore-pwd-form">
+            <input type="hidden" name="auctioneer_id" value="" id="auctioneer_id_message">
+            <input type="hidden" name="auction_id" value="" id="auction_id_message">
+            <button class="button mid dark no-space send_message">Save <span class="primary">Now</span></button>
+        </div>
+    </div>
+    <!-- /FORM POPUP CONTENT -->
+</div>
+<!-- /FORM POPUP -->
+<div id="message-popup3" class="form-popup mfp-hide">
+    
+
+    <!-- FORM POPUP CONTENT -->
+    <div class="form-popup-content">
+        <h4 class="popup-title">Select suppliers</h4>
+        <!-- LINE SEPARATOR -->
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <p class="spaced"></p>
+
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <div id="table-wrapper">
+    <div id="table-scroll">
+       <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Suppliers List</th>
+        
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr>
+        <td>
+            <div class="funkyradio-info">    
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Robert Bosch GmbH</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Denso Corp</label>
+            </div></td>
+       
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Magna International Inc</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Continental AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />ZF Friedrichshafen AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Aisin Seiki Co.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Hyundai Mobis</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Lear Corp</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Valeo SA</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Yazaki Corp.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Panasonic Automotive Co</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Sumitomo Electric Industries</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Thyssenkrupp AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>BASF SE</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Autoliv Inc.</label>
+            </div></td>
+        
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  </div>
+ 
+       
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <div id="restore-pwd-form">
+            <input type="hidden" name="auctioneer_id" value="" id="auctioneer_id_message">
+            <input type="hidden" name="auction_id" value="" id="auction_id_message">
+            <button class="button mid dark no-space send_message">Save <span class="primary">Now</span></button>
+        </div>
+    </div>
+    <!-- /FORM POPUP CONTENT -->
+</div>
+<!-- /FORM POPUP -->
+<div id="message-popup4" class="form-popup mfp-hide">
+    
+
+    <!-- FORM POPUP CONTENT -->
+    <div class="form-popup-content">
+        <h4 class="popup-title">Select suppliers</h4>
+        <!-- LINE SEPARATOR -->
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <p class="spaced"></p>
+
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <div id="table-wrapper">
+    <div id="table-scroll">
+       <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Suppliers List</th>
+        
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr>
+        <td>
+            <div class="funkyradio-info">    
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Robert Bosch GmbH</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Denso Corp</label>
+            </div></td>
+       
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Magna International Inc</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Continental AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />ZF Friedrichshafen AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Aisin Seiki Co.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Hyundai Mobis</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Lear Corp</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Valeo SA</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Yazaki Corp.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Panasonic Automotive Co</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Sumitomo Electric Industries</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Thyssenkrupp AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>BASF SE</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Autoliv Inc.</label>
+            </div></td>
+        
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  </div>
+ 
+       
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <div id="restore-pwd-form">
+            <input type="hidden" name="auctioneer_id" value="" id="auctioneer_id_message">
+            <input type="hidden" name="auction_id" value="" id="auction_id_message">
+            <button class="button mid dark no-space send_message">Save <span class="primary">Now</span></button>
+        </div>
+    </div>
+    <!-- /FORM POPUP CONTENT -->
+</div>
+<!-- /FORM POPUP -->
+<!-- /FORM POPUP -->
+<div id="message-popup5" class="form-popup mfp-hide">
+    
+
+    <!-- FORM POPUP CONTENT -->
+    <div class="form-popup-content">
+        <h4 class="popup-title">Select suppliers</h4>
+        <!-- LINE SEPARATOR -->
+        <hr class="line-separator short">
+        <!-- /LINE SEPARATOR -->
+        <p class="spaced"></p>
+
+  <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <div id="table-wrapper">
+    <div id="table-scroll">
+       <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Suppliers List</th>
+        
+      </tr>
+    </thead>
+    <tbody id="myTable">
+      <tr>
+        <td>
+            <div class="funkyradio-info">    
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Robert Bosch GmbH</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Denso Corp</label>
+            </div></td>
+       
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"  />Magna International Inc</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Continental AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />ZF Friedrichshafen AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" />Aisin Seiki Co.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Hyundai Mobis</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Lear Corp</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Valeo SA</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Yazaki Corp.</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Panasonic Automotive Co</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;"/>Sumitomo Electric Industries</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Thyssenkrupp AG</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>BASF SE</label>
+            </div></td>
+        
+      </tr>
+      <tr>
+        <td>
+            <div class="funkyradio-info">
+                <label for="checkbox1" class="checkbox-inline"><input type="checkbox" name="checkbox" id="checkbox1" style="display: block;" checked/>Autoliv Inc.</label>
+            </div></td>
+        
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  </div>
+ 
        
         <hr class="line-separator short">
         <!-- /LINE SEPARATOR -->

@@ -415,13 +415,14 @@ class Users_m extends MY_Model
         //exit();
         $res = $res->result_array();
         foreach ($res as $key => $value) {
-            $this->db->select("ssxc.*");
+            $this->db->select("ssxc.*,(SELECT ssx_auctions.image_sm_1 FROM ssx_auctions WHERE ssx_auctions.id=ssxc.auction_id) AS auction_image");
             $this->db->from("ssx_conversations ssxc");
             $this->db->where("auction_id",$value['auction_id']);
             $convo = $this->db->get()->result_array();
 
             $auction_convo["name"] = $convo[0]['auction_name'];
             $auction_convo["slug"] = $convo[0]['auction_slug'];
+            $auction_convo["image"] = $convo[0]['auction_image'];
             $auction_convo["auction_id"] = $convo[0]['auction_id'];
             $auction_convo["created_at"] = $convo[0]['created_at'];
             $auction_convo["result"] = $convo;
@@ -437,7 +438,7 @@ class Users_m extends MY_Model
     public function getMessagesById($value='')
     {
         $this->db->trans_start();
-        $this->db->select("ssxm.*,ssxu.first_name,ssxu.last_name");
+        $this->db->select("ssxm.*,ssxu.first_name,ssxu.last_name,ssxu.profile_picture");
         $this->db->from("ssx_messages ssxm");
         $this->db->join("ssx_users ssxu","ssxu.id=ssxm.sender_user_id","Left");
         $this->db->where("convo_id",$value);

@@ -214,7 +214,7 @@ header .account-information > a {display: inline-block;float: left;}
 .bottom-bar-cs #footer-bottom p span{position: initial;margin-right: 6px;}
 .footer-main-cs .links-cs{display: inline-block;/*width: 100%;*/}
 .dropdown.dark .dropdown-item {
-background-color:#222b2d;
+background-color:#ffffff;
     padding: 0;
 }
 .side-menu .side-menu-title {margin-bottom: 0;}
@@ -337,7 +337,7 @@ body .modal .inner-wrapper-modal{
 .button.dark:hover {color: #fff;}
 .article-section-cs > .section > .row{display: inline-block;} 
 .author-profile-info{padding-left: 250px;}
-.side-menu.dashboard .dropdown .dropdown-item.active>a {background: #222b2d; text-decoration: none;}
+.side-menu.dashboard .dropdown .dropdown-item.active>a {background: #ffffff; text-decoration: none;}
 div .dropdown .dropdown-item.active>a {background: #fff;}
 
 

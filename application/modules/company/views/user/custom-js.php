@@ -453,6 +453,42 @@ $(document).ready(function () {
             //$('#exampleModalCenter').modal('show'); 
 
        });
+    $('.follower_div2').click(function () {
+        //alert();
+        // $( ".follower_div" ).prop( "checked", true );
+        // $( ".public_div" ).prop( "checked", false );
+        $('a.titleee2').trigger('click');
+        
+            //$('#exampleModalCenter').modal('show'); 
+
+       });
+    $('.follower_div3').click(function () {
+        //alert();
+        // $( ".follower_div" ).prop( "checked", true );
+        // $( ".public_div" ).prop( "checked", false );
+        $('a.titleee3').trigger('click');
+        
+            //$('#exampleModalCenter').modal('show'); 
+
+       });
+    $('.follower_div4').click(function () {
+        //alert();
+        // $( ".follower_div" ).prop( "checked", true );
+        // $( ".public_div" ).prop( "checked", false );
+        $('a.titleee4').trigger('click');
+        
+            //$('#exampleModalCenter').modal('show'); 
+
+       });
+    $('.follower_div5').click(function () {
+        //alert();
+        // $( ".follower_div" ).prop( "checked", true );
+        // $( ".public_div" ).prop( "checked", false );
+        $('a.titleee5').trigger('click');
+        
+            //$('#exampleModalCenter').modal('show'); 
+
+       });
     $('.email_pop').click(function () {
         //alert();
         // $( ".follower_div" ).prop( "checked", true );
@@ -478,7 +514,32 @@ $(document).ready(function () {
             mainClass: 'mfp-fade',
             closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
         });
+        $('#message-pop2').magnificPopup({
+            type: 'inline',
+            removalDelay: 300,
+            mainClass: 'mfp-fade',
+            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
+        });
+        $('#message-pop3').magnificPopup({
+            type: 'inline',
+            removalDelay: 300,
+            mainClass: 'mfp-fade',
+            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
+        });
+        $('#message-pop4').magnificPopup({
+            type: 'inline',
+            removalDelay: 300,
+            mainClass: 'mfp-fade',
+            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
+        });
+        $('#message-pop5').magnificPopup({
+            type: 'inline',
+            removalDelay: 300,
+            mainClass: 'mfp-fade',
+            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
+        });
     })(jQuery);
+    
     (function($){
         console.log("DOC READY");
         /*-----------------------

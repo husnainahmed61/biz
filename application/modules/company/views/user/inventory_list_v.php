@@ -27,7 +27,7 @@
     
        <div class="col-xs-12">
             <div class="btn pull-right">
-                <a href="<?=base_url('company/add_supplier')?>"><button type="Submit" class="button small dark" >Add <span class="primary">Inventory</span></button></a>
+                <a href="<?=base_url('company/add_inventory')?>"><button type="Submit" class="button small dark" >Add <span class="primary">Inventory</span></button></a>
             </div>
             <div class="btn pull-right">
                 <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #1cbdf9 !important;">Import Inventory<span class="primary"></span></button></a>

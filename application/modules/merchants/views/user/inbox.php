@@ -39,16 +39,22 @@ $user_id = $user_id['id'];
                             
                             <div class="inbox-message-author">
                                 <figure class="user-avatar">
-                                    <img src="<?=base_url();?>assets_u/images/avatars/avatar_06.jpg" alt="user-img">
+                                    <?php if (isset($value['image']) && !empty($value['image'])) { ?>
+                                        <img src="<?=$base_resources_url_auction?><?=$value['image']?>" class="img-circle" alt="Cinque Terre" width="104" height="43"> 
+                                      
+                                   <?php  } else {?>
+                                        <img src="<?base_url()?>assets_u/images/avatars/avatar_06.jpg" alt="user-img">
+                                   <?php } ?>
+                                    
                                 </figure>
                                <p class="text-header">
                                    
                                     
                                 </p>                                
                             </div>
-                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo_<?=$value['auction_id']?>" style="width: 180px;margin-bottom: 20px;background-color: white;color: black;"><?=$value['name']?></button>
+                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo_<?=$value['auction_id']?>" style="width: 180px;margin-bottom: 20px;background-color: white;color: black;text-align: left"><?=$value['name']?></button>
                              <div class="inbox-message-date">
-                                <p><?php echo date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>
+                                <p></p>
                             </div>
                               <div id="demo_<?=$value['auction_id']?>" class="collapse">
                                <?php foreach ($value['result'] as $key => $value) { ?>
@@ -61,14 +67,11 @@ $user_id = $user_id['id'];
                                                 <?=$value['user_name']?>
                                             <?php } ?></p>
                                         </div>
+                                        <p style="font-size: 0.65em;float: right;margin: 5px;margin-top: 15px;"><?php echo date("M d,Y - h:mA ", strtotime($value['created_at']));?></p>
                                     </a>
                                 </div>
                              <?php } ?>
-                            </div>
-                           
-                            
-                            
-                           
+                            </div>                           
                         </div>
                         <!-- INBOX MESSAGE -->
                     <?php } ?>

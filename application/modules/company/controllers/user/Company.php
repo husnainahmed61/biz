@@ -98,20 +98,70 @@ class Company extends User_Controller
 
     }
 
+    // public function index()
+    // {
+    //     if ($this->check_user_authentication('', 'home')) {
+    //         $this->data['user']['pageHeader'] = 'Alerts';
+
+    //         $this->data['user']['sort_private'] = $this->sort_private;
+    //         $this->data['user']['content_view'] = "$this->modulePath/show_v";
+
+    //         $this->setupNav();
+    //         $this->setupHeader1();
+    //         $this->template->setup_private_template($this->data['user']);
+    //     }
+    // }
+
     public function index()
     {
         if ($this->check_user_authentication('', 'home')) {
-            $this->data['user']['pageHeader'] = 'Alerts';
+            $user = $this->get_logged_in_user();
+            //echo "<pre>"; print_r($user);
 
-            $this->data['user']['sort_private'] = $this->sort_private;
-            $this->data['user']['content_view'] = "$this->modulePath/show_v";
+            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
+                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
+                ['u.id'=>$user['id'],'u.is_company'=>1]);
+            $this->data['user']['userDetails'] = $userDetails[0];
+            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
+            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
+            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
+            /*Uzair work starts*/
+            $this->profiles->getProfileData();
+
+            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
+                //$this->data['user']['auction']
+                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
+                if (isset($res) && !empty($res)) {
+                    $this->data['user']['auction'] = $res;
+                }
+                //print_r($res);
+                //exit();
+            }
+            $userId = $this->loggedInUser['id'];
+            $user = $this->merchants->getTokenById($userId);
+            $token = $user['email_token'];
+            $this->data['user']['token'] = $token;
+
+            //$this->getAuctions();
+            /*Uzair work ends*/
+
+            // echo "<pre>";
+            // print_r($this->data['user']['auction']); die;
+            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
+            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
+            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
+            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
+
+
+            $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
+            $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
+            $this->data['user']['content_view'] = "$this->modulePath/dashboard_v";
 
             $this->setupNav();
             $this->setupHeader1();
             $this->template->setup_private_template($this->data['user']);
         }
     }
-
     public function basic_settings()
     {
         if ($this->check_user_authentication('', 'home')) {
