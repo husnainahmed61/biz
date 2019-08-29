@@ -13,6 +13,7 @@
 <!-- Magnific Popup -->
 <script src="<?= base_url('assets_u/js/vendor/jquery.magnific-popup.min.js');?>"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/croppie.js"></script>
+<script src="<?=base_url();?>assets_u/js/vendor/bootstrap-datepicker.min.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.sumoselect.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.xmlinefill.min.js"></script>
 <!-- XM Pie Chart -->
@@ -28,6 +29,7 @@
 <script src="<?= base_url('assets_u/js/vendor/jquery.xmalert.min.js');?>"></script>
 <!-- Side Menu -->
 <script src="<?=base_url();?>assets_u/js/side-menu.js"></script>
+<script src="<?=base_url();?>assets_u/js/dashboard-statement.js"></script>
 
 <script src="<?=base_url();?>assets_u/js/vendor/chart.min.js"></script>
 <script src="<?=base_url();?>assets_u/js/dashboard-statistics.js"></script>

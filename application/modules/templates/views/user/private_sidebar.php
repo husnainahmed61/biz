@@ -157,6 +157,15 @@ $user_login = $this->session->userdata("user_login");
                 </a>
             </li>
             <!-- /DROPDOWN ITEM -->
+             <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item">
+                <a href="<?=base_url('company/reports')?>">
+                    <span class="sl-icon icon-star"></span>
+                    Reports
+                </a>
+               
+            </li>
+            <!-- /DROPDOWN ITEM -->
               <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('Notifications')?>">
