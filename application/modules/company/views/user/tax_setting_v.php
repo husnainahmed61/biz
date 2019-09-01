@@ -45,14 +45,16 @@
             
         </div>
         <!-- /PURCHASES LIST HEADER -->
-        <!-- PURCHASE ITEM -->
+        <?php $i= 1;
+         foreach ($all_taxes as $key => $value) { ?>
+            <!-- PURCHASE ITEM -->
         <div class="purchase-item row">
             <div class="purchase-item-date col-lg-1 col-xs-2">
-                <p>1</p>
+                <p><?=$i?></p>
             </div>
            
             <div class="purchase-item-info col-xs-4 visible-lg">
-                <a href="#"><p class="category primary">VAT</p></a>
+                <a href="#"><p class="category primary"><?=$value['name']?></p></a>
 
                 <!-- <p><span class="light">License:</span> Standard</p>
                 <p><span class="light">Author:</span> Odin_Design</p>
@@ -60,15 +62,15 @@
             </div>
 
             <div class="purchase-item-download col-xs-4">
-                 <p>20</p>
+                 <p><?=$value['tax_percentage']?></p>
             </div>
             
             <div class="purchase-item-recommend col-xs-2">
                <div class="recommendation-wrap">
-                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
+                    <a href="<?=base_url() ?>company/add_tax/?tax=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="#recommendation-popup" class="recommendation bad hoverable open-recommendation-form">
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form deleteTax" data-id="<?=$value['id']?>">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </div>
@@ -76,38 +78,9 @@
             
         </div>
         <!-- /PURCHASE ITEM -->
-                <!-- PURCHASE ITEM -->
-        <div class="purchase-item row">
-            <div class="purchase-item-date col-lg-1 col-xs-2">
-                <p>2</p>
-            </div>
-           
-            <div class="purchase-item-info col-xs-4 visible-lg">
-                <a href="#"><p class="category primary">GST</p></a>
-
-                <!-- <p><span class="light">License:</span> Standard</p>
-                <p><span class="light">Author:</span> Odin_Design</p>
-                <p class="text-header tiny">Check Invoice</p> -->
-            </div>
-
-            <div class="purchase-item-download  col-xs-4">
-                 <p>10</p>
-            </div>
-            
-            <div class="purchase-item-recommend col-md-2 col-xs-2">
-                <div class="recommendation-wrap">
-                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
-                        <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#recommendation-popup" class="recommendation bad hoverable open-recommendation-form">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </a>
-                </div>
-            </div>
-            
-        </div>
-        <!-- /PURCHASE ITEM -->
-        
+        <?php $i++;
+    } ?>
+    
         <!-- /PAGER -->
     </div>
     <!-- /PURCHASES LIST -->

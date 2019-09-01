@@ -160,7 +160,7 @@ $user_login = $this->session->userdata("user_login");
              <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('company/reports')?>">
-                    <span class="sl-icon icon-star"></span>
+                    <span class="sl-icon icon-graph"></span>
                     Reports
                 </a>
                

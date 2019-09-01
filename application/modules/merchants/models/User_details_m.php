@@ -93,7 +93,7 @@ class User_details_m extends MY_Model
     public function checkLoginCredentials()
     {
         $userData = $this->getUserWithDetails(
-            "u.id,profile_picture,first_name,last_name,type,slug,email,password_en,account_status,email_token"
+            "u.id,profile_picture,first_name,last_name,type,email,is_company,is_admin,user_of_company,password_en,account_status"
             ,['email' => $this->userDetailFields['email']]);
 
         /*Matching Password after decoding*/

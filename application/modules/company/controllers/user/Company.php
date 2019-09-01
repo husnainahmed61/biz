@@ -116,43 +116,7 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/dashboard_v";
@@ -217,42 +181,7 @@ class Company extends User_Controller
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
             //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            $this->data['user']['all_taxes']= $this->companyModel->get_all_taxes($user['user_of_company']);
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/tax_setting_v";
@@ -266,43 +195,11 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            //get tax id for edit
+            $tax_id = $this->input->get('tax');
+            if (isset($tax_id) && !empty($tax_id)) {
+                 $this->data['user']['single_tax']=$result = $this->companyModel->get_tax($tax_id);
+             } 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/add_tax_v";
@@ -312,47 +209,69 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function storeTax()
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $id = $this->input->post("id");
+            if (isset($id) && !empty($id) ){
+               $res = $this->companyModel->upadteTax($_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Tax updated Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Tax Updation Failed";
+                }
+            }
+            else{
+                $res = $this->companyModel->storeTax($user,$_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Tax Added Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Tax Adding Failed";
+                }
+            }
+           
+            echo json_encode($this->response);
+        }
+    }
+    public function delete_tax()
+    {
+        $tax_id = $this->input->get('tax');
+        $res = $this->companyModel->deleteTax($tax_id);
+            if ($res === TRUE) {
+                $this->response['status'] = TRUE;
+                $this->response['type'] = 'Successful';
+                $this->response['title'] = "Successful";
+                $this->response['message'] = "Tax Deleted Successfully";
+            }
+            else{
+                $this->response['status'] = FALSE;
+                $this->response['type'] = "Failed";
+                $this->response['title'] = "Failed";
+                $this->response['message'] = "Tax Deletion Failed";
+            }
+        echo json_encode($this->response);
+    }
+
     public function location_managment()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/location_managment_v";
@@ -366,42 +285,6 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -412,45 +295,14 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function store_warehouse($value='')
+    {
+        
+    }
     public function add_inventory()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
 
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
@@ -466,44 +318,9 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-//Company_m
-            $this->data['user']['all_items'] = $this->companyModel->get_items();
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            
+            $this->data['user']['all_items'] = $this->db->select("*")->from("ssx_dummy_items")->get()->result_array();
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/inventory_list_v";
@@ -517,42 +334,6 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -569,42 +350,8 @@ class Company extends User_Controller
             $user = $this->get_logged_in_user();
             //echo "<pre>"; print_r($user);
 
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-//Company_m
-            $this->data['user']['all_suppliers'] = $this->companyModel->get_suppliers();
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            $this->data['user']['all_suppliers'] = $this->db->select("*")->from("ssx_dummy_supplier")->get()->result_array();
+           
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/supplier_list_v";
@@ -618,43 +365,10 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
+            $user_id = $this->input->get("user");
+            if (isset($user_id) && !empty($user_id)) {
+                $this->data['user']['user_data'] = $this->companyModel->getUserData($user_id);
             }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-//Company_m
-            $this->data['user']['all_suppliers'] = $this->companyModel->get_suppliers();
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -665,48 +379,51 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function storeUser($value='')
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $id = $this->input->post("id");
+            if (isset($id) && !empty($id)) {
+                 $res = $this->companyModel->updateUser($_POST);
+                if ($res == TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "User Updated Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "User Updation Failed";
+                }
+             }
+             else{
+                $res = $this->companyModel->storeUser($user,$_POST);
+                if ($res == TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "User Added Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "User Adding Failed";
+                }
+             } 
+            echo json_encode($this->response);
+            
+        }
+    }
     public function user_managment()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
             //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-//Company_m
-            $this->data['user']['all_suppliers'] = $this->companyModel->get_suppliers();
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            $this->data['user']['all_users'] = $this->companyModel->getAllUsers($user);
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/user_managment_v";
@@ -716,47 +433,32 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function updateUserRole()
+    {
+        $user_id = $this->input->get('user_id');
+        $roles = $this->input->get("roles");
+        // print_r(explode(",",$roles));
+        // exit();
+        $res = $this->companyModel->updateUserRole($user_id,$roles);
+            if ($res === TRUE) {
+                $this->response['status'] = TRUE;
+                $this->response['type'] = 'Successful';
+                $this->response['title'] = "Successful";
+                $this->response['message'] = "User Roles Updated Successfully";
+            }
+            else{
+                $this->response['status'] = FALSE;
+                $this->response['type'] = "Failed";
+                $this->response['title'] = "Failed";
+                $this->response['message'] = "User Roles Updation Failed";
+            }
+        echo json_encode($this->response);
+    }
     public function create_pr()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/create_pr_v";
@@ -770,43 +472,7 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/pr_list_v";
@@ -820,43 +486,7 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/rfq_list_v";
@@ -870,43 +500,7 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
-
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/rfq_log_v";
@@ -920,43 +514,8 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-//Company_m
-            $this->data['user']['all_suppliers'] = $this->companyModel->get_suppliers();
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
+            
+            $this->data['user']['all_suppliers'] =  $this->db->select("*")->from("ssx_dummy_supplier")->get()->result_array();
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -971,43 +530,6 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            //echo "<pre>"; print_r($user);
-
-            $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
-                ['u.id'=>$user['id'],'u.is_company'=>1]);
-            $this->data['user']['userDetails'] = $userDetails[0];
-            $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
-            $this->data['user']['states']= $this->states->statesM->get_all(['country_id' => $userDetails[0]['country_id'], 'is_active' => 1]);
-            $this->data['user']['cities']= $this->cities->citiesM->get_all(['state_id' => $userDetails[0]['state_id'], 'is_active' => 1 ]);
-            /*Uzair work starts*/
-            $this->profiles->getProfileData();
-
-            if (!empty($auction_id) /*&& !empty($auctioneer_id) && !empty($user_id)*/) {
-                //$this->data['user']['auction']
-                $res = $this->usersM->getAuctionDetail($auction_id,$this->loggedInUser['id']);
-                if (isset($res) && !empty($res)) {
-                    $this->data['user']['auction'] = $res;
-                }
-                //print_r($res);
-                //exit();
-            }
-            $userId = $this->loggedInUser['id'];
-            $user = $this->merchants->getTokenById($userId);
-            $token = $user['email_token'];
-            $this->data['user']['token'] = $token;
-
-            //$this->getAuctions();
-            /*Uzair work ends*/
-//Company_m
-            $this->data['user']['all_suppliers'] = $this->companyModel->get_suppliers();
-            // echo "<pre>";
-            // print_r($this->data['user']['auction']); die;
-            $this->data['user']['currencies'] = $this->auctions->auctionsModel->getCurrencies();
-            $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -1019,322 +541,5 @@ class Company extends User_Controller
         }
     }
 
-    public function store(){
-        //printData($_REQUEST);
-        $request = $_REQUEST;
-
-        $where = ['id' => $request['category_3']];
-        $category3 = $this->categories3->cat3Model->getAll('*',$where);
-        $userLogin = $this->session->userdata('user_login');
-        //printData($userLogin);
-        $param['alert'] = [
-                'name'         => $request['title'],
-                'type'          => $request['mode'],
-                'email_alerts'    => !empty($request['type'][0]) ? 1 : 0,
-                'sms_alerts'    => !empty($request['type'][1]) ? 1 : 0,
-                'user_id'       => $userLogin['id'],
-                'category1_id'  => $category3[0]['category1_id'],
-                'category2_id'  => $category3[0]['category2_id'],
-                'category3_id'  => $category3[0]['id'],
-        ];
-
-        $param['alertAttributes'] = $this->setAlertAttributes($category3  );
-        $alert = $this->companyModel->addAlertWithAttributes($param);
-
-        if(!empty($alert)){
-            $this->response['status'] = TRUE;
-            $this->response['code'] = "200";
-            $this->response['title'] = "Success";
-            $this->response['Message_type'] = "messageSuccess";
-            $this->response['message'] = "Alert Added.";
-        }else{
-            $this->response['status'] = FALSE;
-            $this->response['code'] = "500";
-            $this->response['title'] = "Failed";
-            $this->response['Message_type'] = "messageError";
-            $this->response['message'] = "Something went wrong";
-        }
-        $responseMessage = "showstatusMessage('".$this->response['Message_type']."','".$this->response['title']."', '".$this->response['message'] ."', 4000);";
-        $this->response['csrf'] = $this->getCSRF();
-        $this->session->set_flashdata('message_name', $responseMessage);
-        redirect('alerts/create');
-    }
-
-    private function setAlertAttributes($category3)
-    {
-        $auctionAttrFields = [];
-
-        $attributes = $this->auctions->attributesModel->getByCategories($category3[0]['category1_id'], $category3[0]['category2_id'], $category3[0]['id']);
-//        echo "<pre>auctionAttrFields: <br><br>";
-//        print_r($attributes);
-
-        foreach ($attributes AS $key => $item) {
-            if (!empty($this->input->post('attribute_' . $item['id']))) {
-                $auctionAttrFields[$key]['attribute_id'] = $item['id'];
-                $auctionAttrFields[$key]['name'] = $item['name'];
-                $auctionAttrFields[$key]['type'] = $item['type'];
-
-                if ($item['type'] == "select") {
-                    $attrValueId = $this->input->post('attribute_' . $item['id']);
-                    $auctionAttrFields[$key]['attribute_id'] = $item['id'];
-
-                    $attributeValue = $this->attributeValuesModel->get($attrValueId);
-
-                    $auctionAttrFields[$key]['attribute_value_id'] = $attributeValue['id'];
-                    $auctionAttrFields[$key]['value'] = $attributeValue['value'];
-
-                } else if ($item['type'] == "text") {
-                    $auctionAttrFields[$key]['attribute_value_id'] = "";
-                    $auctionAttrFields[$key]['value'] = $this->input->post('attribute_' . $item['id']);
-                }
-            } else {
-//                echo "item[id] is empty<br>";
-            }
-        }/*Loop End*/
-        return $auctionAttrFields;
-    }
-
-    public function getFilteredAlerts(){
-//        printData($this->input->get());
-
-        $currency = $this->input->get('currency');
-        $sort = $this->input->get('sort');
-        $pageSize = $this->input->get('pageSize');
-        $pageNumber = $this->input->get('pageNumber');
-        $type = $this->input->get('type');
-
-        $limit = [//             20 * 2 - 1
-            'start' => $pageSize * ($pageNumber - 1), 'offset' => $pageSize];
-
-        $userId = $this->loggedInUser['id'];
-
-        $alerts = $this->companyModel->getAlerts($type, $userId, $this->sort_private[$sort - 1], $limit,$currency);
-        $alertsCount = $this->companyModel->countAlerts($type, $userId);
-//        printDataDie($alerts);
-
-        if (!empty($alerts) && is_array($alerts) && count($alerts) > 0) {
-
-            $this->data['user']['alerts'] = $alerts;
-            // $this->data['user']['sellingAuctions'] = $sellingAuctions;
-
-            $this->data['user']['content_view'] = "$this->modulePath/user_auctions_filtered";
-
-            $this->response['data'] = $alerts;
-            $this->response['totalNumber'] = $alertsCount[0]['count'];
-            $this->response['status'] = TRUE;
-            $this->response['code'] = "100";
-            $this->response['title'] = "Successful";
-            $this->response['message'] = "Products Retrieved";
-            $this->response['html'] = $this->load->view("$this->modulePath/user_alerts_filtered_v", $this->data['user'], TRUE);
-            echo json_encode($this->response);
-
-            // print_r($this->response);
-
-        } else {
-            $this->response['data'] = array();
-            // $this->response['totalNumber'] = '0';
-            // $this->response['status'] = FALSE;
-            // $this->response['code'] = "400";
-            // $this->response['title'] = "Faild";
-            // $this->response['message'] = "Products Unavailable";
-            $this->response['html'] = "<h4>No alerts Found</h4>";
-            echo json_encode($this->response);
-
-
-            //echo "No alerts Found";
-        }
-    }
-
-    public function edit($id){
-        if ($this->check_user_authentication('', 'home')) {
-            $this->data['user']['pageHeader'] = 'Edit Alert';
-            $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
-            $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
-            $this->data['user']['content_view'] = "$this->modulePath/edit_v";
-            $loggedInUser = $this->get_logged_in_user();
-//            printData($loggedInUser);
-
-            $alertWhere['user_id'] = $loggedInUser['id'];
-            $alertWhere['id'] = $id;
-            $alert = $this->companyModel->getBy($alertWhere);
-
-            $this->data['user']['alert'] = $alert[0];
-            $alertAttrWhere['aa.alert_id'] =  $id;
-//            printData($alertAttrWhere);
-            $alertAttr = $this->alertsAttributeModel->getAlertsWithValues(NULL,$alertAttrWhere);
-//            printDataDie($alertAttr);
-            $data['auctionAttributes'] = $this->alertsAttributeModel->parseAlertAttributes($alertAttr);
-
-            $data['attributes'] = $this->auctions->getAttributesWithValues($alert[0]['category1_id'],$alert[0]['category2_id'],$alert[0]['category3_id']);
-//printDataDie($data);
-
-            $this->data['user']['attributes_view']  = $this->load->view("auctions/user/auction-attributes-filled", $data, TRUE);
-
-//            printDataDie($data['auctionAttributes']);
-            //printData( $this->data['attributes']);
-//            $this->setupNav();
-            $this->setupHeader1();
-            $this->template->setup_private_template($this->data['user']);
-        }
-    }
-
-    public function update($id){
-        $request = $this->input->post();
-        //printData($this->input->post());
-
-        $updateData = [];
-        $updateData['id'] = $id;
-        $updateData['type'] = $request['mode'];
-        $updateData['category3_id'] = $request['category_3'];
-        $updateData['name'] = $request['title'];
-        $updateData['email_alerts']    = !empty($request['type'][0]) ? 1 : 0;
-        $updateData['sms_alerts'] = !empty($request['type'][1]) ? 1 : 0;
-
-        $updateARes = $this->companyModel->updateAlert($updateData);
-//        printData($updateARes,'$updateARes');
-
-        $attributes = $this->attributesModel->getByCategory3($request['category_3']);
-//        printData($attributes);
-
-        $pAttr = $this->alertsAttributeModel->setAttributes($attributes);
-//        printData($pAttr,'$pAttr');
-
-        $updateAttrRes = $this->alertsAttributeModel->updateAlertAttributes($pAttr,$id);
-//        printDataDie($updateAttrRes ,'$updateAttrRes ');
-
-        if($updateARes){
-            $attrMsg =(empty($updateAttrRes[0])) ? ' (error in attributes update)' : '';
-            $responseMessage = $this->set_showStatusMessage('messageSuccess' , 'Successful','Alert Updated.'.$attrMsg,4000);
-            $this->response['csrf'] = $this->getCSRF();
-            $this->session->set_flashdata('message_name', $responseMessage);
-            redirect('alerts');
-        }else{
-            $responseMessage = $this->set_showStatusMessage('messageError' , 'Failed','Alert Not Updated.',4000);
-            $this->response['csrf'] = $this->getCSRF();
-            $this->session->set_flashdata('message_name', $responseMessage);
-            redirect('alerts');
-        }
-    }
-
-    public function delete($id){
-            $alert = $this->companyModel->getById($id);
-            if(count($alert) > 0){
-                $this->companyModel->delete($id);
-                $this->alertsAttributeModel->delete(['alert_id' => $id]);
-                $responseMessage = $this->set_showStatusMessage('messageSuccess' , 'Successful','Alert Deleted.',4000);
-                $this->session->set_flashdata('message_name', $responseMessage);
-                redirect('alerts');
-            }else{
-                $responseMessage = $this->set_showStatusMessage('messageError' , 'Failed','Alert Not Not Found.',4000);
-                $this->session->set_flashdata('message_name', $responseMessage);
-                redirect('alerts');
-            }
-    }
-    public function alerts_view($value='')
-    {
-        $this->data['user']['sort'] = $this->sort;
-        
-        $this->data['user']['base_resources_url'] = $this->config->item('base_resources_url')."images/auctions/";
-        $this->data['user']['currentDate'] = $this->serverDateTime;
-        $this->data['user']['currency'] = $this->auctions->getAllCurrency();
-        $currentMode = $this->getBaseMode();
-        $currentMode = !empty($currentMode) ? $currentMode : 'buy';
-        $auctionType = $currentMode == 'buy' ? 'sell' : 'buy';
-
-
-
-        //$auctions = $this->auctions->getSearchResult($columns,$where,$like);
-
-      
-        //$this->data['user']['auctions'] = $auctions;
-
-        $this->data['user']['content_view'] = "$this->modulePath/auction_alert_v";
-        // echo "<pre>";
-        // print_r($this->data['user']);
-        // exit();
-        // $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-        //     $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-        //     $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-        $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
-            $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
-            $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
-        $this->setupHeader1();
-        $this->setupNav();
-        $this->header_notification();
-        $this->quick_menu();
-        $this->template->setup_template($this->data['user']);
-    }
-    public function getFilteredProducts()
-    {
-        $this->data['user']['base_resources_url'] = $this->config->item('base_resources_url') . "images/auctions/";
-        $this->data['user']['base_resources_url_user'] = $this->config->item('base_resources_url') . "users/profile_picture/";
-
-        $this->data['user']['currentDate'] = $this->serverDateTime;
-
-
-        $sort = $this->input->get('sort');
-        $postType = $this->input->get('type');
-        $pageSize = $this->input->get('pageSize');
-        $pageNumber = $this->input->get('pageNumber');
-        $currency = $this->input->get('currency');
-       
-
-
-        if ($currency != '') {
-        $currency = explode(',', $currency);
-        }
-
-        $limit = [
-            //             20 * 2 - 1
-            'start' => $pageSize*($pageNumber-1),
-            'offset' => $pageSize
-        ];
-
-
-        $currentMode = $this->getBaseMode();
-        //print_r($currentMode); exit();
-        $currentMode = !empty($currentMode) ? $currentMode : 'buy';
     
-        $auctions = $this->companyModel->getAuctionAlerts($this->sort[$sort-1],$currency,$postType,$limit,$this->loggedInUser['id']);
-
-        $auctionCount = $this->companyModel->getAuctionAlertsCount($currency,$postType,$limit,$this->loggedInUser['id']);
-        // echo "<pre>";
-        // print_r($auctions);
-        // echo "<pre>";
-        // print_r($auctionCount);
-        // die;
-
-        if (!empty($auctions) && (is_array($auctions) && count($auctions) > 0)) {
-
-
-            $this->data['user']['auctions'] = $auctions;
-            $this->data['user']['content_view'] = "$this->modulePath/auction_alert_v_filtered";
-
-            $this->response['data'] = $auctions;
-            $this->response['totalNumber'] = $auctionCount[0]['count'];
-            $this->response['status'] = TRUE;
-            $this->response['code'] = "100";
-            $this->response['title'] = "Successful";
-            $this->response['message'] = "Products Recieved";
-            $this->response['html'] = $this->load->view("$this->modulePath/auction_alert_v_filtered", $this->data['user'], TRUE);
-            echo json_encode($this->response);
-
-            // print_r($this->response);
-
-        } else {
-             $this->response['data'] = array();
-            // $this->response['totalNumber'] = '0';
-            // $this->response['status'] = FALSE;
-            // $this->response['code'] = "400";
-            // $this->response['title'] = "Faild";
-            // $this->response['message'] = "Products Unavailable";
-             $this->response['html'] = "<h4>No Auctions Alert Found</h4>";
-             echo json_encode($this->response);
-             
-
-            //echo "No Auctions Found";
-        }
-        //$this->template->setup_template($this->data['user']);
-    }
-
 }

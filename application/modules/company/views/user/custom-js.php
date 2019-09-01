@@ -638,3 +638,138 @@ $(document).ready(function(){
 
         });
 </script>
+<script type="text/javascript">
+    //adding form values
+    $( "#tax_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $loginForm = $("#tax_form");
+
+            data = $loginForm.serialize();
+                 
+            $.ajax({
+                url: $("#tax_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/tax_Settings";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/add_tax";
+                            },1500);
+                    }
+                }
+            });
+    });
+    $(document).ready(function() {
+        $(".deleteTax").click(function() {
+            var id = $(this).attr("data-id");
+           
+            $.ajax({
+                url: base_url+'company/delete_tax/?tax='+id,
+                type: "GET",
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/tax_Settings";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/tax_Settings";
+                            },1500);
+                    }
+                }
+            });
+        });
+
+    });
+    $( "#addUser_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $userForm = $("#addUser_form");
+
+            data = $userForm.serialize();
+            // console.log(data);
+            // return;     
+            $.ajax({
+                url: $("#addUser_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/user_managment";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/add_user";
+                            },1500);
+                    }
+                }
+            });
+    });
+    $(".updateUserRole").click(function() {
+            var id = $(this).attr("data-id");
+            var user_id = $(this).attr("data-user-id");
+           var roles_selected = [];
+            $.each($("input[name='role_"+id+"']:checked"), function(){            
+                roles_selected.push($(this).val());
+            });
+            $.ajax({
+                url: base_url+'company/updateUserRole/?user_id='+user_id+'&roles='+roles_selected,
+                type: "GET",
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/user_managment";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/user_managment";
+                            },1500);
+                    }
+                }
+            });
+        });
+    
+    
+</script>

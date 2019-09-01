@@ -64,6 +64,46 @@ class Home extends User_Controller
         }
 
         //$this->data['user']['auctions'] = $auctions;
+        //$this->data['user']['content_view'] = "$this->modulePath/show_v";
+        echo $this->load->view("$this->modulePath/biz_homepage", $this->data['user'], TRUE);
+        //$this->setupHeader1();
+        //$this->setupNav();
+        //$this->header_notification();
+        //$this->quick_menu();
+        //echo"<pre>"; print_r($this->data['user']);die;
+        //$this->template->setup_template_company($this->data['user']);
+    }
+    public function login()
+    {
+        $this->data['user']['base_resources_url'] = $this->config->item('base_resources_url')."images/auctions/";
+        $this->data['user']['base_resources_url_slider'] = $this->config->item('base_resources_url')."slider/";
+        $this->data['user']['base_resources_url_user'] = $this->config->item('base_resources_url') . "users/profile_picture/";
+        $this->data['user']['currentDate'] = $this->serverDateTime;
+        $this->data['user']['cookies'] = $this->input->cookie();
+
+        $currentMode = $this->getBaseMode();
+        $currentMode = !empty($currentMode) ? $currentMode : 'buy';
+
+        /*Reversing for getting other type of posts*/
+        $type = $currentMode == 'buy' ? 'sell' : 'buy';
+
+        $start = 0;
+        $end = 9;
+
+
+        $this->data['user']['paidAuctioneer'] = $this->merchants->userDetailsM->getPaidUsers();
+        $this->data['user']['foot']['total_products'] = $this->merchants->userDetailsM->getTotalProducts();
+        $this->data['user']['foot']['Individual'] = $this->merchants->userDetailsM->getIndividualMembers();
+        $this->data['user']['foot']['Business'] = $this->merchants->userDetailsM->getBusinessMembers();
+        $countAllAuctions = $this->auctions->countByTypeWithExpireValid($type);
+//        echo $countAllAuctions; die;
+
+        if ($countAllAuctions <= 10) {
+            $displayNone = 'display: none;';
+            $this->data['user']['displayNone'] = $displayNone;
+        }
+
+        //$this->data['user']['auctions'] = $auctions;
         $this->data['user']['content_view'] = "$this->modulePath/show_v";
 
         //$this->setupHeader1();

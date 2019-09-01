@@ -120,8 +120,9 @@ class Login extends MY_Base_Controller
                             'email' => $user[0]['email'],
                             'sess_logged_in'=>0,
                             'profile_image' => $user[0]['profile_picture'],
-                            'slug' => $user[0]['slug'],
-                            'is_company' => 1,
+                            'is_company' => $user[0]['is_company'],
+                            'is_admin' => $user[0]['is_admin'],
+                            'user_of_company' => $user[0]['user_of_company'],
                         ]
 
                     ];
