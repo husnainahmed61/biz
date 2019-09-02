@@ -14,13 +14,13 @@
                     <!-- FORM BOX ITEM -->
                     <div class="form-box-item">
                         <div class="">
-                            <form id="upload_form" class="row create-auction-form" method="POST" action="<?= base_url('auction/storeAuction')?>" enctype="multipart/form-data">
+                            <form id="pr_form" class="row create-auction-form" method="POST" action="<?= base_url('company/storePr')?>" enctype="multipart/form-data">
                                 <!-- INPUT CONTAINER -->
                                 
                                 <div class="input-container col-xs-12 col-md-6">
                                     <label for="category" class="rl-label required">Select Item </label>
                                     <label for="category" class="select-block">
-                                        <select data-live-search="true" id="input-category3" name="category_3" class="form-control">
+                                        <select data-live-search="true" id="input-items" name="items_list" class="form-control">
 
                                         </select>
                                         <!-- SVG ARROW -->
@@ -35,20 +35,20 @@
                                 <!-- INPUT CONTAINER -->
                                 <div class="input-container col-xs-12 col-md-6">
                                     <label for="item_name" class="rl-label required">Name of the Item (Max 40 Characters)</label>
-                                    <input type="text" id="input-title" placeholder="Item Title" name="title">
+                                    <input type="text" id="input-title" placeholder="Item Title" name="item_name">
                                 </div>
                                 <!-- /INPUT CONTAINER -->
 
                                 <!-- INPUT CONTAINER -->
                                 <div class="input-container col-xs-12">
                                     <label for="item_description" class="rl-label required">Item Description</label>
-                                    <textarea id="confirm_comment" name="description" placeholder="Enter item description here..."></textarea>
+                                    <textarea id="confirm_comment" name="item_description" placeholder="Enter item description here..."></textarea>
                                 </div>
                                 <!-- /INPUT CONTAINER -->
                                 <div class="input-container col-xs-12 radio-btn-cs">
                                     <label class="rl-label required">Condition</label>
                                     <!-- RADIO -->
-                                    <input type="radio" id="input-new" name="condition" value="new" checked>
+                                    <input type="radio" id="input-new" name="item_condition" value="new" checked>
                                     <label for="input-new">
                                         <span class="radio primary"><span></span></span>
                                         New
@@ -56,7 +56,7 @@
                                     <!-- /RADIO -->
 
                                     <!-- RADIO -->
-                                    <input type="radio" id="input-used" name="condition" value="used" >
+                                    <input type="radio" id="input-used" name="item_condition" value="used" >
                                     <label for="input-used">
                                         <span class="radio primary"><span></span></span>
                                         Used
@@ -86,7 +86,7 @@
                                 <!-- INPUT CONTAINER -->
                                 <div class="input-container col-xs-12 col-md-6">
                                     <label for="files_included" class="rl-label required">Quantity</label>
-                                    <input type="number" id="input-quantity" name="quantity" placeholder="Enter item quantity here..." required min="1" value="1">
+                                    <input type="number" id="input-quantity" name="item_quantity" placeholder="Enter item quantity here..." required min="1" value="1">
                                 </div>
                                 <!-- /INPUT CONTAINER -->
                               

@@ -6,7 +6,6 @@
  * Time: 12:44 AM
  */
 ?>
-
 <style type="text/css">
     .form-control {
         font-size: 12px;
@@ -68,43 +67,44 @@
         </div>
         <!-- /PURCHASES LIST HEADER -->
         <!-- PURCHASE ITEM -->
-        <?php foreach ($all_suppliers as $key => $value) { ?>
+        <?php $i=1;
+        foreach ($all_suppliers as $key => $value) { ?>
 
         
         <div class="purchase-item row">
            
             <div class="col-xs-1">
-                <p><?=$value['id']?></p>
+                <p><?=$i?></p>
             </div>
            
             <div class="col-xs-2 visible-lg">
-                <a href="#"><p class="category primary"><?=$value['category']?></p></a>
+                <a href="#"><p class="category primary"><?=$value['cat3name']?></p></a>
             </div>
              <div class="col-xs-2 visible-lg">
-                <a href="#"><p class="category primary"><?=$value['company_name']?></p></a>
+                <a href="#"><p class="category primary"><?=$value['supplier_company']?></p></a>
             </div>
 
             <div class="col-xs-2">
-                 <p><?=$value['contact_person']?></p>
+                 <p><?=$value['first_name']?></p>
             </div>
             <div class="col-xs-2">
-                 <p><?=$value['official_email']?></p>
+                 <p><?=$value['email']?></p>
             </div>
             <div class="col-xs-1">
-                 <p><?=$value['contact_number']?></p>
+                 <p><?=$value['phone']?></p>
             </div>
             
             <div class="recommendation-wrap bid_actions col-xs-2">
                    
                     <div class="recommendation-wrap">
-                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
+                    <a href="<?=base_url()?>company/add_supplier/?supplier=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
                 </div>
                 </div>
             
         </div>
-         <?php } ?>     
+         <?php $i++; } ?>     
         
         <!-- /PAGER -->
     </div>

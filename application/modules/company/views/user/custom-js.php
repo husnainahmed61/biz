@@ -107,6 +107,7 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
+        var $itemInput = $("select[name='items_list']");
         var $alertAddForm = $('#alert_add');
         var $cat3Select = $alertAddForm.find('select[name="category_3"]');
         var $showAttributesDiv = $('#post-attributes');
@@ -188,8 +189,12 @@
         });
 
         getCategories3();
+        getItems();
         function getCategories3() {
-
+            var selectedValue = $("#input-category3").attr("selected-value");
+            var selectedValueSupplier = $("#input-category3").attr("data-supplier-id");
+            // alert(selectedValueSupplier);
+            // return;
             //var seletedCat2 = $(this).val();
             // $postAttributes.empty();
             $cat3Input.empty();
@@ -205,8 +210,58 @@
                         /*console.log(i + ': ' + item.c3_id + ': ' + item.categories);*/
                     });
                     $cat3Input.select2({
-                        placeholder: "Please select category 1"
+                        placeholder: "Please select category"
                     });
+                    if(selectedValue !== null) {
+                        $cat3Input.val(selectedValue); // Select the option with a value of '1'
+                        $cat3Input.trigger('change');
+                    }
+                    if(selectedValueSupplier !== null) {
+                        $cat3Input.val(selectedValueSupplier); // Select the option with a value of '1'
+                        $cat3Input.trigger('change');
+                    }
+                     // Notify any JS components that the value changed
+                    //return;
+                    
+
+                },
+                error: function () {
+                    console.log("ajax failed");
+                },
+
+            });
+        }
+        function getItems() {
+            //var selectedValue = $("#input-category3").attr("selected-value");
+            //var selectedValueSupplier = $("#input-category3").attr("data-supplier-id");
+            // alert(selectedValueSupplier);
+            // return;
+            //var seletedCat2 = $(this).val();
+            // $postAttributes.empty();
+            $itemInput.empty();
+            $.ajax({
+                url: base_url + "company/getAllItems",
+                method: "GET",
+                dataType: "JSON",
+                success: function (response) {
+                    $itemInput.empty();
+                    $.each(response.data, function (i, item) {
+                        $itemInput.append('<option value="' + item.id + '">' + item.item_number+' - ' + item.item_name+'</option>');
+
+                        /*console.log(i + ': ' + item.c3_id + ': ' + item.categories);*/
+                    });
+                    $itemInput.select2({
+                        placeholder: "Please select Item"
+                    });
+
+                    // if(selectedValue !== null) {
+                    //     $itemInput.val(selectedValue); // Select the option with a value of '1'
+                    //     $itemInput.trigger('change');
+                    // }
+                    
+                     // Notify any JS components that the value changed
+                    //return;
+                    
 
                 },
                 error: function () {
@@ -566,8 +621,14 @@ $(document).ready(function(){
      $('input:checkbox').not(this).prop('checked', this.checked);
  });
 
+
  var loadCountries = function () {
+
             var $countryInput = $('select[name="country_id"]');
+            var country = $countryInput.attr("country-id");
+
+            // alert(country);
+            // return;
             $.ajax({
                 url: base_url + "register/getCountries",
                 method: "GET",
@@ -585,6 +646,10 @@ $(document).ready(function(){
                         placeholder: "Select a Country",
                         allowClear: true
                     });
+                    if(country !== null) {
+                        $countryInput.val(country); // Select the option with a value of '1'
+                        $countryInput.trigger('change');
+                    }
                     
                 },
 
@@ -595,6 +660,8 @@ $(document).ready(function(){
 
         $('select[name="country_id"]').on('change',function(){
             var $stateInput = $('select[name="state_id"]');
+            var state = $stateInput.attr("state-id");
+
             var seletedCountry = $(this).val();
            $.ajax({
                url: base_url + "register/getStates/"+seletedCountry,
@@ -611,12 +678,17 @@ $(document).ready(function(){
                        //console.log (i+ ': '+item.id+ ': '+item.name);
                    });
                    $stateInput.select2();
+                   if(state !== null) {
+                        $stateInput.val(state); // Select the option with a value of '1'
+                        $stateInput.trigger('change');
+                    }
                }
            });
         });
 
         $('select[name="state_id"]').on('change',function(){
             var $cityInput = $('select[name="city_id"]');
+            var city = $cityInput.attr("city-id");
             var seletedstate = $(this).val();
             $.ajax({
                 url: base_url + "register/getCities/"+seletedstate,
@@ -633,6 +705,10 @@ $(document).ready(function(){
                        // console.log (i+ ': '+item.id+ ': '+item.name);
                     });
                     $cityInput.select2();
+                    if(city !== null) {
+                        $cityInput.val(city); // Select the option with a value of '1'
+                        $cityInput.trigger('change');
+                    }
                 }
             });
 
@@ -770,6 +846,208 @@ $(document).ready(function(){
                 }
             });
         });
+    $( "#warehouse_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $loginForm = $("#warehouse_form");
+
+            data = $loginForm.serialize();
+                 
+            $.ajax({
+                url: $("#warehouse_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/location_managment";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/add_warehouse";
+                            },1500);
+                    }
+                }
+            });
+    });
+    $( "#item_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $loginForm = $("#item_form");
+
+            data = $loginForm.serialize();
+            // console.log(data);
+            // return;
+                 
+            $.ajax({
+                url: $("#item_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/inventory_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/add_inventory";
+                            },1500);
+                    }
+                }
+            });
+    });
+    $( "#supplier_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $loginForm = $("#supplier_form");
+
+            data = $loginForm.serialize();
+            // console.log(data);
+            // return;
+                 
+            $.ajax({
+                url: $("#supplier_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/supplier_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/add_supplier";
+                            },1500);
+                    }
+                }
+            });
+    });
+    $( "#pr_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $loginForm = $("#pr_form");
+
+            data = $loginForm.serialize();
+                 
+            $.ajax({
+                url: $("#pr_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/pr_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/create_pr";
+                            },1500);
+                    }
+                }
+            });
+    });
     
-    
+//approve - disapprove pr
+    $(".approvePr").click(function() {
+            var id = $(this).attr("data-id");
+            //var user_id = $(this).attr("data-user-id");
+           var qty = $(".Quantity_"+id+"").val();
+           var qty_unit = $(".qty_unit_"+id+"").find(":selected").val();
+           var condition = $(".condition_"+id+"").find(":selected").val();
+           // alert(condition);
+           // return;
+            $.ajax({
+                url: base_url+'company/updatePrStatus/?pr_id='+id+'&qty='+qty+'&qty_unit='+qty_unit+'&condition='+condition,
+                type: "GET",
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/pr_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/pr_list";
+                            },1500);
+                    }
+                }
+            });
+        });
+    $(".disApprovePr").click(function() {
+            var id = $(this).attr("data-id");
+            //var user_id = $(this).attr("data-user-id");
+           // var qty = $(".Quantity_"+id+"").val();
+           // var qty_unit = $(".qty_unit_"+id+"").find(":selected").val();
+           // var condition = $(".condition_"+id+"").find(":selected").val()
+           // alert(id);
+           // return;
+            $.ajax({
+                url: base_url+'company/updatePrStatusdisApprovePr/?pr_id='+id,
+                type: "GET",
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/pr_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/pr_list";
+                            },1500);
+                    }
+                }
+            });
+        });
+//end  
 </script>

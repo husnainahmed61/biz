@@ -47,68 +47,41 @@
             
         </div>
         <!-- /PURCHASES LIST HEADER -->
-        <!-- PURCHASE ITEM -->
-        <div class="purchase-item row">
-            <div class="purchase-item-date col-lg-1 col-xs-2">
-                <p>1</p>
-            </div>
-           
-            <div class="purchase-item-info col-xs-2 visible-lg">
-                <a href="#"><p class="category primary">Korangi Warehouse</p></a>
-
-                <!-- <p><span class="light">License:</span> Standard</p>
-                <p><span class="light">Author:</span> Odin_Design</p>
-                <p class="text-header tiny">Check Invoice</p> -->
-            </div>
-
-            <div class="purchase-item-download col-xs-6">
-                 <p>Plot S1, Sector 02 CP & Berar Society Rd No. 4, Mehran Town, Korangi Industrial Area, Karachi, Sindh</p>
-            </div>
-            
-            <div class="purchase-item-recommend col-xs-2">
-                <div class="recommendation-wrap">
-                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
-                        <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#recommendation-popup" class="recommendation bad hoverable open-recommendation-form">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </a>
+        <?php $i=1; 
+        foreach ($all_warehouses as $key => $value) { ?>
+            <!-- PURCHASE ITEM -->
+            <div class="purchase-item row">
+                <div class="purchase-item-date col-lg-1 col-xs-2">
+                    <p><?=$i?></p>
                 </div>
-            </div>
-            
-        </div>
-        <!-- /PURCHASE ITEM -->
-                <!-- PURCHASE ITEM -->
-        <div class="purchase-item row">
-            <div class="purchase-item-date col-lg-1 col-xs-2">
-                <p>2</p>
-            </div>
-           
-            <div class="purchase-item-info col-xs-2 visible-lg">
-                <a href="#"><p class="category primary">Headoffice</p></a>
+               
+                <div class="purchase-item-info col-xs-2 visible-lg">
+                    <a href="#"><p class="category primary"><?=$value['name']?></p></a>
 
-                <!-- <p><span class="light">License:</span> Standard</p>
-                <p><span class="light">Author:</span> Odin_Design</p>
-                <p class="text-header tiny">Check Invoice</p> -->
-            </div>
-
-            <div class="purchase-item-download col-xs-6">
-                 <p>3rd Floor, Dolmen Mall, Harbour Front, Sea View Rd, Block 4 Clifton, Karachi, Sindh</p>
-            </div>
-            
-            <div class="purchase-item-recommend col-md-2 col-xs-2">
-                <div class="recommendation-wrap">
-                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
-                        <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#recommendation-popup" class="recommendation bad hoverable open-recommendation-form">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </a>
+                    <!-- <p><span class="light">License:</span> Standard</p>
+                    <p><span class="light">Author:</span> Odin_Design</p>
+                    <p class="text-header tiny">Check Invoice</p> -->
                 </div>
+
+                <div class="purchase-item-download col-xs-6">
+                     <p><?=$value['address']?></p>
+                </div>
+                
+                <div class="purchase-item-recommend col-xs-2">
+                    <div class="recommendation-wrap">
+                        <a href="<?=base_url()?>company/add_warehouse/?warehouse=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        <!-- <a href="#" class="recommendation bad hoverable open-recommendation-form">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a> -->
+                    </div>
+                </div>
+                
             </div>
-            
-        </div>
-        <!-- /PURCHASE ITEM -->
+            <!-- /PURCHASE ITEM -->
+        <?php $i++; } ?>
+        
         
         <!-- /PAGER -->
     </div>

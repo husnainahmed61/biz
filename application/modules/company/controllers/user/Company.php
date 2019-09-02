@@ -272,6 +272,7 @@ class Company extends User_Controller
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
             
+            $this->data['user']['all_warehouses'] = $this->companyModel->get_all_warehouses($user['user_of_company']);
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/location_managment_v";
@@ -285,7 +286,11 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-
+            $warehouse_id = $this->input->get('warehouse');
+            
+            if (isset($warehouse_id) && !empty($warehouse_id)) {
+                 $this->data['user']['single_warehouses'] = $this->companyModel->get_warehouse($warehouse_id);
+             } 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/add_warehouse_v";
@@ -297,13 +302,52 @@ class Company extends User_Controller
     }
     public function store_warehouse($value='')
     {
-        
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $id = $this->input->post("id");
+            if (isset($id) && !empty($id) ){
+               $res = $this->companyModel->upadteWarehouse($_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Location updated Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Location Updation Failed";
+                }
+            }
+            else{
+                $res = $this->companyModel->storeWarehouse($user,$_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Location Added Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Location Adding Failed";
+                }
+            }
+           
+            echo json_encode($this->response);
+        }
     }
     public function add_inventory()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-
+            $item_id = $this->input->get('item');
+            
+            if (isset($item_id) && !empty($item_id)) {
+                 $this->data['user']['single_item'] = $this->companyModel->get_item($item_id);
+             } 
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -314,12 +358,51 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function storeInventory()
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $id = $this->input->post("id");
+            if (isset($id) && !empty($id) ){
+               $res = $this->companyModel->updateInventory($_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Item updated Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Item Updation Failed";
+                }
+            }
+            else{
+                $res = $this->companyModel->storeInventory($user,$_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Item Added Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Item Adding Failed";
+                }
+            }
+           
+            echo json_encode($this->response);
+        }
+    }
     public function inventory_list()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
             
-            $this->data['user']['all_items'] = $this->db->select("*")->from("ssx_dummy_items")->get()->result_array();
+            $this->data['user']['all_items'] = $this->companyModel->get_all_inventory($user['user_of_company']);
             
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -335,6 +418,12 @@ class Company extends User_Controller
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
 
+            $supplier_id = $this->input->get('supplier');
+            
+            if (isset($supplier_id) && !empty($supplier_id)) {
+                 $this->data['user']['single_supplier'] = $this->companyModel->get_supplier($supplier_id);
+             }
+
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/add_supplier_v";
@@ -344,13 +433,52 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function storeSupplier($value='')
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $id = $this->input->post("id");
+            if (isset($id) && !empty($id) ){
+               $res = $this->companyModel->updateSupplier($_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Supplier updated Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Supplier Updation Failed";
+                }
+            }
+            else{
+                $res = $this->companyModel->storeSupplier($user,$_POST);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Supplier Added Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Supplier Adding Failed";
+                }
+            }
+           
+            echo json_encode($this->response);
+        }
+    }
     public function supplier_list()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
             //echo "<pre>"; print_r($user);
 
-            $this->data['user']['all_suppliers'] = $this->db->select("*")->from("ssx_dummy_supplier")->get()->result_array();
+            $this->data['user']['all_suppliers'] = $this->companyModel->getAllSuppliers($user['user_of_company']);
            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -468,11 +596,50 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function storePr()
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $id = $this->input->post("id");
+            if (isset($id) && !empty($id)) {
+                 $res = $this->companyModel->updateUser($_POST);
+                if ($res == TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "User Updated Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "User Updation Failed";
+                }
+             }
+             else{
+                $res = $this->companyModel->storePr($user,$_POST);
+                if ($res == TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Pr Added Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Pr Adding Failed";
+                }
+             } 
+            echo json_encode($this->response);
+            
+        }
+    }
     public function pr_list()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            
+            $this->data['user']['all_prs'] = $this->companyModel->getAllPr($user['user_of_company']);
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/pr_list_v";
@@ -482,6 +649,54 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function updatePrStatus()
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $get = $this->input->get();
+            //$roles = $this->input->get("roles");
+            // print_r(explode(",",$roles));
+            // exit();
+            $res = $this->companyModel->updatePrStatus($get);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "PR Approved Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Approve Failed";
+                }
+            echo json_encode($this->response);
+        }
+    }
+    public function updatePrStatusdisApprovePr()
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $get = $this->input->get();
+            //$roles = $this->input->get("roles");
+            // print_r(explode(",",$roles));
+            // exit();
+            $res = $this->companyModel->updatePrStatusdisApprovePr($get);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "PR DisApproved Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "DisApprove Failed";
+                }
+            echo json_encode($this->response);
+        }
+    }
+
+
     public function rfq_list()
     {
         if ($this->check_user_authentication('', 'home')) {
@@ -539,6 +754,26 @@ class Company extends User_Controller
             $this->setupHeader1();
             $this->template->setup_private_template($this->data['user']);
         }
+    }
+    public function getAllItems($value='')
+    {
+        $user = $this->get_logged_in_user();
+        $Items = $this->companyModel->getAllItems($user['user_of_company']);
+        if(!empty($Items)){
+            $this->response['status'] = TRUE;
+            $this->response['data'] = $Items;
+            $this->response['code'] = "100";
+            $this->response['title'] = "Successful";
+            $this->response['message'] = "Categories Retrieved";
+        }else{
+            $this->response['status'] = TRUE;
+            $this->response['data'] = $Items;
+            $this->response['code'] = "500";
+            $this->response['title'] = "Failed";
+            $this->response['message'] = "Categories Not Retrieved";
+        }
+
+        echo json_encode($this->response);
     }
 
     

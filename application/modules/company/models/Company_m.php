@@ -178,7 +178,260 @@ class Company_m extends MY_Model
         $this->db->where('id', $post['id']);
         return $this->db->update('ssx_users', $data);
     }
+    public function storeWarehouse($userInfo='',$data='')
+    {
+        $data = array(
+            'company_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['id'],
+            'name' => $data['name'],
+            'address' => $data['address'],
 
+        );
+         return $this->db->insert('ssx_company_locations', $data);
+
+    }
+    public function get_all_warehouses($company_id='')
+    {
+        return $this->db->select("*")->from("ssx_company_locations")->where("company_id",$company_id)->get()->result_array();
+    }
+    public function get_warehouse($warehouse_id='')
+    {
+        return $this->db->select("*")->from("ssx_company_locations")->where("id",$warehouse_id)->get()->result_array();
+    }
+    public function upadteWarehouse($post='')
+    {
+        $data = array(
+        'name' => $post['name'],
+        'address' => $post['address']
+        );
+
+        $this->db->where('id', $post['id']);
+        return $this->db->update('ssx_company_locations', $data);
+    }
+    public function storeInventory($userInfo='',$data='')
+    {
+        $where = ['id' => $data['category_3']];
+        $category3 = $this->categories3->cat3Model->getAll('*',$where);
+        $category1_id = $category3[0]['category1_id'];
+        $category2_id = $category3[0]['category2_id'];
+        $category3_id = $category3[0]['id'];
+
+        $data = array(
+            'company_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['id'],
+            'item_name' => $data['title'],
+            'item_number' => $data['item_number'],
+            'item_desc' => $data['description'],
+            'qty_unit' => $data['quantity_unit'],
+            'cat1_id' => $category1_id,
+            'cat2_id' => $category2_id,
+            'cat3_id' => $category3_id,
+
+        );
+         return $this->db->insert('ssx_company_items', $data);
+
+    }
+    public function get_all_inventory($company_id='')
+    {
+        return $this->db->select("ssxci.*,ssxc3.name as cat_name")->from("ssx_company_items ssxci")->join("ssx_categories3 ssxc3","ssxc3.id=ssxci.cat3_id","Left" )->where("ssxci.company_id",$company_id)->get()->result_array();
+    }
+    public function get_item($item_id='')
+    {
+        return $this->db->select("*")->from("ssx_company_items")->where("id",$item_id)->get()->result_array();
+    }
+    public function updateInventory($post='')
+    {
+            $where = ['id' => $post['category_3']];
+            $category3 = $this->categories3->cat3Model->getAll('*',$where);
+            $category1_id = $category3[0]['category1_id'];
+            $category2_id = $category3[0]['category2_id'];
+            $category3_id = $category3[0]['id'];
+
+        $data = array(
+            'item_name' => $post['title'],
+            'item_number' => $post['item_number'],
+            'item_desc' => $post['description'],
+            'qty_unit' => $post['quantity_unit'],
+            'cat1_id' => $category1_id,
+            'cat2_id' => $category2_id,
+            'cat3_id' => $category3_id,
+        );
+
+        $this->db->where('id', $post['id']);
+        return $this->db->update('ssx_company_items', $data);
+    }
+    public function storeSupplier($userInfo='',$data='')
+    {
+        $checkSupplier = $this->db->select("*")->from("ssx_user_details")->where("email",$data['email'])->get()->result_array();
+        if (isset($checkSupplier[0]) && !empty($checkSupplier[0])) {
+            $checkFollowingTable = $this->db->select("*")->from("ssx_followers")->where("follower_id",$checkSupplier[0]['user_id'])->where("following_id",$userInfo['user_of_company'])->get()->num_rows();
+            if ($checkFollowingTable >= 1) {
+                return FAlSE;
+            }
+            else
+            {
+                $data3 = array(
+                    'follower_id' => $checkSupplier[0]['user_id'],
+                    'following_id' => $userInfo['user_of_company'],
+                );
+                $this->db->insert('ssx_followers', $data3);
+                
+
+                // the message
+                $msg = "Hello,\n you are Invited As Supplier from a company";
+
+                // use wordwrap() if lines are longer than 70 characters
+                $msg = wordwrap($msg,70);
+
+                // send email
+                return TRUE;
+                if(@mail($data['Email'],"Added As User",$msg))
+                    {
+                      return TRUE;
+                    }else{
+                      return FAlSE;
+                    }
+            }
+                
+        }
+        else{
+            $where = ['id' => $data['category_3']];
+
+            $category3 = $this->categories3->cat3Model->getAll('*',$where);
+            $category1_id = $category3[0]['category1_id'];
+            $category2_id = $category3[0]['category2_id'];
+            $category3_id = $category3[0]['id'];
+
+            $pass = $this->randomPassword();
+
+            $data1 = array(
+                'supplier_of_company' => $userInfo['user_of_company'],
+                'is_supplier' => 1,
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'phone' => $data['phone'],
+                'supplier_cat1' => $category1_id,
+                'supplier_cat2' => $category2_id,
+                'supplier_cat3' => $category3_id,
+                'supplier_company' => $data['company_name'],
+                'supplier_address' => $data['address'],
+                'country_id' => $data['country_id'],
+                'state_id' => $data['state_id'],
+                'city_id' => $data['city_id'],
+
+            );
+            $this->db->insert('ssx_users', $data1);
+
+            $insert_id = $this->db->insert_id();
+
+            $data2 = array(
+                'user_id' => $insert_id,
+                'email' => $data['email'],
+                'password_en' => $this->my_encrypt->encode($pass),
+                'account_status' => 'verified',
+            );
+            $this->db->insert('ssx_user_details', $data2);
+
+            $data3 = array(
+                'follower_id' => $insert_id,
+                'following_id' => $userInfo['user_of_company'],
+            );
+            $this->db->insert('ssx_followers', $data3);
+            
+
+            // the message
+            $msg = "Hello,\n you are Invited As Supplier To Bid\n email = ".$data['email']." password = ".$pass;
+
+            // use wordwrap() if lines are longer than 70 characters
+            $msg = wordwrap($msg,70);
+
+            // send email
+            return TRUE;
+            if(@mail($data['Email'],"Added As User",$msg))
+                {
+                  return TRUE;
+                }else{
+                  return FAlSE;
+                }
+        }
+
+        
+    }
+    public function updateSupplier($post='')
+    {
+            $where = ['id' => $post['category_3']];
+
+            $category3 = $this->categories3->cat3Model->getAll('*',$where);
+            $category1_id = $category3[0]['category1_id'];
+            $category2_id = $category3[0]['category2_id'];
+            $category3_id = $category3[0]['id'];
+
+        $data = array(
+            'first_name' => $post['first_name'],
+            'last_name' => $post['last_name'],
+            'phone' => $post['phone'],
+            'supplier_cat1' => $category1_id,
+            'supplier_cat2' => $category2_id,
+            'supplier_cat3' => $category3_id,
+            'supplier_company' => $post['company_name'],
+            'supplier_address' => $post['address'],
+            'country_id' => $post['country_id'],
+            'state_id' => $post['state_id'],
+            'city_id' => $post['city_id'],
+        );
+
+        $this->db->where('id', $post['id']);
+        return $this->db->update('ssx_users', $data);
+    }
+    public function getAllSuppliers($company_id='')
+    {
+        return $this->db->select("ssxu.*,ssxud.email,ssxc3.name as cat3name")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxu.id=ssxud.user_id","Left")->join("ssx_categories3 ssxc3","ssxu.supplier_cat3=ssxc3.id","Left")->where("ssxu.supplier_of_company",$company_id)->get()->result_array();
+    }
+    public function get_supplier($supplier_id='')
+    {
+        return $this->db->select("ssxu.*,ssxud.email")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxu.id=ssxud.user_id","Left")->where("ssxu.id",$supplier_id)->get()->result_array();
+    }
+    public function storePr($userInfo='',$data='')
+    {
+        $data = array(
+            'company_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['id'],
+            'item_id' => $data['items_list'],
+            'name' => $data['item_name'],
+            'description' => $data['item_description'],
+            'item_condition' => $data['item_condition'],
+            'quantity_unit' => $data['quantity_unit'],
+            'quantity' => $data['item_quantity'],
+
+        );
+        return $this->db->insert('ssx_company_pr', $data);
+    }
+    public function getAllPr($company_id='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$company_id)->where("ssxcp.status ",NULL)->or_where("ssxcp.status",0)->get()->result_array();
+        
+    }
+    public function updatePrStatus($get='')
+    {
+        $data = array(
+            'status' => 1,
+            'item_condition' => $get['condition'],
+            'quantity_unit' => $get['qty_unit'],
+            'quantity' => $get['qty'],
+        );
+
+        $this->db->where('id', $get['pr_id']);
+        return $this->db->update('ssx_company_pr', $data);
+    }
+    public function updatePrStatusdisApprovePr($get='')
+    {
+        $data = array(
+            'status' => 0,
+        );
+
+        $this->db->where('id', $get['pr_id']);
+        return $this->db->update('ssx_company_pr', $data);
+    }
 
     public function randomPassword()
     {
@@ -190,6 +443,10 @@ class Company_m extends MY_Model
             $pass[] = $alphabet[$n];
         }
         return implode($pass); //turn the array into a string
+    }
+    public function getAllItems($company_id='')
+    {
+        return $this->db->select("*")->from("ssx_company_items")->where("company_id",$company_id)->get()->result_array();    
     }
 
 }

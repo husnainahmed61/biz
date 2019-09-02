@@ -65,7 +65,8 @@
         </div>
         <!-- /PURCHASES LIST HEADER -->
         <!-- PURCHASE ITEM -->
-        <?php foreach ($all_items as $key => $value) { ?>
+        <?php $i=1;
+        foreach ($all_items as $key => $value) { ?>
 
         
         <div class="purchase-item row">
@@ -75,7 +76,7 @@
             </div>
            
             <div class="col-xs-3 visible-lg">
-                <a href="#"><p class="category primary"><?=$value['category']?></p></a>
+                <a href="#"><p class="category primary"><?=$value['cat_name']?></p></a>
             </div>
              <div class="col-xs-2 visible-lg">
                 <a href="#"><p class="category primary"><?=$value['item_number']?></p></a>
@@ -85,22 +86,20 @@
                  <p><?=$value['item_desc']?></p>
             </div>
             <div class="col-xs-1">
-                 <p><?=$value['quantity_unit']?></p>
+                 <p><?=$value['qty_unit']?></p>
             </div>
             
             <div class="recommendation-wrap bid_actions col-xs-2">
                   <div class="recommendation-wrap">
-                    <a href="#recommendation-popup" class="recommendation good hoverable open-recommendation-form">
+                    <a href="<?=base_url()?>company/add_inventory/?item=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
                         <span class="glyphicon glyphicon-edit"></span>
-                    </a>
-                    <a href="#recommendation-popup" class="recommendation bad hoverable open-recommendation-form">
-                        <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </div>
                 </div>
             
         </div>
-         <?php } ?>     
+         <?php $i++;
+     } ?>     
         
         <!-- /PAGER -->
     </div>
