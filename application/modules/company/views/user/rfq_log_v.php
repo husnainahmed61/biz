@@ -5,6 +5,9 @@
  * Date: 11/27/2018
  * Time: 12:44 AM
  */
+//echo "<pre>";
+print_r($approved_rfq);
+
 ?>
 
 
@@ -35,7 +38,7 @@
                 <p class="text-header small">Additional Info</p>
             </div>
             <div class="col-xs-2">
-                <p class="text-header small text-center">Price</p>
+                <p class="text-header small text-center">Lowest Bid</p>
             </div>
             <div class="col-xs-2">
                 <p class="text-header small text-center">Bid Details</p>
@@ -47,7 +50,8 @@
                 <p class="text-header small text-center">Ad Settings</p>
             </div>
         </div>
-        <!-- /PURCHASES LIST HEADER --> 
+        <!-- /PURCHASES LIST HEADER -->
+        <?php foreach ($approved_rfq as $key => $value) {?> 
         <!-- PURCHASE ITEM -->
 <div class="purchase-item row">
     <div class="purchase-item-date col-lg-1 col-xs-2">
@@ -59,34 +63,34 @@
             <!-- <figure class="product-preview-image small liquid">
                 <img src="<?= $resources_path."images/auctions/".$buyingAuction[$image] ?>" alt="product-image">
             </figure> -->
-            <a href=""><p class="text-header">47515-KODIF</p></a>
-            <p class="description">Nut Bolt 4.3mm</p>
+            <a href=""><p class="text-header"><?=$value['item_number']?></p></a>
+            <p class="description"><?=$value['item_name']?></p>
         </div>
         <!-- /ITEM PREVIEW -->
     </div>
     <div class="purchase-item-info col-xs-2 visible-lg">
-        <a href=""><p class="category primary">Auto mobile Parts</p></a>
+        <a href=""><p class="category primary"><?=$value['cat3name']?></p></a>
     <div class="metadata">
             <!-- META ITEM -->
             <div class="meta-item" data-toggle="tooltip" data-placement="left" title="Total Bids">
                 <span class="icon-eye"></span>
-                <p>05</p>
+                <p><?=$value['bid_count']?></p>
             </div>
             <!-- /META ITEM -->
 
             <!-- META ITEM -->
             <div class="meta-item" data-toggle="tooltip" data-placement="right" title="favourites">
                 <span class="icon-heart"></span>
-                <p>10</p>
+                <p><?=$value['favourite_count']?></p>
             </div>
             <!-- /META ITEM -->
         </div>
     </div>
     <div class="purchase-item-price col-xs-2 visible-lg visible-md">
-            <p class="price"><span>PKR </span>1000</p>
+            <p class="price"><span><?=$value['currency_name']?>  </span><?=$value['lowest_bid']?></p>
     </div>
     <div class="purchase-item-download col-md-2 col-xs-2">
-        <a href="<?=base_url();?>bids/biddetail/?auction=1" class="button dark-light">Bid Detail</a>
+        <a href="<?=base_url();?>bids/biddetail/?auction=<?php echo $this->my_encrypt->encode($value['rfq_id']); ?>" class="button dark-light">Bids Detail</a>
     </div>
     <div class="purchase-item-download col-md-2 col-xs-1 text-center">
         <p>Active</p>
@@ -125,311 +129,7 @@
         </div>
     </div>
 </div>
-<div class="purchase-item row">
-    <div class="purchase-item-date col-lg-1 col-xs-2">
-        <p>2nd sep,2019</p>
-    </div>
-    <div class="purchase-item-details col-lg-3 col-xs-3">
-        <!-- ITEM PREVIEW -->
-        <div class="item-preview">
-            <!-- <figure class="product-preview-image small liquid">
-                <img src="<?= $resources_path."images/auctions/".$buyingAuction[$image] ?>" alt="product-image">
-            </figure> -->
-            <a href=""><p class="text-header">47532-PLFDD</p></a>
-            <p class="description">Shoes 7"</p>
-        </div>
-        <!-- /ITEM PREVIEW -->
-    </div>
-    <div class="purchase-item-info col-xs-2 visible-lg">
-        <a href=""><p class="category primary">Plumbing Tools</p></a>
-    <div class="metadata">
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="left" title="Total Bids">
-                <span class="icon-eye"></span>
-                <p>15</p>
-            </div>
-            <!-- /META ITEM -->
-
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="right" title="favourites">
-                <span class="icon-heart"></span>
-                <p>3</p>
-            </div>
-            <!-- /META ITEM -->
-        </div>
-    </div>
-    <div class="purchase-item-price col-xs-2 visible-lg visible-md">
-            <p class="price"><span>PKR </span>900</p>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-2">
-        <a href="<?=base_url();?>bids/biddetail/?auction=2" class="button dark-light">Bid Detail</a>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-1 text-center">
-        <p>Active</p>
-  
-    </div>
-    <div class="purchase-item-recommend col-xs-1">
-        <div class="recommendation-wrap">
-            <div class="dropdown-wrpapper-cs">
-            <!-- PRODUCT SETTINGS -->
-                <div class="product-settings dropdown-popup-btn">
-                    <span class="sl-icon icon-settings"></span>
-
-                </div>
-                <!-- /PRODUCT SETTINGS -->
-                     <!-- DROPDOWN -->
-                <ul class="dropdown small hover-effect closed dropdown-popup-cs">
-                    <li class="dropdown-item">
-                        <!-- DP TRIANGLE -->
-                        <div class="dp-triangle"></div>
-                        <!-- DP TRIANGLE -->
-                        <a class="edit-auction" data-has_bids="" href="<?=base_url()?>auctions/edit/">Edit Item</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Duplicate</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Share</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="javascript:delete_auction();">Delete</a>
-                    </li>
-                </ul>
-                <!-- /DROPDOWN -->
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="purchase-item row">
-    <div class="purchase-item-date col-lg-1 col-xs-2">
-        <p>1st dec,2019</p>
-    </div>
-    <div class="purchase-item-details col-lg-3 col-xs-3">
-        <!-- ITEM PREVIEW -->
-        <div class="item-preview">
-            <!-- <figure class="product-preview-image small liquid">
-                <img src="<?= $resources_path."images/auctions/".$buyingAuction[$image] ?>" alt="product-image">
-            </figure> -->
-            <a href=""><p class="text-header">47549-QWEQE</p></a>
-            <p class="description">CNC machining parts</p>
-        </div>
-        <!-- /ITEM PREVIEW -->
-    </div>
-    <div class="purchase-item-info col-xs-2 visible-lg">
-        <a href=""><p class="category primary">Woodwork Tools</p></a>
-    <div class="metadata">
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="left" title="Total Bids">
-                <span class="icon-eye"></span>
-                <p>12</p>
-            </div>
-            <!-- /META ITEM -->
-
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="right" title="favourites">
-                <span class="icon-heart"></span>
-                <p>14</p>
-            </div>
-            <!-- /META ITEM -->
-        </div>
-    </div>
-    <div class="purchase-item-price col-xs-2 visible-lg visible-md">
-            <p class="price"><span>PKR </span>6000</p>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-2">
-        <a href="<?=base_url();?>bids/biddetail/?auction=3" class="button dark-light">Bid Detail</a>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-1 text-center">
-        <p>Active</p>
-  
-    </div>
-    <div class="purchase-item-recommend col-xs-1">
-        <div class="recommendation-wrap">
-            <div class="dropdown-wrpapper-cs">
-            <!-- PRODUCT SETTINGS -->
-                <div class="product-settings dropdown-popup-btn">
-                    <span class="sl-icon icon-settings"></span>
-
-                </div>
-                <!-- /PRODUCT SETTINGS -->
-                     <!-- DROPDOWN -->
-                <ul class="dropdown small hover-effect closed dropdown-popup-cs">
-                    <li class="dropdown-item">
-                        <!-- DP TRIANGLE -->
-                        <div class="dp-triangle"></div>
-                        <!-- DP TRIANGLE -->
-                        <a class="edit-auction" data-has_bids="" href="<?=base_url()?>auctions/edit/">Edit Item</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Duplicate</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Share</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="javascript:delete_auction();">Delete</a>
-                    </li>
-                </ul>
-                <!-- /DROPDOWN -->
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="purchase-item row">
-    <div class="purchase-item-date col-lg-1 col-xs-2">
-        <p>5th sep,2019</p>
-    </div>
-    <div class="purchase-item-details col-lg-3 col-xs-3">
-        <!-- ITEM PREVIEW -->
-        <div class="item-preview">
-            <!-- <figure class="product-preview-image small liquid">
-                <img src="<?= $resources_path."images/auctions/".$buyingAuction[$image] ?>" alt="product-image">
-            </figure> -->
-            <a href=""><p class="text-header">47566-TRRGR</p></a>
-            <p class="description">knuckles</p>
-        </div>
-        <!-- /ITEM PREVIEW -->
-    </div>
-    <div class="purchase-item-info col-xs-2 visible-lg">
-        <a href=""><p class="category primary">Electrical Equipments</p></a>
-    <div class="metadata">
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="left" title="Total Bids">
-                <span class="icon-eye"></span>
-                <p>55</p>
-            </div>
-            <!-- /META ITEM -->
-
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="right" title="favourites">
-                <span class="icon-heart"></span>
-                <p>03</p>
-            </div>
-            <!-- /META ITEM -->
-        </div>
-    </div>
-    <div class="purchase-item-price col-xs-2 visible-lg visible-md">
-            <p class="price"><span>PKR </span>500</p>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-2">
-        <a href="<?=base_url();?>bids/biddetail/?auction=4" class="button dark-light">Bid Detail</a>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-1 text-center">
-        <p>Active</p>
-  
-    </div>
-    <div class="purchase-item-recommend col-xs-1">
-        <div class="recommendation-wrap">
-            <div class="dropdown-wrpapper-cs">
-            <!-- PRODUCT SETTINGS -->
-                <div class="product-settings dropdown-popup-btn">
-                    <span class="sl-icon icon-settings"></span>
-
-                </div>
-                <!-- /PRODUCT SETTINGS -->
-                     <!-- DROPDOWN -->
-                <ul class="dropdown small hover-effect closed dropdown-popup-cs">
-                    <li class="dropdown-item">
-                        <!-- DP TRIANGLE -->
-                        <div class="dp-triangle"></div>
-                        <!-- DP TRIANGLE -->
-                        <a class="edit-auction" data-has_bids="" href="<?=base_url()?>auctions/edit/">Edit Item</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Duplicate</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Share</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="javascript:delete_auction();">Delete</a>
-                    </li>
-                </ul>
-                <!-- /DROPDOWN -->
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="purchase-item row">
-    <div class="purchase-item-date col-lg-1 col-xs-2">
-        <p>15th sep,2019</p>
-    </div>
-    <div class="purchase-item-details col-lg-3 col-xs-3">
-        <!-- ITEM PREVIEW -->
-        <div class="item-preview">
-            <!-- <figure class="product-preview-image small liquid">
-                <img src="<?= $resources_path."images/auctions/".$buyingAuction[$image] ?>" alt="product-image">
-            </figure> -->
-            <a href=""><p class="text-header">47583-IUIYY</p></a>
-            <p class="description">Lubricant</p>
-        </div>
-        <!-- /ITEM PREVIEW -->
-    </div>
-    <div class="purchase-item-info col-xs-2 visible-lg">
-        <a href=""><p class="category primary">Plumbing</p></a>
-    <div class="metadata">
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="left" title="Total Bids">
-                <span class="icon-eye"></span>
-                <p>35</p>
-            </div>
-            <!-- /META ITEM -->
-
-            <!-- META ITEM -->
-            <div class="meta-item" data-toggle="tooltip" data-placement="right" title="favourites">
-                <span class="icon-heart"></span>
-                <p>03</p>
-            </div>
-            <!-- /META ITEM -->
-        </div>
-    </div>
-    <div class="purchase-item-price col-xs-2 visible-lg visible-md">
-            <p class="price"><span>USD </span>1000</p>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-2">
-        <a href="<?=base_url();?>bids/biddetail/?auction=5" class="button dark-light">Bid Detail</a>
-    </div>
-    <div class="purchase-item-download col-md-2 col-xs-1 text-center">
-        <p>Active</p>
-  
-    </div>
-    <div class="purchase-item-recommend col-xs-1">
-        <div class="recommendation-wrap">
-            <div class="dropdown-wrpapper-cs">
-            <!-- PRODUCT SETTINGS -->
-                <div class="product-settings dropdown-popup-btn">
-                    <span class="sl-icon icon-settings"></span>
-
-                </div>
-                <!-- /PRODUCT SETTINGS -->
-                     <!-- DROPDOWN -->
-                <ul class="dropdown small hover-effect closed dropdown-popup-cs">
-                    <li class="dropdown-item">
-                        <!-- DP TRIANGLE -->
-                        <div class="dp-triangle"></div>
-                        <!-- DP TRIANGLE -->
-                        <a class="edit-auction" data-has_bids="" href="<?=base_url()?>auctions/edit/">Edit Item</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Duplicate</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="#">Share</a>
-                    </li>
-                    <li class="dropdown-item">
-                        <a href="javascript:delete_auction();">Delete</a>
-                    </li>
-                </ul>
-                <!-- /DROPDOWN -->
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- /PURCHASE ITEM -->
+    <?php } ?>
         
         
         

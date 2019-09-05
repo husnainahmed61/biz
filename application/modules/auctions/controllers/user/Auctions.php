@@ -990,7 +990,7 @@ class Auctions extends User_Controller
         return $this->auctionsModel->fields('id')->order_by('id', 'DESC')->get();
     }
 
-    private function createPostSlug($title)
+    public function createPostSlug($title)
     {
         $this->slugConfig = array('table' => $this->auctionsModel->table, 'id' => 'id', 'field' => 'slug', 'title' => 'name', 'replacement' => 'dash' // Either dash or underscore
         );

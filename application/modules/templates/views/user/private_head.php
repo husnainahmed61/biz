@@ -40,6 +40,7 @@ if (!empty($fbShare)) {
 <link rel="stylesheet" href="<?= base_url(); ?>assets_u/vendors/bootstrap-select-1.13.7/css/bootstrap-select.min.css">
 
 <link rel="stylesheet" href="<?= base_url(); ?>assets_u/vendors/select2/select2.css">
+<link rel="stylesheet" href="<?= base_url(); ?>assets_u/vendors/DataTables/jquery.dataTables.min.css">
 
 <!-- updated erald css -->
 

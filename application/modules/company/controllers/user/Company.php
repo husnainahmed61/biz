@@ -528,19 +528,29 @@ class Company extends User_Controller
                 }
              }
              else{
-                $res = $this->companyModel->storeUser($user,$_POST);
-                if ($res == TRUE) {
-                    $this->response['status'] = TRUE;
-                    $this->response['type'] = 'Successful';
-                    $this->response['title'] = "Successful";
-                    $this->response['message'] = "User Added Successfully";
-                }
-                else{
+                $checkUser = $this->companyModel->checkUser($_POST);
+                if ($checkUser >= 1) {
                     $this->response['status'] = FALSE;
                     $this->response['type'] = "Failed";
                     $this->response['title'] = "Failed";
-                    $this->response['message'] = "User Adding Failed";
+                    $this->response['message'] = "Email Already in use";
                 }
+                else{
+                    $res = $this->companyModel->storeUser($user,$_POST);
+                    if ($res == TRUE) {
+                        $this->response['status'] = TRUE;
+                        $this->response['type'] = 'Successful';
+                        $this->response['title'] = "Successful";
+                        $this->response['message'] = "User Added Successfully";
+                    }
+                    else{
+                        $this->response['status'] = FALSE;
+                        $this->response['type'] = "Failed";
+                        $this->response['title'] = "Failed";
+                        $this->response['message'] = "User Adding Failed";
+                    }
+                }
+                
              } 
             echo json_encode($this->response);
             
@@ -701,7 +711,8 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            
+            $this->data['user']['company_settings'] = $this->companyModel->getcompanysettings($user['user_of_company']);
+            $this->data['user']['all_rfq'] = $this->companyModel->getAllRfq($user['user_of_company']);
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/rfq_list_v";
@@ -711,11 +722,259 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function get_rfq_suppliers($value='')
+    {
+        $item = $this->input->get('item_id');
+        $pr_id = $this->input->get('pr_id');
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $this->data['user']['rfq_item_suppliers'] = $this->companyModel->get_rfq_suppliers($user['user_of_company'],$item);
+            $this->data['user']['pr_id'] = $pr_id;
+
+            $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
+            $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
+            //$this->data['user']['content_view'] = "$this->modulePath/get_suggested_supplier";
+            //print_r($this->data['user']['rfq_item_suppliers']);
+             //$this->setupNav();
+             //$this->setupHeader1();
+             //$this->template->setup_private_template($this->data['user']);
+            echo $this->load->view("$this->modulePath/get_suggested_supplier", $this->data['user'], TRUE);
+        }
+    }
+    public function storeSuggestedSuppliers()
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $res = $this->companyModel->storeSuggestedSuppliers($user,$_POST);
+                if ($res == TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Supplier Saved Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Supplier Saving Failed";
+                }
+            echo json_encode($this->response);    
+        }
+        
+    }
+    public function storeItemSpec($value='')
+    {
+        // print_r($_POST);
+        // exit();
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $res = $this->companyModel->storeItemSpec($user,$_POST);
+                if ($res == TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Item Specfications Saved Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Item Specfications Saving Failed";
+                }
+            echo json_encode($this->response);    
+        }
+    }
+    public function storerfqEmail($value='')
+    {
+        // print_r($_POST);
+        // exit();
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            $res = $this->companyModel->storerfqEmail($user,$_POST);
+                if ($res == TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "Email Body Saved Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "mail Body Saving Failed";
+                }
+            echo json_encode($this->response);    
+        }
+    }
+    public function storerfq($value='')
+    {
+        
+        $newfilename = '';
+        $newfilename2 = '';
+        $user = $this->get_logged_in_user();
+        $pr_id = $this->input->post('pr_id');
+        $pr_Details = $this->companyModel->getPrDetails($pr_id);
+        // print_r($this->serverDateTime);
+        // exit;
+
+        $lastId = $this->auctions->auctionsModel->fields('id')->order_by('id', 'DESC')->get();
+        $lastId = $lastId['id'];
+        $codeLetter = '';
+        $startPoint = '000000';
+        $endPoint = $lastId + 1;
+        $startPointLength = strlen($startPoint);
+        $endPointLength = strlen($endPoint);
+        $code = '';
+        for ($i = $endPointLength; $i < $startPointLength; $i++):
+            $code .= '0';
+        endfor;
+        $code .= $endPoint;
+        $code =  'B-' . $code;
+
+            if(isset($_FILES["image0"]["name"]) && !empty($_FILES["image0"]["name"])){
+            $temp = explode(".", $_FILES["image0"]["name"]);
+            $newfilename = round(microtime(true)) . '.' . end($temp);
+
+            $absPath = $this->config->item('resources_abs_path');
+            $absPath = $absPath . "images/auctions/";
+
+            $target_dir = $absPath;
+            $target_file = $target_dir . $newfilename;
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            
+           
+                if (move_uploaded_file($_FILES["image0"]["tmp_name"], $target_file)) {
+                    //echo "The file ". $newfilename ." has been uploaded.";
+                    $newfilename = $newfilename;
+
+                }
+                else{
+                    $newfilename = '';
+                } 
+            
+            }
+            if(isset($_FILES["file1"]["name"]) && !empty($_FILES["file1"]["name"])){
+                $temp = explode(".", $_FILES["file1"]["name"]);
+                $newfilename2 =  round(microtime(true)).'-'.round(microtime(true)) . '.' . end($temp);
+
+                $absPath = $this->config->item('resources_abs_path');
+                $absPath = $absPath . "images/auctions/";
+
+                $target_dir = $absPath;
+                $target_file = $target_dir . $newfilename2;
+                $uploadOk = 1;
+                $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                
+               
+                    if (move_uploaded_file($_FILES["file1"]["tmp_name"], $target_file)) {
+                        $newfilename2 = $newfilename2;
+
+                    }
+                    else{
+                        $newfilename2 = '';
+                    } 
+                
+                }
+            $rfq_data = array(
+            'type' => 'buy',
+            'name' => $pr_Details[0]['name'],
+            'slug' => $this->auctions->createPostSlug($pr_Details[0]['name']),
+            'code' => $code,
+            'description' => $pr_Details[0]['description'],
+            'ad_viewer' => $this->input->post('optradio1'),
+            'condition' => $pr_Details[0]['item_condition'],
+            'display_image' => 1,
+            'starts_at' => $this->serverDateTime,
+            'expires_at' => $this->input->post('expiry_date'),
+            'amount' => 0,
+            'currency' => $this->input->post('currency'),
+            'start_price' => 0,
+            'end_price' => 0,
+            'current_price' => 0,
+            'bid_type' => "free",
+            'qty_unit' => $pr_Details[0]['description'],
+            'qty' => $pr_Details[0]['description'],
+            'bidder_type' => "all",
+            'user_id' => $user['user_of_company'],
+            'company_auction' => 1,
+            'category1_id' => $pr_Details[0]['cat1_id'],
+            'category2_id' => $pr_Details[0]['cat2_id'],
+            'category3_id' => $pr_Details[0]['cat3_id'],
+            'document_attached' => $newfilename2,
+            'image_sm_1' => $newfilename,
+        );
+
+        $rfq_added = $this->db->insert("ssx_auctions",$rfq_data);
+        $rfq_id = $this->db->insert_id();
+        if (isset($rfq_id) && !empty($rfq_id)) {
+            //updating specification table to approvesd
+            $data1 = array(
+            'rfq_id' => $rfq_id,
+            );
+            $this->db->where('pr_id', $this->input->post('pr_id'));
+            $this->db->update('ssx_rfq_specfications', $data1);
+            //updating pr id to approved rfq
+            $data2 = array(
+            'is_rfq_approved' => 1,
+            );
+            $this->db->where('id', $this->input->post('pr_id'));
+            $this->db->update('ssx_company_pr', $data2);
+            //adding company rfq record
+            $data3 = array(
+            'company_id' => $user['user_of_company'],
+            'user_id' => $user['id'],
+            'rfq_id' => $rfq_id,
+            'pr_id' => $this->input->post('pr_id'),
+            );
+            $this->db->insert('ssx_company_rfqs', $data3);
+            //inserting data to followers and gettign data rfq suppliers
+            if ($this->input->post('optradio1') == "followers") {
+                $supliers = $this->db->select("supplier_id")->from("ssx_rfq_suppliers")->where("pr_id",$this->input->post('pr_id'))->get()->result_array();
+                foreach ($supliers as $key => $value) {
+                    $data4 = array(
+                        'auction_id' => $rfq_id,
+                        'follower_id' => $value['supplier_id']
+                    );
+                    $this->db->insert("ssx_auction_for_followers",$data4);
+                }
+            }
+            
+
+
+        }
+            if ( $rfq_added === TRUE) {
+                    // $to = "no-reply@vayzn.com"; //"husnainahmed61@gmail.com";
+                    // $subject = "You Have Invited to bid";
+                    // $txt = "Data" . implode("------",$_POST);
+                    // $txt .= "image" . $newfilename;
+
+                    // $headers = "From: SideModal@vayzn.com" . "\r\n";
+
+                    //mail($to,$subject,$txt,$headers);
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "RfQ Added Successfully";
+                    echo json_encode($this->response);
+                    exit();
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "RFQ Adding Failed";
+                    echo json_encode($this->response);
+                    exit();
+                }
+        
+    }
+
     public function rfq_log()
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            
+            $this->data['user']['approved_rfq'] = $this->companyModel->approved_rfq($user['user_of_company']);
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/rfq_log_v";

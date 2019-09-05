@@ -5,6 +5,8 @@
  * Date: 11/27/2018
  * Time: 12:44 AM
  */
+// echo "<pre>";
+// print_r($all_suppliers);
 ?>
 <style type="text/css">
     .form-control {

@@ -7,10 +7,135 @@
  */
 ?>
 <script type='text/javascript'>
-    <?php echo $this->session->flashdata('message_name');
-    //print_r($rrr);
-    //exit();
-    ?>
+    var dataURL;
+    var dataID;
+    $(document).ready(function(){
+
+    $('.openPopup').on('click',function(){
+        dataURL = $(this).attr('data-href');
+        // alert(dataURL);
+        // return;
+        
+        $('#modal-body').load(dataURL,function(){
+            $('#myModal').modal({
+                show:true
+            });
+        });
+    });
+    $('.specPop').on('click',function(){
+        dataID = $(this).attr('data-id');
+        $('.pr_id_dynamic').val(dataID); 
+        // alert(dataID);
+        // return;
+        
+        $('#myModalNorm').modal('show');
+    }); 
+    $('.emailPop').on('click',function(){
+        dataID = $(this).attr('data-id');
+        $('.pr_id_dynamic').val(dataID); 
+        // alert(dataID);
+        // return;
+        
+        $('#emailPop').modal('show');
+    }); 
+
+    $( "#suggested_supplier_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $userForm = $("#suggested_supplier_form");
+
+            data = $userForm.serialize();
+            // console.log(data);
+            // return;     
+            $.ajax({
+                url: $("#suggested_supplier_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        alert(message);
+                        //showstatusMessage('messageSuccess',response.title, message , 4000);
+                           $("#myModal .close").click()
+                    } else if (response.status === false) {
+                        alert(message);
+                        //showstatusMessage('messageError', response.title, message, 3000);
+                        
+                    }
+                }
+            });
+    });
+    $( "#item_spec_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $userForm = $("#item_spec_form");
+
+            data = $userForm.serialize();
+            // console.log(data);
+            // return;     
+            $.ajax({
+                url: $("#item_spec_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        //alert(message);
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                           $("#myModalNorm .close").click()
+                    } else if (response.status === false) {
+                        //alert(message);
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        
+                    }
+                }
+            });
+    });
+    $( "#rfq_email_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $userForm = $("#rfq_email_form");
+
+            data = $userForm.serialize();
+            // console.log(data);
+            // return;     
+            $.ajax({
+                url: $("#rfq_email_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        //alert(message);
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                           $("#emailPop .close").click()
+                    } else if (response.status === false) {
+                        //alert(message);
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        
+                    }
+                }
+            });
+    });
+  });  
 </script>
 <script type="text/javascript">
  $(document).ready(function () {
@@ -349,6 +474,31 @@
     });
 </script>
 <script type="text/javascript">
+ $(document).ready(function() {
+  $.uploadPreview({
+    input_field: "#image-upload1",
+    preview_box: "#image-preview1",
+    label_field: "#image-label1"
+  });
+});
+
+ // $('.btn-delete').on('click',function(e){
+ //        e.preventDefault();
+ //        //imageID = $(this).closest('.image')[0].id;
+ //         alert('Now deleting '); //css("background-image", "none");
+        
+ //    });
+ $(document.body).on('click', '.btn-delete' ,function(){
+var parent_id = ($(this).parent().attr('id'));
+$('#'+parent_id).css("background-image", "none");
+//$('.btn-delete').remove();
+$(this).remove();
+ });
+//  $('.btn-delete').on('click',function(){
+    
+// })
+</script>
+<script type="text/javascript">
     //upload & crop image
     $image_crop = $('#image_demo').croppie({
         enableExif : true,
@@ -508,42 +658,7 @@ $(document).ready(function () {
             //$('#exampleModalCenter').modal('show'); 
 
        });
-    $('.follower_div2').click(function () {
-        //alert();
-        // $( ".follower_div" ).prop( "checked", true );
-        // $( ".public_div" ).prop( "checked", false );
-        $('a.titleee2').trigger('click');
-        
-            //$('#exampleModalCenter').modal('show'); 
-
-       });
-    $('.follower_div3').click(function () {
-        //alert();
-        // $( ".follower_div" ).prop( "checked", true );
-        // $( ".public_div" ).prop( "checked", false );
-        $('a.titleee3').trigger('click');
-        
-            //$('#exampleModalCenter').modal('show'); 
-
-       });
-    $('.follower_div4').click(function () {
-        //alert();
-        // $( ".follower_div" ).prop( "checked", true );
-        // $( ".public_div" ).prop( "checked", false );
-        $('a.titleee4').trigger('click');
-        
-            //$('#exampleModalCenter').modal('show'); 
-
-       });
-    $('.follower_div5').click(function () {
-        //alert();
-        // $( ".follower_div" ).prop( "checked", true );
-        // $( ".public_div" ).prop( "checked", false );
-        $('a.titleee5').trigger('click');
-        
-            //$('#exampleModalCenter').modal('show'); 
-
-       });
+    
     $('.email_pop').click(function () {
         //alert();
         // $( ".follower_div" ).prop( "checked", true );
@@ -569,30 +684,7 @@ $(document).ready(function () {
             mainClass: 'mfp-fade',
             closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
         });
-        $('#message-pop2').magnificPopup({
-            type: 'inline',
-            removalDelay: 300,
-            mainClass: 'mfp-fade',
-            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
-        });
-        $('#message-pop3').magnificPopup({
-            type: 'inline',
-            removalDelay: 300,
-            mainClass: 'mfp-fade',
-            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
-        });
-        $('#message-pop4').magnificPopup({
-            type: 'inline',
-            removalDelay: 300,
-            mainClass: 'mfp-fade',
-            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
-        });
-        $('#message-pop5').magnificPopup({
-            type: 'inline',
-            removalDelay: 300,
-            mainClass: 'mfp-fade',
-            closeMarkup: '<div class="close-btn mfp-close"><svg class="svg-plus"><use xlink:href="#svg-plus"></use></svg></div>'
-        });
+        
     })(jQuery);
     
     (function($){
@@ -1050,4 +1142,55 @@ $(document).ready(function(){
             });
         });
 //end  
+//rffq submit
+$(".submitRFQ").click(function() {
+    var id = $(this).attr("data-id");
+
+    $( "#rfq_form_"+id ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form+
+            var form = $("#rfq_form_"+id)[0];
+
+            var data = new FormData(form);
+            var $loginForm = $("#rfq_form_"+id);
+
+
+            //data = $loginForm.serialize();
+                 
+            $.ajax({
+                url: $("#rfq_form_"+id).attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                enctype: 'multipart/form-data',
+                processData: false,  // Important!
+                contentType: false,
+                cache: false,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/rfq_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/rfq_list";
+                            },1500);
+                    }
+                }
+            });
+    });
+});
+
+</script>
+<script type="text/javascript">
+    
 </script>

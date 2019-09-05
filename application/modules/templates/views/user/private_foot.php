@@ -16,6 +16,7 @@
 <script src="<?=base_url();?>assets_u/js/vendor/bootstrap-datepicker.min.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.sumoselect.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.xmlinefill.min.js"></script>
+<script src="<?=base_url();?>assets_u/vendors/DataTables/jquery.dataTables.min.js"></script>
 <!-- XM Pie Chart -->
 
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.xmpiechart.min.js"></script>

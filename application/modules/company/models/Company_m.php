@@ -121,13 +121,17 @@ class Company_m extends MY_Model
         $msg = wordwrap($msg,70);
 
         // send email
-        
+        return TRUE;
         if(@mail($data['Email'],"Added As User",$msg))
             {
               return TRUE;
             }else{
               return FAlSE;
             }
+    }
+    public function checkUser($data='')
+    {
+        return $this->db->select("*")->from("ssx_user_details")->where("email",$data['Email'])->get()->num_rows();
     }
     public function getAllUsers($userInfo='')
     {
@@ -263,6 +267,13 @@ class Company_m extends MY_Model
     public function storeSupplier($userInfo='',$data='')
     {
         $checkSupplier = $this->db->select("*")->from("ssx_user_details")->where("email",$data['email'])->get()->result_array();
+            $where = ['id' => $data['category_3']];
+
+            $category3 = $this->categories3->cat3Model->getAll('*',$where);
+            $category1_id = $category3[0]['category1_id'];
+            $category2_id = $category3[0]['category2_id'];
+            $category3_id = $category3[0]['id'];
+
         if (isset($checkSupplier[0]) && !empty($checkSupplier[0])) {
             $checkFollowingTable = $this->db->select("*")->from("ssx_followers")->where("follower_id",$checkSupplier[0]['user_id'])->where("following_id",$userInfo['user_of_company'])->get()->num_rows();
             if ($checkFollowingTable >= 1) {
@@ -273,6 +284,9 @@ class Company_m extends MY_Model
                 $data3 = array(
                     'follower_id' => $checkSupplier[0]['user_id'],
                     'following_id' => $userInfo['user_of_company'],
+                    'cat1_id' => $category1_id,
+                    'cat2_id' => $category2_id,
+                    'cat3_id' => $category3_id,
                 );
                 $this->db->insert('ssx_followers', $data3);
                 
@@ -295,12 +309,9 @@ class Company_m extends MY_Model
                 
         }
         else{
-            $where = ['id' => $data['category_3']];
-
-            $category3 = $this->categories3->cat3Model->getAll('*',$where);
-            $category1_id = $category3[0]['category1_id'];
-            $category2_id = $category3[0]['category2_id'];
-            $category3_id = $category3[0]['id'];
+            
+            $remove_space = $data['first_name'].'-'.$data['last_name'].'-'.rand(1,1000);
+            $remove_space = str_replace(' ', '-', $remove_space);
 
             $pass = $this->randomPassword();
 
@@ -310,14 +321,13 @@ class Company_m extends MY_Model
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'phone' => $data['phone'],
-                'supplier_cat1' => $category1_id,
-                'supplier_cat2' => $category2_id,
-                'supplier_cat3' => $category3_id,
                 'supplier_company' => $data['company_name'],
                 'supplier_address' => $data['address'],
                 'country_id' => $data['country_id'],
                 'state_id' => $data['state_id'],
                 'city_id' => $data['city_id'],
+                'slug' => $remove_space,
+                'type' => "business",
 
             );
             $this->db->insert('ssx_users', $data1);
@@ -335,6 +345,9 @@ class Company_m extends MY_Model
             $data3 = array(
                 'follower_id' => $insert_id,
                 'following_id' => $userInfo['user_of_company'],
+                'cat1_id' => $category1_id,
+                'cat2_id' => $category2_id,
+                'cat3_id' => $category3_id,
             );
             $this->db->insert('ssx_followers', $data3);
             
@@ -385,7 +398,7 @@ class Company_m extends MY_Model
     }
     public function getAllSuppliers($company_id='')
     {
-        return $this->db->select("ssxu.*,ssxud.email,ssxc3.name as cat3name")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxu.id=ssxud.user_id","Left")->join("ssx_categories3 ssxc3","ssxu.supplier_cat3=ssxc3.id","Left")->where("ssxu.supplier_of_company",$company_id)->get()->result_array();
+        return $this->db->select("ssxu.*,ssxud.email,ssxc3.name as cat3name")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxu.id=ssxud.user_id","Left")->join("ssx_followers ssxf","ssxf.follower_id=ssxu.id AND ssxf.following_id=".$company_id,"Left")->join("ssx_categories3 ssxc3","ssxf.cat3_id=ssxc3.id","Left")->where("ssxu.supplier_of_company",$company_id)->get()->result_array();
     }
     public function get_supplier($supplier_id='')
     {
@@ -432,7 +445,71 @@ class Company_m extends MY_Model
         $this->db->where('id', $get['pr_id']);
         return $this->db->update('ssx_company_pr', $data);
     }
-
+    public function getAllRfq($company_id='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$company_id)->where("ssxcp.status ",1)->where("ssxcp.is_rfq_approved",0)->get()->result_array();
+    }
+    public function get_rfq_suppliers($company_id='',$item_id='')
+    {
+        return $this->db->select("ssxci.*,ssxu.first_name,,ssxu.id as supplier_id")->from("ssx_company_items ssxci")->join("ssx_followers ssxf","ssxci.cat3_id = ssxf.cat3_id","Left")->join("ssx_users ssxu","ssxu.id = ssxf.follower_id","Left")->where("ssxci.id",$item_id)->get()->result_array();
+    }
+    public function approved_rfq($company_id='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number,ssxc3.name as cat3name,ssxa.bid_count,ssxa.favourite_count,ssxc.name as currency_name,ssxcr.rfq_id,(SELECT MIN(ssx_bids.amount) FROM ssx_bids WHERE ssx_bids.auction_id = ssxa.id) AS lowest_bid")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->join("ssx_categories3 ssxc3","ssxc3.id= ssxci.cat3_id","Left")->join("ssx_company_rfqs ssxcr","ssxcr.pr_id = ssxcp.id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxa.currency","Left")->where("ssxcp.company_id",$company_id)->where("ssxcp.status ",1)->where("ssxcp.is_rfq_approved",1)->get()->result_array();
+    }
+    public function storeSuggestedSuppliers($userInfo='',$data='')
+    {
+        foreach ($data['supplier_id'] as $key => $value) {
+           $data2 = array(
+            'company_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['user_of_company'],
+            'pr_id' => $data['pr_id'],
+            'supplier_id' => $value, 
+            );
+            $res = $this->db->insert('ssx_rfq_suppliers', $data2);
+        }
+        return $res;
+    }
+    public function storeItemSpec($userInfo='',$data='')
+    {
+        $dataArray = [];
+       
+        $i=0;
+        foreach ($data['criteria'] as $key => $value) {
+            if (isset($value) && !empty($value)) {
+                 $data2 = array(
+                'company_id' => $userInfo['user_of_company'],
+                'user_id' => $userInfo['user_of_company'],
+                'pr_id' => $data['pr_id'],
+                'criteria' => $value, 
+                'measurement' => $data['measurement'][$key], 
+                );
+                array_push($dataArray, $data2);                
+            }
+            $i++; 
+        }
+        return $this->db->insert_batch('ssx_rfq_specfications', $dataArray);
+         //print_r($dataArray);
+        // $res;
+    }
+    public function storerfqEmail($userInfo='',$data='')
+    {
+        $data2 = array(
+            'company_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['user_of_company'],
+            'pr_id' => $data['pr_id'],
+            'email_body' => $data['email_body'],
+        );
+        return $this->db->insert('ssx_rfq_email', $data2);
+    }
+    public function getPrDetails($pr_id='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.cat1_id,ssxci.cat2_id,ssxci.cat3_id")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxci.id=ssxcp.item_id","Left")->where("ssxcp.id",$pr_id)->get()->result_array();
+    }
+    public function getcompanysettings($company_id='')
+    {
+        return $this->db->select("ssxu.*,ssxc.name as currency")->from("ssx_users ssxu")->join("ssx_currencies ssxc","ssxu.currency_id = ssxc.id","Left")->where("ssxu.user_of_company",$company_id)->where("is_admin",1)->get()->result_array();
+    }
     public function randomPassword()
     {
         $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";

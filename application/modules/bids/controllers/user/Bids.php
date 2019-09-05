@@ -440,70 +440,70 @@ class Bids extends User_Controller
 
     public function biddetail(){
         // this is sample code for delete in future
-        $dummy_id = $this->input->get('auction');
-        if ($dummy_id == 1) {
-            $this->data['user']['sort'] = $this->sort;
-            $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v1";
-            $this->data['user']['bids'] = "";
-            $this->setupNav();
-            $this->setupHeader1();
-            $this->template->setup_private_template($this->data['user']);
-        }
-        if ($dummy_id == 2) {
-            $this->data['user']['sort'] = $this->sort;
-            $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v2";
-            $this->data['user']['bids'] = "";
-            $this->setupNav();
-            $this->setupHeader1();
-            $this->template->setup_private_template($this->data['user']);
-        }
-        if ($dummy_id == 3) {
-            $this->data['user']['sort'] = $this->sort;
-            $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v3";
-            $this->data['user']['bids'] = "";
-            $this->setupNav();
-            $this->setupHeader1();
-            $this->template->setup_private_template($this->data['user']);
-        }
-        if ($dummy_id == 4) {
-            $this->data['user']['sort'] = $this->sort;
-            $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v4";
-            $this->data['user']['bids'] = "";
-            $this->setupNav();
-            $this->setupHeader1();
-            $this->template->setup_private_template($this->data['user']);
-        }
-        if ($dummy_id == 5) {
-            $this->data['user']['sort'] = $this->sort;
-            $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v5";
-            $this->data['user']['bids'] = "";
-            $this->setupNav();
-            $this->setupHeader1();
-            $this->template->setup_private_template($this->data['user']);
-        }
+        // $dummy_id = $this->input->get('auction');
+        // if ($dummy_id == 1) {
+        //     $this->data['user']['sort'] = $this->sort;
+        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v1";
+        //     $this->data['user']['bids'] = "";
+        //     $this->setupNav();
+        //     $this->setupHeader1();
+        //     $this->template->setup_private_template($this->data['user']);
+        // }
+        // if ($dummy_id == 2) {
+        //     $this->data['user']['sort'] = $this->sort;
+        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v2";
+        //     $this->data['user']['bids'] = "";
+        //     $this->setupNav();
+        //     $this->setupHeader1();
+        //     $this->template->setup_private_template($this->data['user']);
+        // }
+        // if ($dummy_id == 3) {
+        //     $this->data['user']['sort'] = $this->sort;
+        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v3";
+        //     $this->data['user']['bids'] = "";
+        //     $this->setupNav();
+        //     $this->setupHeader1();
+        //     $this->template->setup_private_template($this->data['user']);
+        // }
+        // if ($dummy_id == 4) {
+        //     $this->data['user']['sort'] = $this->sort;
+        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v4";
+        //     $this->data['user']['bids'] = "";
+        //     $this->setupNav();
+        //     $this->setupHeader1();
+        //     $this->template->setup_private_template($this->data['user']);
+        // }
+        // if ($dummy_id == 5) {
+        //     $this->data['user']['sort'] = $this->sort;
+        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v5";
+        //     $this->data['user']['bids'] = "";
+        //     $this->setupNav();
+        //     $this->setupHeader1();
+        //     $this->template->setup_private_template($this->data['user']);
+        // }
         // end of sample code
-//         $this->auction_id = $this->my_encrypt->decode($this->input->get('auction'));
-// //        printData($this->auction_id);
-//         if ($this->check_user_authentication('', 'home')) {
-//             $userId = $this->loggedInUser['id'];
-//             $this->renderByUserId($userId);
-//             if (!empty($this->auction_id)) {
-//                 $bids_detail = $this->bm->bidDetailByAuctionId($this->auction_id );
-// //                 echo "<pre>";
-// //                 print_r($bids_detail);
-// //                 exit();
+        $this->auction_id = $this->my_encrypt->decode($this->input->get('auction'));
+//        printData($this->auction_id);
+        if ($this->check_user_authentication('', 'home')) {
+            $userId = $this->loggedInUser['id'];
+            $this->renderByUserId($userId);
+            if (!empty($this->auction_id)) {
+                $bids_detail = $this->bm->bidDetailByAuctionId($this->auction_id );
+//                 echo "<pre>";
+//                 print_r($bids_detail);
+//                 exit();
                 
-//                 $this->data['user']['sort'] = $this->sort;
-//                 $this->data['user']['content_view'] = "$this->modulePath/private_bid_v";
-//                 $this->data['user']['bids'] = $bids_detail;
+                $this->data['user']['sort'] = $this->sort;
+                $this->data['user']['content_view'] = "$this->modulePath/private_bid_v";
+                $this->data['user']['bids'] = $bids_detail;
 
-//             }
-// //            printDataDie($this->data['user']);
+            }
+//            printDataDie($this->data['user']);
             
-//             $this->setupNav();
-//             $this->setupHeader1();
-//             $this->template->setup_private_template($this->data['user']);
-//         }
+            $this->setupNav();
+            $this->setupHeader1();
+            $this->template->setup_private_template($this->data['user']);
+        }
     }
 
     public function getFilteredProducts($value = '')
