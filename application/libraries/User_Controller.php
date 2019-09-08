@@ -162,6 +162,17 @@ class User_Controller extends MY_Base_Controller
 
         return (bool)!empty($this->session->userdata('user_login'));
     }
+    protected function get_user_roles($p = NULL)
+    {
+        $logged_in_user = $this->session->userdata('user_login');
+        if ($logged_in_user['is_admin'] == 1) {
+           $user_roles = "is_admin";
+        }
+        else{
+            $user_roles = $this->merchants->Users_m->get_user_roles($logged_in_user['id']);
+        }
+        $this->data['user']['header']['user_roles'] = $user_roles;
+    }
 
     protected function check_user_authentication($successUrl = NULL, $failureUrl = NULL)
     {

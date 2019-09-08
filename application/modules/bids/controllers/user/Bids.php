@@ -17,7 +17,8 @@ class Bids extends User_Controller
         $this->data['user']['base_resources_url_user'] = $this->config->item('base_resources_url') . "users/profile_picture/";
         $this->data['user']['foot']['pageLevelPlugins']['js'] = ['pagination'];
         $this->data['user']['page_js'] = "$this->modulePath/custom-js";
-        $this->setupNav();    
+        $this->setupNav(); 
+        $this->get_user_roles();   
         $this->sort = [
             [
                 'text' => 'Bids ( New - Old)',
@@ -439,49 +440,6 @@ class Bids extends User_Controller
         /*UZair work end*/
 
     public function biddetail(){
-        // this is sample code for delete in future
-        // $dummy_id = $this->input->get('auction');
-        // if ($dummy_id == 1) {
-        //     $this->data['user']['sort'] = $this->sort;
-        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v1";
-        //     $this->data['user']['bids'] = "";
-        //     $this->setupNav();
-        //     $this->setupHeader1();
-        //     $this->template->setup_private_template($this->data['user']);
-        // }
-        // if ($dummy_id == 2) {
-        //     $this->data['user']['sort'] = $this->sort;
-        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v2";
-        //     $this->data['user']['bids'] = "";
-        //     $this->setupNav();
-        //     $this->setupHeader1();
-        //     $this->template->setup_private_template($this->data['user']);
-        // }
-        // if ($dummy_id == 3) {
-        //     $this->data['user']['sort'] = $this->sort;
-        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v3";
-        //     $this->data['user']['bids'] = "";
-        //     $this->setupNav();
-        //     $this->setupHeader1();
-        //     $this->template->setup_private_template($this->data['user']);
-        // }
-        // if ($dummy_id == 4) {
-        //     $this->data['user']['sort'] = $this->sort;
-        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v4";
-        //     $this->data['user']['bids'] = "";
-        //     $this->setupNav();
-        //     $this->setupHeader1();
-        //     $this->template->setup_private_template($this->data['user']);
-        // }
-        // if ($dummy_id == 5) {
-        //     $this->data['user']['sort'] = $this->sort;
-        //     $this->data['user']['content_view'] = "$this->modulePath/dummy_bid_v5";
-        //     $this->data['user']['bids'] = "";
-        //     $this->setupNav();
-        //     $this->setupHeader1();
-        //     $this->template->setup_private_template($this->data['user']);
-        // }
-        // end of sample code
         $this->auction_id = $this->my_encrypt->decode($this->input->get('auction'));
 //        printData($this->auction_id);
         if ($this->check_user_authentication('', 'home')) {
@@ -489,9 +447,19 @@ class Bids extends User_Controller
             $this->renderByUserId($userId);
             if (!empty($this->auction_id)) {
                 $bids_detail = $this->bm->bidDetailByAuctionId($this->auction_id );
-//                 echo "<pre>";
-//                 print_r($bids_detail);
-//                 exit();
+                $this->data['user']['item_spec'] = $this->db->select("*")->from("ssx_rfq_specfications")->where("rfq_id",$this->auction_id)->get()->result_array();
+
+                $item_specFrom_supp = $this->db->select("ssxrss.supplier_id,ssxu.first_name,ssxu.last_name")->from("ssx_rfq_specFrom_suppliers ssxrss")->join("ssx_users ssxu"," ssxu.id = ssxrss.supplier_id","Left")->where("ssxrss.rfq_id",$this->auction_id)->group_by("ssxrss.supplier_id")->get()->result_array();
+
+                foreach ($item_specFrom_supp as $key => $value) {
+                   $item_specFrom_supp[$key]['supplier_spec'] = NULL;
+                   $suppliersSpec = $this->db->select("user_data")->from("ssx_rfq_specFrom_suppliers")->where("rfq_id",$this->auction_id)->where("supplier_id",$value['supplier_id'])->get()->result_array();
+                   $item_specFrom_supp[$key]['supplier_spec'] = $suppliersSpec;
+                }
+                $this->data['user']['supplierSpec'] = $item_specFrom_supp;
+                // echo "<pre>";
+                // print_r($item_specFrom_supp);
+                // exit();
                 
                 $this->data['user']['sort'] = $this->sort;
                 $this->data['user']['content_view'] = "$this->modulePath/private_bid_v";
@@ -521,6 +489,7 @@ class Bids extends User_Controller
         $bids = $this->bm->bidDetailByAuctionId($id, $this->sort[$sort - 1], $limit);
 
         $bidsCount = $this->bm->countBidsByAuctionId($id);
+        $acceptedBids = $this->db->select("*")->from("ssx_bids")->where("auction_id",$id)->where("status","accepted")->get()->num_rows();
         // print_r($bids);
         // echo "<pre>";
         // print_r($bidsCount);
@@ -530,6 +499,7 @@ class Bids extends User_Controller
 
 
             $this->data['user']['bids'] = $bids;
+            $this->data['user']['acceptedBids'] = $acceptedBids;
             // $this->data['user']['sellingAuctions'] = $sellingAuctions;
 
             $this->data['user']['content_view'] = "$this->modulePath/bids_sorted";

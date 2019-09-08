@@ -470,8 +470,45 @@ class Company_m extends MY_Model
         }
         return $res;
     }
+    public function updateSuggestedSuppliers($userInfo='',$data='')
+    {
+        $this->db->where("pr_id",$data['pr_id'])->delete("ssx_rfq_suppliers");
+        foreach ($data['supplier_id'] as $key => $value) {
+           $data2 = array(
+            'company_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['user_of_company'],
+            'pr_id' => $data['pr_id'],
+            'supplier_id' => $value, 
+            );
+            $res = $this->db->insert('ssx_rfq_suppliers', $data2);
+        }
+        return $res;
+    }
     public function storeItemSpec($userInfo='',$data='')
     {
+        $dataArray = [];
+       
+        $i=0;
+        foreach ($data['criteria'] as $key => $value) {
+            if (isset($value) && !empty($value)) {
+                 $data2 = array(
+                'company_id' => $userInfo['user_of_company'],
+                'user_id' => $userInfo['user_of_company'],
+                'pr_id' => $data['pr_id'],
+                'criteria' => $value, 
+                'measurement' => $data['measurement'][$key], 
+                );
+                array_push($dataArray, $data2);                
+            }
+            $i++; 
+        }
+        return $this->db->insert_batch('ssx_rfq_specfications', $dataArray);
+         //print_r($dataArray);
+        // $res;
+    }
+    public function updateItemSpec($userInfo='',$data='')
+    {
+        $this->db->where("pr_id",$data['pr_id'])->delete("ssx_rfq_specfications");
         $dataArray = [];
        
         $i=0;
@@ -496,7 +533,18 @@ class Company_m extends MY_Model
     {
         $data2 = array(
             'company_id' => $userInfo['user_of_company'],
-            'user_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['id'],
+            'pr_id' => $data['pr_id'],
+            'email_body' => $data['email_body'],
+        );
+        return $this->db->insert('ssx_rfq_email', $data2);
+    }
+    public function updaterfqEmail($userInfo='',$data='')
+    {
+        $this->db->where("pr_id",$data['pr_id'])->delete("ssx_rfq_email");
+        $data2 = array(
+            'company_id' => $userInfo['user_of_company'],
+            'user_id' => $userInfo['id'],
             'pr_id' => $data['pr_id'],
             'email_body' => $data['email_body'],
         );
@@ -505,6 +553,38 @@ class Company_m extends MY_Model
     public function getPrDetails($pr_id='')
     {
         return $this->db->select("ssxcp.*,ssxci.cat1_id,ssxci.cat2_id,ssxci.cat3_id")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxci.id=ssxcp.item_id","Left")->where("ssxcp.id",$pr_id)->get()->result_array();
+    }
+    public function all_pos($company_id='')
+    {
+        return $this->db->select("ssxb.*,ssxa.name as item_name,ssxu.first_name,ssxa.qty_unit,ssxa.qty,ssxu.last_name,ssxu.id as supplier_id,ssxc.name as cur,ssxap.status as rfq_status")->from("ssx_bids ssxb")->join("ssx_company_rfqs ssxcr","ssxcr.rfq_id = ssxb.auction_id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_users ssxu","ssxu.id = ssxb.user_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxb.currency","Left")->join("ssx_approved_po ssxap","ssxap.rfq_id = ssxb.auction_id","Left")->where("ssxb.status","accepted")->get()->result_array();
+    }
+    public function approvePO($data='',$user='')
+    {
+        $array = array(
+            'company_id' => $user['user_of_company'],
+            'user_id' => $user['id'],
+            'supplier_id' => $data['supplier_id'],
+            'status' => 1,
+            'rfq_id' => $data['rfq_id'],
+            'warehouse' => $data['warehouse_id'],
+            'delivery_date' => $data['date'],
+            'shipment_details' => $data['shipment'], 
+        );
+        return $this->db->insert("ssx_approved_po",$array);
+    }
+    public function disapprovePO($data='',$user='')
+    {
+        $array = array(
+            'company_id' => $user['user_of_company'],
+            'user_id' => $user['id'],
+            'supplier_id' => $data['supplier_id'],
+            'status' => 0,
+            'rfq_id' => $data['rfq_id'],
+            'warehouse' => $data['warehouse_id'],
+            'delivery_date' => $data['date'],
+            'shipment_details' => $data['shipment'], 
+        );
+        return $this->db->insert("ssx_approved_po",$array);
     }
     public function getcompanysettings($company_id='')
     {

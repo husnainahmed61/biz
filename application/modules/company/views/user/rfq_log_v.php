@@ -6,7 +6,7 @@
  * Time: 12:44 AM
  */
 //echo "<pre>";
-print_r($approved_rfq);
+//print_r($approved_rfq);
 
 ?>
 

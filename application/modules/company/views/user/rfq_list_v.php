@@ -39,7 +39,7 @@
 </style>
 <style type="text/css">
 .image-preview {
-      margin-left: 7px;
+  background-repeat: round;
     width: 65px;
     height: 65px;
   position: relative;
@@ -255,6 +255,17 @@ color: white;
   background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
 }
 </style>
+<style type="text/css">
+  .submitRFQ{
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    color: white;
+  }
+  .submitRFQ:hover{
+    background-color: #00d7b3;
+  }
+</style>
 
 <!-- DASHBOARD CONTENT -->
 <div class="dashboard-content">
@@ -287,22 +298,22 @@ color: white;
             </div>
             
             <div class="col-xs-2">
-                <p class="text-header small">Item Detail</p>
+                <p class="text-header small text-center">Item Detail</p>
             </div>
             <div class="col-xs-2">
                 <p class="text-header small text-center ">Expiry Date</p>
             </div>
             <div class="col-xs-3">
-                <p class="text-header small text-center">Suggested Suppliers</p>
+                <p class="text-header small text-center">Suppliers</p>
             </div>
             <div class="col-xs-1">
-                <p class="text-header small text-center">Item Specfications</p>
+                <p class="text-header small text-center">Item Specs</p>
             </div>
             <div class="col-xs-2">
-                <p class="text-header small text-center">Image</p>
+                <p class="text-header small text-center" >Image</p>
             </div>
             <div class="col-xs-1">
-                <p class="text-header small text-center">Attach Document</p>
+                <p class="text-header small text-center">Attach Docs</p>
             </div>
             <div class="col-xs-1">
                 <p class="text-header small text-center">Email</p>
@@ -334,55 +345,54 @@ color: white;
             </div>
             
            
-            <div class="purchase-item-info col-xs-2 visible-lg">
+            <div class="col-xs-2">
                
                     <p class="text-header"><?=$value['item_number']?></p>
                     <p class="description"><?=$value['item_name']?></p>
                 
             </div>
-             <div class="purchase-item-info col-xs-2">
+             <div class="col-xs-2">
                 <input class="form-control" name="expiry_date" type="date" id="example-date-input" value="<?php
                                         $time = strtotime($serverDateTime->format('Y-m-d'));
                                         $final = date("Y-m-d", strtotime("+".$company_settings[0]['RFQ_expiry']." days", $time));
                                      echo $final; ?>">
             </div>
-             <div class="purchase-item-info col-xs-3 visible-lg ">
+             <div class="col-xs-3" style="
+    padding-right: 0px;
+    width: 230px;
+">
                <label class="radio-inline">
-                  <input type="radio" name="optradio1" value="public" style="display: block;" class="public_div" checked>Public
-                </label>
+                  <input type="radio" name="optradio1" value="public" style="display: block;" class="public_div" checked>Public</label>
                 
                 <a href="javascript:void(0);" data-href="<?=base_url()?>company/get_rfq_suppliers/?item_id=<?=$value['item_id']?>&pr_id=<?=$value['id']?>" class="openPopup"><label class="radio-inline">
-                  <input type="radio" name="optradio1" value="followers" style="display: block;" class="follower_div">Suppliers
-                </label></a>
+                  <input type="radio" name="optradio1" value="followers" style="display: block;" class="follower_div">Suppliers</label></a>
                   
             </div>
-            <div class="col-xs-1">
-                 <a href="javascript:void(0);" class="btn btn-primary btn-lg specPop" data-toggle="modal" data-id="<?=$value['id']?>">
+            <div class="col-xs-1" style="padding-left: 13px;">
+                
+                 <a href="javascript:void(0);" class="btn btn-primary specPop" data-href="<?=base_url()?>company/get_item_spec/?pr_id=<?=$value['id']?>">
                     +
                 </a>
-
-
             </div>
-            <div class="col-xs-2">
-                 <div id="image-preview1" class="image-preview">
-                  <label for="image-upload1" id="image-label1" class="image-label">+</label>
-                  <input type="file" name="image0" id="image-upload1" class="image-upload" style="width: 0px;"/>
+            <div class="col-xs-2" style="
+    padding-left: 40px;
+">
+                 <div id="image-preview<?=$value['id']?>" class="image-preview">
+                  <label for="image-upload<?=$value['id']?>" id="image-label<?=$value['id']?>" class="image-label">+</label>
+                  <input type="file" name="image0" id="image-upload<?=$value['id']?>" data-id="<?=$value['id']?>" class="image-upload photo_add" style="width: 0px;"/>
                 </div>
             </div>
 
-            <div class="col-xs-1">
-                 <input type="file" class="custom-file-input" name="file1" style="width: 37px;height: 31px;" accept=
-"application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-text/plain, application/pdf, image/*">
+            <div class="col-xs-1" style="padding-left: 0px;">
+                 <input type="file" class="custom-file-input" name="file1" style="width: 37px;height: 31px;" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*">
             </div>
-            <div class="col-xs-1">
-                 <a href="javascript:void(0);" class="emailPop" data-toggle="modal" data-id="<?=$value['id']?>">
+            <div class="col-xs-1" style="padding-right: 40px;">
+              
+                 <a href="javascript:void(0);" class="emailPop" data-toggle="modal" data-href="<?=base_url()?>company/get_rfq_email/?pr_id=<?=$value['id']?>">
                   <button type="button" class="btn btn-info email_pop">
                     <span class="glyphicon glyphicon-edit"></span>
                 </button>
                 </a>
-                    
-                
             </div>
             <div class="col-xs-1">
               <select class="form-control" id="sel1" name="currency">
@@ -400,12 +410,8 @@ text/plain, application/pdf, image/*">
             </div>
             <input type="hidden" name="pr_id" value="<?=$value['id']?>">
             <div class="recommendation-wrap bid_actions col-xs-1">
-                   
-                    
-                    <button type="" data-id="<?=$value['id']?>" class="submitRFQ"><a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action"
-                       style="" data-method="accept" data-id="">
-                        <span class="tick-icon">✓</span>
-                    </a></button>
+                    <button type="" data-id="<?=$value['id']?>" class="submitRFQ" >
+                        <span class="tick-icon">✓</span></button>
                     <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
                     style="" data-method="cancel" data-id="" >
                         <span class="close-icon">✕</span>
@@ -429,7 +435,7 @@ text/plain, application/pdf, image/*">
 <div class="modal fade" id="myModalNorm" tabindex="-1" role="dialog" 
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="height: 500px;overflow-y: scroll;">
-        <div class="modal-content">
+        <div class="modal-content" style="box-shadow: none;border: none;">
             <!-- Modal Header -->
             <div class="modal-header">
                 <button type="button" class="close" 
@@ -443,158 +449,8 @@ text/plain, application/pdf, image/*">
             </div>
             
             <!-- Modal Body -->
-            <div class="modal-body">
-                
-                <form role="form" class="" id="item_spec_form" method="post" action="<?=base_url()?>company/storeItemSpec">
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                    <label for="exampleInputEmail1">Criteria</label>
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]" />
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                    <label for="exampleInputEmail1">Measurement</label>
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]" />
-                    </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div> 
-                    </div>
-                  </div>
-                   <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                   <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="criteria[]"/>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                      <input type="text" class="form-control"
-                      id="exampleInputEmail1" name="measurement[]"/>
-                    </div>
-                    </div>
-                  </div>
-                  <input type="hidden" name="pr_id" value="" class="pr_id_dynamic">
-                  
-                  
-                  <button type="submit" class="btn btn-default">Submit</button>
-                </form>
-                
-                
+            <div class="modal-body" id="spec_modal">
+ 
             </div>
             
             <!-- Modal Footer -->
@@ -615,21 +471,20 @@ text/plain, application/pdf, image/*">
     <div class="modal-dialog">
     
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" style="box-shadow: none;border: none;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Email Text</h4>
             </div>
-            <form method="post" id="rfq_email_form" action="<?=base_url()?>company/storerfqEmail">
-            <div class="modal-body" >
-              <textarea name="email_body"></textarea>
-              <input type="hidden" name="pr_id" value="" class="pr_id_dynamic">
+            
+            <div class="modal-body" id="email_modal">
+              
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-default" >Save</button>
+                
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
-            </form>
+            
         </div>
       
     </div>
@@ -639,20 +494,20 @@ text/plain, application/pdf, image/*">
     <div class="modal-dialog">
     
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" style="box-shadow: none;border: none;">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Suggested Suppliers</h4>
             </div>
-            <form method="post" id="suggested_supplier_form" action="<?=base_url()?>company/storeSuggestedSuppliers">
+            
             <div class="modal-body" id="modal-body">
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-default" >Save</button>
+                
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
-            </form>
+            
         </div>
       
     </div>

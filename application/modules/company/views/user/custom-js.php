@@ -23,118 +23,34 @@
         });
     });
     $('.specPop').on('click',function(){
-        dataID = $(this).attr('data-id');
-        $('.pr_id_dynamic').val(dataID); 
+        dataID = $(this).attr('data-href');
+        //$('.pr_id_dynamic').val(dataID); 
         // alert(dataID);
         // return;
+        $('#spec_modal').load(dataID,function(){
+            $('#myModalNorm').modal({
+                show:true
+            });
+        });
         
-        $('#myModalNorm').modal('show');
+        
     }); 
     $('.emailPop').on('click',function(){
-        dataID = $(this).attr('data-id');
+        dataID = $(this).attr('data-href');
         $('.pr_id_dynamic').val(dataID); 
         // alert(dataID);
         // return;
+        $('#email_modal').load(dataID,function(){
+            $('#emailPop').modal({
+                show:true
+            });
+        });
         
-        $('#emailPop').modal('show');
     }); 
 
-    $( "#suggested_supplier_form" ).submit(function( event ) {
-      event.preventDefault();
-      //alert( "Handler for .submit() called." );
-            // Get form
-            var $userForm = $("#suggested_supplier_form");
-
-            data = $userForm.serialize();
-            // console.log(data);
-            // return;     
-            $.ajax({
-                url: $("#suggested_supplier_form").attr('action'),
-                type: "POST",
-                data: data,
-                dataType: 'json',
-                timeout: 600000,
-                success: function (response) {
-                    // console.log(response);
-                    // return;
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {
-                        alert(message);
-                        //showstatusMessage('messageSuccess',response.title, message , 4000);
-                           $("#myModal .close").click()
-                    } else if (response.status === false) {
-                        alert(message);
-                        //showstatusMessage('messageError', response.title, message, 3000);
-                        
-                    }
-                }
-            });
-    });
-    $( "#item_spec_form" ).submit(function( event ) {
-      event.preventDefault();
-      //alert( "Handler for .submit() called." );
-            // Get form
-            var $userForm = $("#item_spec_form");
-
-            data = $userForm.serialize();
-            // console.log(data);
-            // return;     
-            $.ajax({
-                url: $("#item_spec_form").attr('action'),
-                type: "POST",
-                data: data,
-                dataType: 'json',
-                timeout: 600000,
-                success: function (response) {
-                    // console.log(response);
-                    // return;
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {
-                        //alert(message);
-                        showstatusMessage('messageSuccess',response.title, message , 4000);
-                           $("#myModalNorm .close").click()
-                    } else if (response.status === false) {
-                        //alert(message);
-                        showstatusMessage('messageError', response.title, message, 3000);
-                        
-                    }
-                }
-            });
-    });
-    $( "#rfq_email_form" ).submit(function( event ) {
-      event.preventDefault();
-      //alert( "Handler for .submit() called." );
-            // Get form
-            var $userForm = $("#rfq_email_form");
-
-            data = $userForm.serialize();
-            // console.log(data);
-            // return;     
-            $.ajax({
-                url: $("#rfq_email_form").attr('action'),
-                type: "POST",
-                data: data,
-                dataType: 'json',
-                timeout: 600000,
-                success: function (response) {
-                    // console.log(response);
-                    // return;
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {
-                        //alert(message);
-                        showstatusMessage('messageSuccess',response.title, message , 4000);
-                           $("#emailPop .close").click()
-                    } else if (response.status === false) {
-                        //alert(message);
-                        showstatusMessage('messageError', response.title, message, 3000);
-                        
-                    }
-                }
-            });
-    });
+    
+    
+    
   });  
 </script>
 <script type="text/javascript">
@@ -474,12 +390,55 @@
     });
 </script>
 <script type="text/javascript">
+    
  $(document).ready(function() {
-  $.uploadPreview({
-    input_field: "#image-upload1",
-    preview_box: "#image-preview1",
-    label_field: "#image-label1"
-  });
+    var id ='';
+    $('.photo_add').on('change', function() {
+        id = $(this).attr("data-id");
+        readURL(this);
+        //alert(id);
+        // return;
+        //function_name(id);
+        //return;
+    });
+
+function readURL(input) {
+    //alert(id);
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function (e) {
+            $('#image-preview'+id).attr('src', e.target.result);
+            $('#image-preview'+id).css("background-image", "url("+e.target.result+")");
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}    
+// function_name(id);
+// function function_name(id) {
+
+//     if (id === null || id === undefined || id =='') {
+//         //alert(id);
+//            // $.uploadPreview({
+//            //      input_field: ".image-upload",
+//            //      preview_box: ".image-preview",
+//            //      label_field: ".image-label"
+//            //      });  
+     
+//   }
+//   else{
+//     alert(" i m  define");
+//      $.uploadPreview({
+//             input_field: "#image-upload"+id,
+//             preview_box: "#image-preview"+id,
+//             label_field: "#image-label"+id
+//           });
+//   }
+// }
+
+    
+  
 });
 
  // $('.btn-delete').on('click',function(e){
@@ -1189,6 +1148,77 @@ $(".submitRFQ").click(function() {
             });
     });
 });
+//approve po
+$(".approvePO").click(function() {
+            var id = $(this).attr("data-id");
+            
+            //var user_id = $(this).attr("data-user-id");
+           var supplier_id = $(".supplier_id_"+id+"").val();
+           var warehouse_id = $(".warehouse_"+id+"").find(":selected").val();
+           var date = $(".d_date_"+id+"").val();
+           var shipment = $(".Shipment_"+id+"").val();
+           // alert("supplier "+supplier_id);
+           // alert("warehouse_id "+warehouse_id);
+           // alert("date "+date);
+           // alert("shipment "+shipment);
+           // return;
+            $.ajax({
+                url: base_url+'company/approvePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&date='+date+'&shipment='+shipment,
+                type: "GET",
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/po_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/po_list";
+                            },1500);
+                    }
+                }
+            });
+        });
+$(".disapprovePO").click(function() {
+            var id = $(this).attr("data-id");
+            
+            //var user_id = $(this).attr("data-user-id");
+           var supplier_id = $(".supplier_id_"+id+"").val();
+           var warehouse_id = $(".warehouse_"+id+"").find(":selected").val();
+           var date = $(".d_date_"+id+"").val();
+           var shipment = $(".Shipment_"+id+"").val();
+           // alert("supplier "+supplier_id);
+           // alert("warehouse_id "+warehouse_id);
+           // alert("date "+date);
+           // alert("shipment "+shipment);
+           // return;
+            $.ajax({
+                url: base_url+'company/disapprovePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&date='+date+'&shipment='+shipment,
+                type: "GET",
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/po_list";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/po_list";
+                            },1500);
+                    }
+                }
+            });
+        });
 
 </script>
 <script type="text/javascript">

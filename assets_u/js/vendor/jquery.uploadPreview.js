@@ -30,7 +30,7 @@
                 // Check format
                 if (file.type.match('image')) {
                   // Image
-                  $(settings.preview_box).css("background-image", "url("+loadedFile.result+")");
+                  
                   $(settings.preview_box).css("background-size", "cover");
                   $(settings.preview_box).css("background-position", "center center");
                   $(settings.preview_box).append('<img class="btn-delete" src="http://cdn1.iconfinder.com/data/icons/diagona/icon/16/101.png"/>');

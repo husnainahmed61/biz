@@ -88,11 +88,11 @@ if (isset($bids) && !empty($bids)) {
                         $cancelColor = "background-color:#e61852";
                     }
                     ?>
-                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick action <?= !empty($acceptColor) ? 'selected' : '' ?>"
+                    <a href="#" class="recommendation good hoverable open-recommendation-form icon-dectick <?= !empty($acceptColor) ? 'selected' : '' ?> <?= ($acceptedBids >= 1) ? '' : 'action' ?>"
                        style="<?=$acceptColor?>" data-method="accept" data-id="<?=$bid['id']?>">
                         <span class="tick-icon">✓</span>
                     </a>
-                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action <?= !empty($cancelColor) ? 'selected' : '' ?>"
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick <?= !empty($cancelColor) ? 'selected' : '' ?> <?= ($acceptedBids >= 1) ? '' : 'action' ?>"
                     style="<?=$cancelColor?>" data-method="cancel" data-id="<?=$bid['id']?>" >
                         <span class="close-icon">✕</span>
                     </a>

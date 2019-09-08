@@ -16,7 +16,19 @@
 <script src="<?=base_url();?>assets_u/js/vendor/bootstrap-datepicker.min.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.sumoselect.js"></script>
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.xmlinefill.min.js"></script>
-<script src="<?=base_url();?>assets_u/vendors/DataTables/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+
+
+
+
+
+<!-- <script src="<?=base_url();?>assets_u/vendors/DataTables/jquery.dataTables.min.js"></script> -->
 <!-- XM Pie Chart -->
 
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.xmpiechart.min.js"></script>
@@ -41,7 +53,7 @@
 <script src="<?=base_url();?>assets_u/js/dashboard-header.js"></script>
 <script src="<?=base_url();?>assets_u/js/dashboard-uploaditem.js"></script>
 <script type="text/javascript" src="<?= base_url(); ?>assets_u/vendors/select2/select2.min.js"></script>
-<script src="http://localhost:81/bid/public_html/assets_u/js/author-profile.js"></script>
+<script src="<?= base_url(); ?>/assets_u/js/author-profile.js"></script>
 <?php
 if (isset($pageLevelPlugins['js'])) {
     foreach ($pageLevelPlugins['js'] AS $js) {

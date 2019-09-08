@@ -85,7 +85,7 @@
                 <div class="form-box-item full has-chart-filter-full">
                     <h4>Bids Graphic Representation</h4>
                     <hr class="line-separator">
-                    <canvas class="lines-graph-chart"></canvas>
+                    <canvas class="lines-graph-chart2"></canvas>
                     <!-- CHART FILTERS -->
                     <div class="chart-filters">
                         <!-- CHART FILTER -->
@@ -109,6 +109,40 @@
                     <!-- /CHART FILTERS -->
                 </div>
                 <!-- /FORM BOX ITEM -->
+                <br>
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Supplier Name</th>
+                <?php foreach ($item_spec as $key => $value) { ?>
+                   <th><?=$value['criteria']?> : <?=$value['measurement']?></th>
+                <?php } ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i=1; foreach ($supplierSpec as $key => $value) { ?>
+            <tr>
+                <td><?=$i?></td>
+                <td><?=$value['first_name'].' '.$value['last_name']?> </td>
+                <?php foreach ($value['supplier_spec'] as $key => $val) { ?>
+                <td><?=$val['user_data']?></td>
+                <?php } ?>
+            </tr>
+            <?php $i++; } ?>
+            
+            
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Supplier Name</th>
+                <?php foreach ($item_spec as $key => $value) { ?>
+                   <th><?=$value['criteria']?> : <?=$value['measurement']?></th>
+                <?php } ?>
+            </tr>
+        </tfoot>
+    </table>
 </div>
 <!-- DASHBOARD CONTENT -->
 <script type="text/javascript">

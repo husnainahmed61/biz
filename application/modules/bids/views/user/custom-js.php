@@ -343,6 +343,7 @@
                         selectedLink.addClass('selected');
                         if(method == 'accept'){
                             selectedLink.css('background-color','#00d7b3');
+                            $('a.action').removeClass('action');
                             console.log('acceptColor');
                         } else if(method == 'cancel'){
                             selectedLink.css('background-color','#e61852');
@@ -593,7 +594,7 @@
         //graphData = JSON.stringify(graphData);
         //console.log(typeof graphData);
 
-    var ctx6 = $('.lines-graph-chart'),
+    var ctx6 = $('.lines-graph-chart2'),
         data6 = {
             type: 'line',
             data: {
@@ -747,5 +748,18 @@
     });
 })(jQuery);
 
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#example').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    });
+} );
 </script>
 <!-- Page JS End-->

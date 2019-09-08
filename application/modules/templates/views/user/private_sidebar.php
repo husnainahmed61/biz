@@ -1,5 +1,7 @@
 <?php
-
+// echo "<pre>";
+// print_r($user_roles);
+// exit;
 $user_login = $this->session->userdata("user_login");
 
 ?>
@@ -56,6 +58,7 @@ $user_login = $this->session->userdata("user_login");
                     Dashboard
                 </a>
             </li>
+            <?php if ($user_roles == "is_admin" || $user_roles[0]['company_settings'] == 1) { ?>
             <!-- DROPDOWN ITEM -->
             <li class="dropdown-item interactive">
                 <a href="#">
@@ -67,7 +70,7 @@ $user_login = $this->session->userdata("user_login");
                     </svg>
                     <!-- /SVG ARROW -->
                 </a>
-
+                
                 <!-- INNER DROPDOWN -->
                 <ul class="inner-dropdown">
                     <!-- INNER DROPDOWN ITEM -->
@@ -93,24 +96,29 @@ $user_login = $this->session->userdata("user_login");
                    
                 </ul>
                 <!-- INNER DROPDOWN -->
+            
 
             </li>
+            <?php } ?>
             <!-- /DROPDOWN ITEM -->
              <!-- DROPDOWN ITEM -->
-            <li class="dropdown-item">
-                <a href="<?=base_url('company/inventory_list')?>">
-                    <span class="sl-icon icon-layers"></span>
-                    Item Management
-                </a>
-            </li>
+             <?php if ($user_roles == "is_admin" || $user_roles[0]['add_items'] == 1) { ?>
+                <li class="dropdown-item">
+                    <a href="<?=base_url('company/inventory_list')?>">
+                        <span class="sl-icon icon-layers"></span>
+                        Item Management
+                    </a>
+                </li>    
+            <?php } ?>
+            <?php if ($user_roles == "is_admin" || $user_roles[0]['add_supplier'] == 1) { ?>
              <li class="dropdown-item">
                 <a href="<?=base_url('company/supplier_list')?>">
                     <span class="sl-icon icon-folder-alt"></span>
                     Supplier Management
                 </a>
             </li>
-            
-            
+            <?php } ?>
+            <?php if ($user_roles == "is_admin" || $user_roles[0]['create_pr'] == 1) { ?>
              <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('company/pr_list')?>">
@@ -119,6 +127,8 @@ $user_login = $this->session->userdata("user_login");
                 </a>
             </li>
             <!-- /DROPDOWN ITEM -->
+            <?php } ?>
+            <?php if ($user_roles == "is_admin" || $user_roles[0]['rfq_approval'] == 1) { ?>
             <!-- DROPDOWN ITEM -->
             <li class="dropdown-item interactive">
                 <a href="#">
@@ -149,6 +159,8 @@ $user_login = $this->session->userdata("user_login");
 
             </li>
             <!-- /DROPDOWN ITEM -->
+            <?php } ?>
+            <?php if ($user_roles == "is_admin" || $user_roles[0]['po_approval'] == 1) { ?>
              <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('company/po_list')?>">
@@ -157,6 +169,8 @@ $user_login = $this->session->userdata("user_login");
                 </a>
             </li>
             <!-- /DROPDOWN ITEM -->
+            <?php } ?>
+            <?php if ($user_roles == "is_admin" || $user_roles[0]['reports'] == 1) { ?>
              <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('company/reports')?>">
@@ -166,6 +180,8 @@ $user_login = $this->session->userdata("user_login");
                
             </li>
             <!-- /DROPDOWN ITEM -->
+            <?php } ?>
+            <?php if ($user_roles == "is_admin" || $user_roles[0]['notifications'] == 1) { ?>
               <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('Notifications')?>">
@@ -175,6 +191,7 @@ $user_login = $this->session->userdata("user_login");
                
             </li>
             <!-- /DROPDOWN ITEM -->
+             <?php } ?>
             <!-- DROPDOWN ITEM -->
             <li class="dropdown-item">
                 <a href="<?=base_url('inbox')?>">

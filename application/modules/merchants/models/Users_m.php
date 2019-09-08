@@ -817,4 +817,8 @@ class Users_m extends MY_Model
         
         //return FALSE;
     }
+    public function get_user_roles($logged_in_user='')
+    {
+        return $this->db->select("*")->from("ssx_user_roles")->where("user_id",$logged_in_user)->get()->result_array();
+    }
 }
