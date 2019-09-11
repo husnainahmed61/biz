@@ -176,7 +176,8 @@ class Bids_m extends MY_Model
     public function acceptBid($value='')
     {
         $data = array(
-        'status' => 'accepted'
+        'status' => 'accepted',
+        'updated_at' => date('Y-m-d H:i:s')
         );
 
         $this->db->where('id', $value);

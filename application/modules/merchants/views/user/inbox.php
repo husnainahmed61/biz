@@ -10,24 +10,25 @@ $user_id = $user_id['id'];
             <!-- HEADLINE -->
             <div class="headline buttons two primary col-sm-12 latest-item-main" style="margin-bottom: 4px;">
                 <h4>Your Inbox (<?=count($conversations)?>)</h4>
-                  
+                
 				<a href="" class="button mid-short secondary open-new-message" data-toggle="modal" data-target="#myModal">New Message</a>
 				<a href="#" class="button mid-short primary">Delete Selected</a>
             </div>
             <!-- /HEADLINE -->
-
+            <input id="myInput" type="text" placeholder="Search..">  
             <!-- INBOX MESSAGES PREVIEW -->
             <div class="inbox-messages-preview inbox-cs">
                 <!-- INBOX MESSAGES -->
                 <div class="col-xs-12 col-lg-5 no-padding f-left">
-                    <div class="inbox-messages ">
+                    <div class="inbox-messages " id="myDIV">
                         <?php foreach (array_reverse($conversations) as $key => $value) {
                             
                           ?>
 
                         <!-- INBOX MESSAGE -->
                         <div class="inbox-message v2" style="height: auto; overflow: auto;">
-                            <div class="inbox-message-actions">
+                            <div class="aa">
+                                <div class="inbox-message-actions">
                                 <!-- CHECKBOX -->
                                 <input type="checkbox" id="msg_<?php //echo $value['id']?>" name="msg1[]">
                                 <label for="msg_<?php //echo $value['id']?>" class="label-check">
@@ -35,27 +36,29 @@ $user_id = $user_id['id'];
                                 </label>
                                 <!-- /CHECKBOX -->
 
+                                </div>
+                                
+                                <div class="inbox-message-author">
+                                    <figure class="user-avatar">
+                                        <?php if (isset($value['image']) && !empty($value['image'])) { ?>
+                                            <img src="<?=$base_resources_url_auction?><?=$value['image']?>" class="img-circle" alt="Cinque Terre" width="104" height="43"> 
+                                          
+                                       <?php  } else {?>
+                                            <img src="<?base_url()?>assets_u/images/avatars/avatar_06.jpg" alt="user-img">
+                                       <?php } ?>
+                                        
+                                    </figure>
+                                   <p class="text-header">
+                                       
+                                        
+                                    </p>                                
+                                </div>
+                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo_<?=$value['auction_id']?>" style="width: 180px;margin-bottom: 20px;background-color: white;color: black;text-align: left"><?=$value['name']?></button>
+                                 <div class="inbox-message-date">
+                                    <p></p>
+                                </div>
                             </div>
                             
-                            <div class="inbox-message-author">
-                                <figure class="user-avatar">
-                                    <?php if (isset($value['image']) && !empty($value['image'])) { ?>
-                                        <img src="<?=$base_resources_url_auction?><?=$value['image']?>" class="img-circle" alt="Cinque Terre" width="104" height="43"> 
-                                      
-                                   <?php  } else {?>
-                                        <img src="<?base_url()?>assets_u/images/avatars/avatar_06.jpg" alt="user-img">
-                                   <?php } ?>
-                                    
-                                </figure>
-                               <p class="text-header">
-                                   
-                                    
-                                </p>                                
-                            </div>
-                             <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo_<?=$value['auction_id']?>" style="width: 180px;margin-bottom: 20px;background-color: white;color: black;text-align: left"><?=$value['name']?></button>
-                             <div class="inbox-message-date">
-                                <p></p>
-                            </div>
                               <div id="demo_<?=$value['auction_id']?>" class="collapse">
                                <?php foreach ($value['result'] as $key => $value) { ?>
                                 <div class="chats t_edit_cont" data-id="<?=$value['auction_id']?>">    

@@ -1,39 +1,43 @@
+<?php 
+// print_r($post);
+?>
 <!-- DASHBOARD CONTENT -->
 <div class="dashboard-content">
 <!-- HEADLINE -->
 <div class="headline statement primary">
     <h4>Reports</h4>
-	<a href="#" class="button primary">Download in excel</a>
-	<button form="statement_filter_form" class="button dark-light">Refine Search</button>
-	<form id="statement_filter_form" name="statement_filter_form" class="statement-form">
+	
+	
+	<form id="statement_filter_form" name="statement_filter_form" class="statement-form" method="post" action="<?=base_url()?>company/reports">
+		<button type="submit" class="button primary" name="excel" value="generateXLS" style="margin: 0px 15px 0 0;">Download in excel</button>
+		<button form="statement_filter_form" class="button dark-light" style="margin: 0px 13px 0 0;">Refine Search</button>
 		<!-- DATEPICKER -->
 		<div class="datepicker-wrap">
-			<input type="text" id="date_from" name="date_from" class="datepicker" value="02/22/2016">
-			<span class="icon-calendar"></span>
+			<input type="date" id="date_from" name="date_from" class="" required>
+			<!-- <span class="icon-calendar"></span> -->
 		</div>
 		<!-- /DATEPICKER -->
-		<label>to:</label>
+		<label style="line-height: 24px;">to:</label>
 		<!-- DATEPICKER -->
 		<div class="datepicker-wrap">
-			<input type="text" id="date_to" name="date_to" class="datepicker" value="02/22/2017">
-			<span class="icon-calendar"></span>
+			<input type="date" id="date_to" name="date_to" class="" required>
+			<!-- <span class="icon-calendar"></span> -->
 		</div>
 		<!-- /DATEPICKER -->
 		<label for="ss_filter" class="select-block">
 			<select name="ss_filter" id="ss_filter">
-				<option value="0">PR Pending</option>
-				<option value="1">PR Approved</option>
-				<option value="2">RFQ Pending</option>
-				<option value="2">RFQ Active</option>
-				<option value="2">PO Pending</option>
-				<option value="2">PO Approved</option>
-				<option value="2">Quotation Received</option>
-				<option value="2">Total Purchase Value</option>
-				<option value="2">Total cost saving</option>
-				<option value="2">Case Closed</option>
-				<option value="2">Quotation per RFQ</option>
-				<option value="2">Hours Saved</option>
-				<option value="2">Avg Suppliers' Response Time</option>
+				<option value="pr_pending">PR Pending</option>
+				<option value="rfq_pending">RFQ Pending</option>
+				<option value="rfq_active">RFQ Active</option>
+				<option value="po_pending">PO Pending</option>
+				<option value="po_approved">PO Approved</option>
+				<option value="quatation_recieved">Quotation Received</option>
+				<option value="">Total Purchase Value</option>
+				<option value="">Total cost saving</option>
+				<option value="">Case Closed</option>
+				<option value="">Quotation per RFQ</option>
+				<option value="">Hours Saved</option>
+				<option value="">Avg Suppliers' Response Time</option>
 				
 			</select>
 			<!-- SVG ARROW -->

@@ -556,7 +556,7 @@ class Company_m extends MY_Model
     }
     public function all_pos($company_id='')
     {
-        return $this->db->select("ssxb.*,ssxa.name as item_name,ssxu.first_name,ssxa.qty_unit,ssxa.qty,ssxu.last_name,ssxu.id as supplier_id,ssxc.name as cur,ssxap.status as rfq_status")->from("ssx_bids ssxb")->join("ssx_company_rfqs ssxcr","ssxcr.rfq_id = ssxb.auction_id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_users ssxu","ssxu.id = ssxb.user_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxb.currency","Left")->join("ssx_approved_po ssxap","ssxap.rfq_id = ssxb.auction_id","Left")->where("ssxb.status","accepted")->get()->result_array();
+        return $this->db->select("ssxb.*,ssxa.name as item_name,ssxu.first_name,ssxa.qty_unit,ssxa.qty,ssxu.last_name,ssxu.id as supplier_id,ssxc.name as cur,ssxap.status as rfq_status")->from("ssx_bids ssxb")->join("ssx_company_rfqs ssxcr","ssxcr.rfq_id = ssxb.auction_id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_users ssxu","ssxu.id = ssxb.user_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxb.currency","Left")->join("ssx_approved_po ssxap","ssxap.rfq_id = ssxb.auction_id","Left")->where("ssxb.status","accepted")->where("ssxcr.company_id",$company_id)->get()->result_array();
     }
     public function approvePO($data='',$user='')
     {
@@ -585,6 +585,26 @@ class Company_m extends MY_Model
             'shipment_details' => $data['shipment'], 
         );
         return $this->db->insert("ssx_approved_po",$array);
+    }
+    public function get_pending_pr($user='',$data='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$user['user_of_company'])->where("ssxcp.status ",NULL)->where("ssxcp.created_at >=",$data['date_from'])->where("ssxcp.created_at <=",$data['date_to'])->get()->result_array();
+    }
+    public function get_approved_pr($user='',$data='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$user['user_of_company'])->where("ssxcp.status ",1)->where("ssxcp.is_rfq_approved ",0)->where("ssxcp.created_at >=",$data['date_from'])->where("ssxcp.created_at <=",$data['date_to'])->get()->result_array();
+    }
+    public function get_active_rfq($user='',$data='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number,ssxc3.name as cat3name,ssxa.bid_count,ssxa.favourite_count,ssxa.expires_at,ssxc.name as currency_name,ssxcr.rfq_id,(SELECT MIN(ssx_bids.amount) FROM ssx_bids WHERE ssx_bids.auction_id = ssxa.id) AS lowest_bid")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->join("ssx_categories3 ssxc3","ssxc3.id= ssxci.cat3_id","Left")->join("ssx_company_rfqs ssxcr","ssxcr.pr_id = ssxcp.id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxa.currency","Left")->where("ssxcp.company_id",$user['user_of_company'])->where("ssxcp.status ",1)->where("ssxcp.is_rfq_approved",1)->where("ssxa.created_at >=",$data['date_from'])->where("ssxa.created_at <=",$data['date_to'])->get()->result_array();
+    }
+    public function get_pending_po($user='',$data='')
+    {
+        return $this->db->select("ssxb.*,ssxa.name as item_name,ssxu.first_name,ssxa.qty_unit,ssxa.qty,ssxu.last_name,ssxu.id as supplier_id,ssxc.name as cur,ssxap.status as rfq_status")->from("ssx_bids ssxb")->join("ssx_company_rfqs ssxcr","ssxcr.rfq_id = ssxb.auction_id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_users ssxu","ssxu.id = ssxb.user_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxb.currency","Left")->join("ssx_approved_po ssxap","ssxap.rfq_id = ssxb.auction_id","Left")->where("ssxb.status","accepted")->where("ssxcr.company_id",$user['user_of_company'])->where("ssxb.updated_at >=",$data['date_from'])->where("ssxb.updated_at <=",$data['date_to'])->get()->result_array();
+    }
+    public function get_approved_po($user='',$data='')
+    {
+        return $this->db->select("ssxb.*,ssxa.name as item_name,ssxu.first_name,ssxa.qty_unit,ssxa.qty,ssxu.last_name,ssxu.id as supplier_id,ssxc.name as cur,ssxap.status as rfq_status,ssxcl.name as warehouse,ssxap.delivery_date,ssxap.shipment_details")->from("ssx_bids ssxb")->join("ssx_company_rfqs ssxcr","ssxcr.rfq_id = ssxb.auction_id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_users ssxu","ssxu.id = ssxb.user_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxb.currency","Left")->join("ssx_approved_po ssxap","ssxap.rfq_id = ssxb.auction_id","Left")->join("ssx_company_locations ssxcl","ssxcl.id = ssxap.warehouse","Left")->where("ssxb.status","accepted")->where("ssxcr.company_id",$user['user_of_company'])->where("ssxb.updated_at >=",$data['date_from'])->where("ssxb.updated_at <=",$data['date_to'])->where("ssxap.status",1)->get()->result_array();
     }
     public function getcompanysettings($company_id='')
     {

@@ -1068,3 +1068,14 @@ function follow(user_id) {
     $(this).animate({ top: "0" });
   });
 </script>
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    console.log(value);
+    $("#myDIV .v2 .aa").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>

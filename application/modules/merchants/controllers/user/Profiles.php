@@ -24,7 +24,7 @@ class Profiles extends User_Controller
         $this->modulePath = "$this->moduleName/$this->userName";
         $this->data['user']['pageHeader'] = 'Profile';
         /*$this->data['admin']['pageDescription'] = 'Dress Categories description';*/
-
+        $this->get_user_roles();
         $this->loggedInUser = $this->get_logged_in_user(); //UZair
 
         $this->load->model('Users_m', 'usersM', TRUE);

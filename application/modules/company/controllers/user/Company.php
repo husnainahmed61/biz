@@ -1163,15 +1163,224 @@ class Company extends User_Controller
     {
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-
+            //print_r($_POST);
+            //exit;
+            $filter_type = $this->input->post("ss_filter");
+            if(isset($_REQUEST['excel']) && !empty($_REQUEST['excel']) && $_REQUEST['excel'] == "generateXLS")
+            {
+                $fileName = 'data-'.time().'.xlsx';  
+                // load excel library
+                $this->load->library('excel');
+                if ($filter_type == "pr_pending") {
+                    $listInfo = $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$user['user_of_company'])->where("ssxcp.status ",NULL)->where("ssxcp.created_at >=",$_POST['date_from'])->where("ssxcp.created_at <=",$_POST['date_to'])->get()->result();
+                    $objPHPExcel = new PHPExcel();
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    // set Header
+                    $objPHPExcel->getActiveSheet()->SetCellValue('A1', '#');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Date');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Item Number');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Item Name');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'Quantity');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'Quantity Unit');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'Condition');              
+                    // set Row
+                    $i = 1;
+                    $rowCount = 2;
+                    foreach ($listInfo as $list) {
+                        $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $i);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $list->created_at);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $list->item_number);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $list->item_name);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $list->quantity);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, $list->quantity_unit);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, $list->item_condition);
+                        $rowCount++;
+                        $i++;
+                    }
+                    $filename = "pr_pending". date("Y-m-d-H-i-s").".csv";
+                    header('Content-Type: application/vnd.ms-excel'); 
+                    header('Content-Disposition: attachment;filename="'.$filename.'"');
+                    header('Cache-Control: max-age=0'); 
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');  
+                    $objWriter->save('php://output');
+                }
+                if ($filter_type == "rfq_pending") {
+                    $listInfo = $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$user['user_of_company'])->where("ssxcp.status ",1)->where("ssxcp.is_rfq_approved ",0)->where("ssxcp.created_at >=",$_POST['date_from'])->where("ssxcp.created_at <=",$_POST['date_to'])->get()->result();
+                    $objPHPExcel = new PHPExcel();
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    // set Header
+                    $objPHPExcel->getActiveSheet()->SetCellValue('A1', '#');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Date');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Item Number');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Item Name');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'Quantity');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'Quantity Unit');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'Condition');              
+                    // set Row
+                    $i = 1;
+                    $rowCount = 2;
+                    foreach ($listInfo as $list) {
+                        $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $i);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $list->created_at);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $list->item_number);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $list->item_name);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $list->quantity);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, $list->quantity_unit);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, $list->item_condition);
+                        $rowCount++;
+                        $i++;
+                    }
+                    $filename = "rfq_pending". date("Y-m-d-H-i-s").".csv";
+                    header('Content-Type: application/vnd.ms-excel'); 
+                    header('Content-Disposition: attachment;filename="'.$filename.'"');
+                    header('Cache-Control: max-age=0'); 
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');  
+                    $objWriter->save('php://output');
+                }
+                if ($filter_type == "rfq_active") {
+                    $listInfo = $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number,ssxc3.name as cat3name,ssxa.bid_count,ssxa.favourite_count,ssxa.expires_at,ssxc.name as currency_name,ssxcr.rfq_id,(SELECT MIN(ssx_bids.amount) FROM ssx_bids WHERE ssx_bids.auction_id = ssxa.id) AS lowest_bid")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->join("ssx_categories3 ssxc3","ssxc3.id= ssxci.cat3_id","Left")->join("ssx_company_rfqs ssxcr","ssxcr.pr_id = ssxcp.id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxa.currency","Left")->where("ssxcp.company_id",$user['user_of_company'])->where("ssxcp.status ",1)->where("ssxcp.is_rfq_approved",1)->where("ssxa.created_at >=",$_POST['date_from'])->where("ssxa.created_at <=",$_POST['date_to'])->get()->result();
+                    $objPHPExcel = new PHPExcel();
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    // set Header
+                    $objPHPExcel->getActiveSheet()->SetCellValue('A1', '#');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Expiry Date');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Ad Details');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Total Bids');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'Lowest Bid');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'Status');             
+                    // set Row
+                    $i = 1;
+                    $rowCount = 2;
+                    foreach ($listInfo as $list) {
+                        $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $i);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $list->expires_at);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $list->item_number);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $list->bid_count);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $list->lowest_bid);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, ($list->status == 1) ? ucfirst('Active') : 'InActive');
+                        $rowCount++;
+                        $i++;
+                    }
+                    $filename = "rfq_active". date("Y-m-d-H-i-s").".csv";
+                    header('Content-Type: application/vnd.ms-excel'); 
+                    header('Content-Disposition: attachment;filename="'.$filename.'"');
+                    header('Cache-Control: max-age=0'); 
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');  
+                    $objWriter->save('php://output');
+                }
+                if ($filter_type == "po_pending") {
+                    $listInfo = $this->db->select("ssxb.*,ssxa.name as item_name,ssxu.first_name,ssxa.qty_unit,ssxa.qty,ssxu.last_name,ssxu.id as supplier_id,ssxc.name as cur,ssxap.status as rfq_status")->from("ssx_bids ssxb")->join("ssx_company_rfqs ssxcr","ssxcr.rfq_id = ssxb.auction_id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_users ssxu","ssxu.id = ssxb.user_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxb.currency","Left")->join("ssx_approved_po ssxap","ssxap.rfq_id = ssxb.auction_id","Left")->where("ssxb.status","accepted")->where("ssxcr.company_id",$user['user_of_company'])->where("ssxb.updated_at >=",$_POST['date_from'])->where("ssxb.updated_at <=",$_POST['date_to'])->get()->result();
+                    $objPHPExcel = new PHPExcel();
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    // set Header
+                    $objPHPExcel->getActiveSheet()->SetCellValue('A1', '#');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Item Title');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Selected Suppliers');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Bid Amount');
+                    // set Row
+                    $i = 1;
+                    $rowCount = 2;
+                    foreach ($listInfo as $list) {
+                        $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $i);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $list->item_name);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $list->first_name.' '.$list->last_name);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $list->cur.' '.$list->qty.' '.$list->qty_unit);
+                        $rowCount++;
+                        $i++;
+                    }
+                    $filename = "po_pending". date("Y-m-d-H-i-s").".csv";
+                    header('Content-Type: application/vnd.ms-excel'); 
+                    header('Content-Disposition: attachment;filename="'.$filename.'"');
+                    header('Cache-Control: max-age=0'); 
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');  
+                    $objWriter->save('php://output');
+                }
+                if ($filter_type == "po_approved") {
+                    $listInfo = $this->db->select("ssxb.*,ssxa.name as item_name,ssxu.first_name,ssxa.qty_unit,ssxa.qty,ssxu.last_name,ssxu.id as supplier_id,ssxc.name as cur,ssxap.status as rfq_status,ssxcl.name as warehouse,ssxap.delivery_date,ssxap.shipment_details")->from("ssx_bids ssxb")->join("ssx_company_rfqs ssxcr","ssxcr.rfq_id = ssxb.auction_id","Left")->join("ssx_auctions ssxa","ssxa.id = ssxcr.rfq_id","Left")->join("ssx_users ssxu","ssxu.id = ssxb.user_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxb.currency","Left")->join("ssx_approved_po ssxap","ssxap.rfq_id = ssxb.auction_id","Left")->join("ssx_company_locations ssxcl","ssxcl.id = ssxap.warehouse","Left")->where("ssxb.status","accepted")->where("ssxcr.company_id",$user['user_of_company'])->where("ssxb.updated_at >=",$_POST['date_from'])->where("ssxb.updated_at <=",$_POST['date_to'])->where("ssxap.status",1)->get()->result();
+                    $objPHPExcel = new PHPExcel();
+                    $objPHPExcel->setActiveSheetIndex(0);
+                    // set Header
+                    $objPHPExcel->getActiveSheet()->SetCellValue('A1', '#');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Item Title');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Selected Suppliers');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Bid Amount');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'Warehouse');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('F1', 'Delivery Date');
+                    $objPHPExcel->getActiveSheet()->SetCellValue('G1', 'Shipment Details');
+                    // set Row
+                    $i = 1;
+                    $rowCount = 2;
+                    foreach ($listInfo as $list) {
+                        $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $i);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $list->item_name);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, $list->first_name.' '.$list->last_name);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, $list->cur.' '.$list->qty.' '.$list->qty_unit);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, $list->warehouse);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('F' . $rowCount, $list->delivery_date);
+                        $objPHPExcel->getActiveSheet()->SetCellValue('G' . $rowCount, $list->shipment_details);
+                        $rowCount++;
+                        $i++;
+                    }
+                    $filename = "po_approved". date("Y-m-d-H-i-s").".csv";
+                    header('Content-Type: application/vnd.ms-excel'); 
+                    header('Content-Disposition: attachment;filename="'.$filename.'"');
+                    header('Cache-Control: max-age=0'); 
+                    $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');  
+                    $objWriter->save('php://output');
+                }
+                
+            }
+            else{
+                if (isset($filter_type) && !empty($filter_type)) {
+                if ($filter_type == 'pr_pending'){
+                    $this->data['user']['pending_pr'] = $this->companyModel->get_pending_pr($user,$_POST);
+                    $this->data['user']['content_view'] = "$this->modulePath/pr_pending_report";    
+                }
+                if ($filter_type == 'rfq_pending'){
+                    $this->data['user']['pending_rfq'] = $this->companyModel->get_approved_pr($user,$_POST);
+                    $this->data['user']['content_view'] = "$this->modulePath/rfq_pending_report";    
+                }
+                if ($filter_type == 'rfq_active'){
+                    $this->data['user']['active_rfq'] = $this->companyModel->get_active_rfq($user,$_POST);
+                    $this->data['user']['content_view'] = "$this->modulePath/rfq_active_report";    
+                }
+                if ($filter_type == 'po_pending'){
+                    $this->data['user']['pending_po'] = $this->companyModel->get_pending_po($user,$_POST);
+                    $this->data['user']['content_view'] = "$this->modulePath/po_pending_report";    
+                }
+                if ($filter_type == 'po_approved'){
+                    $this->data['user']['approved_po'] = $this->companyModel->get_approved_po($user,$_POST);
+                    $this->data['user']['content_view'] = "$this->modulePath/po_approved_report";    
+                }
+            }
+            else{
+                $this->data['user']['content_view'] = "$this->modulePath/reports_v";
+            }
+            
+            $this->data['user']['post'] = $_POST;
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
-            $this->data['user']['content_view'] = "$this->modulePath/reports_v";
+            
 
             $this->setupNav();
             $this->setupHeader1();
             $this->template->setup_private_template($this->data['user']);
+            }
+            
         }
+    }
+    public function generateXls() {
+        $user = $this->get_logged_in_user();
+        $date_from = $this->input->get('date_from');
+        $date_to = $this->input->get('date_to');
+        $filter_type = $this->input->get('filter_type');
+        // create file name
+        
+        
+        
+
+ 
     }
     public function getAllItems($value='')
     {
