@@ -909,6 +909,10 @@ class Company extends User_Controller
     }
     public function storerfq($value='')
     {
+         
+        //  print_r($this->db->last_query());
+        // print_r($sup_email);
+        // exit;
         
         $newfilename = '';
         $newfilename2 = '';
@@ -936,8 +940,8 @@ class Company extends User_Controller
             $temp = explode(".", $_FILES["image0"]["name"]);
             $newfilename = round(microtime(true)) . '.' . end($temp);
 
-            $absPath = $this->config->item('resources_abs_path');
-            $absPath = $absPath . "images/auctions/";
+            //$absPath = $this->config->item('resources_abs_path');
+            $absPath = $_SERVER['DOCUMENT_ROOT']."/../resources.vayzn.com/" . "images/auctions/";
 
             $target_dir = $absPath;
             $target_file = $target_dir . $newfilename;
@@ -959,8 +963,8 @@ class Company extends User_Controller
                 $temp = explode(".", $_FILES["file1"]["name"]);
                 $newfilename2 =  round(microtime(true)).'-'.round(microtime(true)) . '.' . end($temp);
 
-                $absPath = $this->config->item('resources_abs_path');
-                $absPath = $absPath . "images/auctions/";
+                //$absPath = $this->config->item('resources_abs_path');
+                $absPath = $_SERVER['DOCUMENT_ROOT']."/../resources.vayzn.com/" . "images/auctions/";
 
                 $target_dir = $absPath;
                 $target_file = $target_dir . $newfilename2;
@@ -1032,6 +1036,11 @@ class Company extends User_Controller
             $data5 = array(
             'rfq_id' => $rfq_id,
             );
+            $data4 = array(
+            'rfq_id' => $rfq_id,
+            );
+            $this->db->where('pr_id', $this->input->post('pr_id'));
+            $this->db->update('ssx_rfq_suppliers', $data4);
             $this->db->where('pr_id', $this->input->post('pr_id'));
             $this->db->update('ssx_rfq_email', $data4);
             //inserting data to followers and gettign data rfq suppliers
@@ -1044,22 +1053,34 @@ class Company extends User_Controller
                         'follower_id' => $value['supplier_id']
                     );
                     $this->db->insert("ssx_auction_for_followers",$data4);
-                    $sup_email = $this->db->select("email")->from("ssx_user_details")->where("user_id",$value['supplier_id'])->get()->result_array();
+                    
+                    $company_name = $this->db->select("first_name,last_name")->from('ssx_users')->where('id',$user['user_of_company'])->get()->result_array();
+                    $sup_email = $this->db->select("ssxu.*,ssxd.email")->from("ssx_users ssxu")->join("ssx_user_details ssxd","ssxd.user_id = ssxu.id","Left")->where("ssxu.id",$value['supplier_id'])->get()->result_array();
+                    $rfqDetail = $this->db->select("name,slug")->from("ssx_auctions")->where("id",$rfq_id)->get()->result_array();
+                    
+                    $msg = 'Dear '.$sup_email[0]['first_name'].' '.$sup_email[0]['last_name'].' - '.$sup_email[0]['supplier_company'].',
+        
+                        '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has raised an RFQ for '.$rfqDetail[0]["name"].' on Vayzn - Procurement Web Based Platform.
+                        Please click the following link to bid and fill technical details regarding this RFQ.
+                        
+                        Visit RFQ : https://www.vayzn.com/'.$rfqDetail[0]["slug"].'/auction
+                        
+                        Regards,
+                        Vayzn - Help Desk';
 
-                    $to = $sup_email[0]['email']; //"husnainahmed61@gmail.com";
-                    $subject = "You Are Invited to bid";
-                    $txt = $email_body[0]['email_body'];
-                    $headers = "From: no-reply@vayzn.com" . "\r\n";
+                    //$to = $sup_email[0]['email']; //"husnainahmed61@gmail.com";
+                    
+                    $msg .= $email_body[0]['email_body'];
+                    
+                    $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
+                    $headers .= 'MIME-Version: 1.0';
+                    $headers .= 'Content-type: text/html; charset=iso-8859-1';
 
-                    mail($to,$subject,$txt,$headers);
+                    mail($sup_email[0]['email'],"You Are Invited to bid",$msg,$headers);
 
                 }
             }
-            $data4 = array(
-            'rfq_id' => $rfq_id,
-            );
-            $this->db->where('pr_id', $this->input->post('pr_id'));
-            $this->db->update('ssx_rfq_suppliers', $data4);
+            
 
         }
             if ( $rfq_added === TRUE) {

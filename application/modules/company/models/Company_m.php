@@ -88,7 +88,12 @@ class Company_m extends MY_Model
     }
     public function storeUser($userInfo='',$data='')
     {
-        $pass = $this->randomPassword();
+        $checkUserr = $this->db->select("*")->from("ssx_user_details")->where("email",$data['email'])->get()->num_rows();
+        if($checkUserr >= 1){
+            return FALSE;
+        }
+        else{
+            $pass = $this->randomPassword();
         $data1 = array(
             'user_of_company' => $userInfo['user_of_company'],
             'is_company' => 1,
@@ -114,20 +119,38 @@ class Company_m extends MY_Model
         );
         $this->db->insert('ssx_user_roles', $data3);
 
-        // the message
-        $msg = "Hello,\n you are Invited As User email = ".$data['Email']." password = ".$pass;
-
-        // use wordwrap() if lines are longer than 70 characters
-        $msg = wordwrap($msg,70);
-
-        // send email
-        return TRUE;
-        if(@mail($data['Email'],"Added As User",$msg))
-            {
-              return TRUE;
-            }else{
-              return FAlSE;
-            }
+        $company_name = $this->db->select("first_name,last_name")->from('ssx_users')->where('id',$userInfo['user_of_company'])->get()->result_array();
+                // the message
+                $msg = 'Dear '.$data['first_name'].' '.$data['last_name'].',
+    
+                    '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has added you as its offical User on Vayzn - Procurement Web Based Platform.
+                    Please refer following credentials to login and start automating your purchasing process with Vayzn
+                    
+                    Email: '.$data['Email'].'
+                    Password: '.$pass.'
+                    Login Here : https://biz.vayzn.com/home/login
+                    
+                    Regards,
+                    Vayzn - Help Desk';
+                
+                
+                $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
+                $headers .= 'MIME-Version: 1.0';
+                $headers .= 'Content-type: text/html; charset=iso-8859-1';
+    
+                // use wordwrap() if lines are longer than 70 characters
+                //$msg = wordwrap($msg,70);
+    
+                // send email
+                //return TRUE;
+                if(@mail($data['Email'],"Invitation As Userr",$msg,$headers))
+                    {
+                      return TRUE;
+                    }else{
+                      return FAlSE;
+                    }
+        }
+        
     }
     public function checkUser($data='')
     {
@@ -290,16 +313,29 @@ class Company_m extends MY_Model
                 );
                 $this->db->insert('ssx_followers', $data3);
                 
-
+                $company_name = $this->db->select("first_name,last_name")->from('ssx_users')->where('id',$userInfo['user_of_company'])->get()->result_array();
                 // the message
-                $msg = "Hello,\n you are Invited As Supplier from a company";
-
+                $msg = 'Dear '.$data['first_name'].' '.$data['last_name'].' - '.$data['company_name'].',
+    
+                    '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has added you as its offical supplier on Vayzn - Procurement Web Based Platform.
+                    Please refer following credentials to login and resume selling your products via Vayzn
+                    
+                    Login Here : https://www.vayzn.com
+                    
+                    Regards,
+                    Vayzn - Help Desk';
+                
+                
+                $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
+                $headers .= 'MIME-Version: 1.0';
+                $headers .= 'Content-type: text/html; charset=iso-8859-1';
+    
                 // use wordwrap() if lines are longer than 70 characters
-                $msg = wordwrap($msg,70);
-
+                //$msg = wordwrap($msg,70);
+    
                 // send email
-                return TRUE;
-                if(@mail($data['Email'],"Added As User",$msg))
+                //return TRUE;
+                if(@mail($data['email'],"Invitation As Supplier",$msg,$headers))
                     {
                       return TRUE;
                     }else{
@@ -351,16 +387,31 @@ class Company_m extends MY_Model
             );
             $this->db->insert('ssx_followers', $data3);
             
-
+            $company_name = $this->db->select("first_name,last_name")->from('ssx_users')->where('id',$userInfo['user_of_company'])->get()->result_array();
             // the message
-            $msg = "Hello,\n you are Invited As Supplier To Bid\n email = ".$data['email']." password = ".$pass;
+            $msg = 'Dear '.$data['first_name'].' '.$data['last_name'].' - '.$data['company_name'].',
+
+                '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has added you as its offical supplier on Vayzn - Procurement Web Based Platform.
+                Please refer following credentials to login and resume selling your products via Vayzn
+                
+                Email: '.$data['email'].'
+                Password:'.$pass.'
+                Login Here : https://www.vayzn.com
+                
+                Regards,
+                Vayzn - Help Desk';
+            
+            
+            $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
+            $headers .= 'MIME-Version: 1.0';
+            $headers .= 'Content-type: text/html; charset=iso-8859-1';
 
             // use wordwrap() if lines are longer than 70 characters
-            $msg = wordwrap($msg,70);
+            //$msg = wordwrap($msg,70);
 
             // send email
-            return TRUE;
-            if(@mail($data['Email'],"Added As User",$msg))
+            //return TRUE;
+            if(@mail($data['email'],"Invitation As Supplier",$msg,$headers))
                 {
                   return TRUE;
                 }else{

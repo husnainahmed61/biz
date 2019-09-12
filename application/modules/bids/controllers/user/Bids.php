@@ -542,7 +542,32 @@ class Bids extends User_Controller
 
             if ($res === TRUE) {
                 //echo "inserted";
+                $user = $this->get_logged_in_user();
+                $bidDetail = $this->db->select("*")->from("ssx_bids")->where("id",$bid_id)->get()->result_array();
+                $company_name = $this->db->select("first_name,last_name")->from('ssx_users')->where('id',$user['user_of_company'])->get()->result_array();
+                $sup_email = $this->db->select("ssxu.*,ssxd.email")->from("ssx_users ssxu")->join("ssx_user_details ssxd","ssxd.user_id = ssxu.id","Left")->where("ssxu.id",$bidDetail[0]['user_id'])->get()->result_array();
+                $rfqDetail = $this->db->select("name,slug")->from("ssx_auctions")->where("id",$bidDetail[0]['auction_id'])->get()->result_array();
+               
+                $msg = 'Dear '.$sup_email[0]['first_name'].' '.$sup_email[0]['last_name'].' - '.$sup_email[0]['supplier_company'].',
+        
+                        '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has accepted your bid for the RFQ https://www.vayzn.com/'.$rfqDetail[0]["slug"].'/auction on Vayzn - Procurement Web Based Platform.
+                        Please contact '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' to issue PO to you
+                        
+                        Vayzn - Inbox : https://www.vayzn.com/inbox
+                        
+                        Regards,
+                        Vayzn - Help Desk';
 
+                    //$to = $sup_email[0]['email']; //"husnainahmed61@gmail.com";
+                    
+                    //$msg .= $email_body[0]['email_body'];
+                    
+                    $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
+                    $headers .= 'MIME-Version: 1.0';
+                    $headers .= 'Content-type: text/html; charset=iso-8859-1';
+                    //$sup_email[0]['email']
+                    mail($sup_email[0]['email'],"Congrats - Your Bid Accepted",$msg,$headers);
+                    
                 $getConvoId = $this->bm->checkConvoId($bid_id, $userId);
 
                 if (is_numeric($getConvoId)) {
