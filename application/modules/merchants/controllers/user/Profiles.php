@@ -169,7 +169,10 @@ class Profiles extends User_Controller
                     'email' => $user[0]['email'],
                     'sess_logged_in' =>0,
                     'slug' => $user[0]['slug'],
-                    'profile_image' => $user[0]['profile_picture']);
+                    'profile_image' => $user[0]['profile_picture'],
+                    'is_company' => $user[0]['is_company'],
+                    'is_admin' => $user[0]['is_admin'],
+                    'user_of_company' => $user[0]['user_of_company'],);
                     
                 //echo "<br>";
             // exit(); //unset_userdata

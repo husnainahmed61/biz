@@ -7,6 +7,7 @@
  */ 
 //echo "<pre>";
 //print_r($all_pos);
+
 ?>
 
 <style type="text/css">
@@ -47,7 +48,7 @@
             <div class="col-xs-1">
                 <p class="text-header small">#</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 <p class="text-header small">Item Title</p>
             </div>
             <div class="col-xs-2">
@@ -55,6 +56,9 @@
             </div>
             <div class="col-xs-2">
                 <p class="text-header small">Bid Amount</p>
+            </div>
+            <div class="col-xs-2">
+                <p class="text-header small ">Tax</p>
             </div>
             <div class="col-xs-2">
                 <p class="text-header small">Warehouse</p>
@@ -81,7 +85,7 @@
                 <div class="col-xs-1">
                     <p><?=$i?></p>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-1">
                     <p class="category primary"><?=$value['item_name']?></p>
                 </div>
                 <div class="col-xs-2">
@@ -90,6 +94,13 @@
                 <input type="hidden" class="supplier_id_<?=$value['auction_id']?>" name="supplier_id_<?=$value['auction_id']?>" value="<?=$value['supplier_id']?>">
                 <div class="col-xs-2">
                      <p><?=$value['cur'].' '.$value['amount'].' '.$value['qty_unit']?></p>
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control tax_<?=$value['auction_id']?>" id="sel1" name="tax_<?=$value['auction_id']?>" >
+                        <?php foreach ($all_tax as $key => $val) { ?>
+                            <option value="<?=$val['id']?>"><?=$val['name']?></option>
+                        <?php } ?>
+                      </select>
                 </div>
                 <div class="col-xs-2">
                     <select class="form-control warehouse_<?=$value['auction_id']?>" id="sel1" name="warehouse_<?=$value['auction_id']?>" >

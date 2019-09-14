@@ -11,11 +11,16 @@ $sel_sup = count($total_sup);
  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jq-3.3.1/dt-1.10.18/fc-3.2.5/fh-3.1.4/r-2.2.2/sc-2.0.0/datatables.min.css"/>
  
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs/jq-3.3.1/dt-1.10.18/fc-3.2.5/fh-3.1.4/r-2.2.2/sc-2.0.0/datatables.min.js"></script> -->
+<style type="text/css">
+    .input-sm{
+            line-height: 21px !important;
+    }
+</style>
 <form method="post" id="suggested_supplier_form" action="<?=base_url()?>company/<?=($sel_sup >= 1 ? 'updateSuggestedSuppliers' : 'storeSuggestedSuppliers')?>">
- <table id="example" class="example" class="display" style="width:100%">
+ <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-            	<th></th>
+            	<th>check</th>
                 <th>#</th>
                 <th>Name</th>
                 
@@ -33,7 +38,7 @@ $sel_sup = count($total_sup);
         </tbody>
         <tfoot>
             <tr>
-            	<th></th>
+            	<th>check</th>
                 <th>#</th>
                 <th>Name</th>
                 
@@ -43,6 +48,7 @@ $sel_sup = count($total_sup);
     <input type="hidden" name="pr_id" value="<?=$pr_id?>">
     <button type="submit" class="btn btn-default" ><?=($sel_sup >= 1 ? 'Update' : 'Save')?></button>
     </form>
+
     <script type="text/javascript">
     	$(document).ready(function() {
     $('#example').DataTable();

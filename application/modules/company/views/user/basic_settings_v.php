@@ -124,6 +124,18 @@
                                                }  ?></textarea>
 
                                     </div>
+                                    <div class="input-container col-sm-12">
+                                        <label for="input-business-description" class="rl-label required">Payment Detail</label>
+
+                                        <textarea rows="3" data-plugin-textarea-autosize=""
+                                                  id="input-business-description" placeholder="Payment Detail..."
+                                                  name="payment_detail"
+                                                  style="overflow: hidden; word-wrap: break-word; resize: none; height: 74px;"
+                                                  ><?php if(isset($userDetails['payment_detail'])){
+                                                echo $userDetails['payment_detail'];
+                                               }  ?></textarea>
+
+                                    </div>
                                 <!-- INPUT CONTAINER -->
                                 <div class="input-container col-sm-6">
                                     <label for="country1" class="rl-label required">Currency Selection</label>

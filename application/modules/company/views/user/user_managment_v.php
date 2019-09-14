@@ -45,9 +45,6 @@
         <!-- PURCHASES LIST HEADER -->
         <div class="purchases-list-header row">
             
-            <div class="col-xs-1">
-                <p class="text-header small">#</p>
-            </div>
             <div class="col-xs-2">
                 <p class="text-header small">Users</p>
             </div>
@@ -65,9 +62,6 @@
             </div>
             <div class="col-xs-1">
                 <p class="text-header small">Create PR</p>
-            </div>
-            <div class="col-xs-1">
-                <p class="text-header small">PR Approval</p>
             </div>
             <div class="col-xs-1">
                 <p class="text-header small">RFQ Approval</p>
@@ -93,11 +87,8 @@
       
         <div class="purchase-item row">
            
-           <div class="col-xs-1">
-            <p><?=$i;?></p>
-            </div>
             <div class="col-xs-2 visible-lg">
-                <a href="<?=base_url()?>company/add_user/?user=<?=$value['user_id']?>" class="edit_user" data-user-id=<?=$value['user_id']?>><p class="category primary"><?=$value['first_name']?> <span class="glyphicon glyphicon-edit" style="color: #1cbdf9;top: 0px" ></span></p></a>
+                <a href="<?=base_url()?>company/add_user/?user=<?=$value['user_id']?>" class="edit_user" data-user-id=<?=$value['user_id']?>><p class="category primary"><?=$value['first_name'].' '.$value['last_name']?> <span class="glyphicon glyphicon-edit" style="color: #1cbdf9;top: 0px" ></span></p></a>
             </div>
             <div class="col-xs-1 visible-lg">
                 <div class="form-check form-check-inline">
@@ -127,11 +118,6 @@
             </div>
             <div class="col-xs-1">
                 <div class="form-check form-check-inline">
-                  <input name="role_<?=$value['id']?>" class="form-check-input check_class_<?=$value['id']?>" type="checkbox" id="inlineCheckbox1" value="pr_approval" style="display: block;" <?=($value['pr_approval'] == 1) ? 'checked' : ''?>>
-                </div>
-            </div>
-            <div class="col-xs-1">
-                <div class="form-check form-check-inline">
                   <input name="role_<?=$value['id']?>" class="form-check-input check_class_<?=$value['id']?>" type="checkbox" id="inlineCheckbox1" value="rfq_approval" style="display: block;" <?=($value['rfq_approval'] == 1) ? 'checked' : ''?>>
                 </div>
             </div>
@@ -157,6 +143,9 @@
                    style="" data-method="accept" data-id="<?=$value['id']?>" data-user-id=<?=$value['user_id']?>>
                     <span class="tick-icon">✓</span>
                 </a>
+                <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action deleteUser"  data-method="cancel" data-id="<?=$value['id']?>" >
+                        <i class="fa fa-trash-o" style="margin-top: 6px; color: white;"></i>
+                    </a>
 
             </div>
             

@@ -158,7 +158,7 @@ class Company_m extends MY_Model
     }
     public function getAllUsers($userInfo='')
     {
-        return $this->db->select("ssxur.*,ssxu.first_name")->from("ssx_user_roles ssxur")->join("ssx_users ssxu","ssxur.user_id = ssxu.id","Left")->where("ssxur.company_id",$userInfo['user_of_company'])->get()->result_array();
+        return $this->db->select("ssxur.*,ssxu.first_name,ssxu.last_name")->from("ssx_user_roles ssxur")->join("ssx_users ssxu","ssxur.user_id = ssxu.id","Left")->where("ssxur.company_id",$userInfo['user_of_company'])->get()->result_array();
     }
     public function updateUserRole($user_id='',$roles='')
     {
@@ -220,6 +220,10 @@ class Company_m extends MY_Model
     public function get_all_warehouses($company_id='')
     {
         return $this->db->select("*")->from("ssx_company_locations")->where("company_id",$company_id)->get()->result_array();
+    }
+    public function get_all_tax($company_id='')
+    {
+        return $this->db->select("*")->from("ssx_company_tax")->where("company_id",$company_id)->get()->result_array();
     }
     public function get_warehouse($warehouse_id='')
     {
@@ -618,10 +622,12 @@ class Company_m extends MY_Model
             'status' => 1,
             'rfq_id' => $data['rfq_id'],
             'warehouse' => $data['warehouse_id'],
+            'tax' => $data['tax_id'],
             'delivery_date' => $data['date'],
             'shipment_details' => $data['shipment'], 
         );
-        return $this->db->insert("ssx_approved_po",$array);
+        $this->db->insert("ssx_approved_po",$array);
+        return $this->db->insert_id();
     }
     public function disapprovePO($data='',$user='')
     {

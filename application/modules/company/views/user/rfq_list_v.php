@@ -303,7 +303,7 @@ color: white;
             <div class="col-xs-2">
                 <p class="text-header small text-center ">Expiry Date</p>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
                 <p class="text-header small text-center">Suppliers</p>
             </div>
             <div class="col-xs-1">
@@ -316,7 +316,7 @@ color: white;
                 <p class="text-header small text-center">Attach Docs</p>
             </div>
             <div class="col-xs-1">
-                <p class="text-header small text-center">Email</p>
+                <p class="text-header small text-center">Other Info</p>
             </div>
             <div class="col-xs-1">
                 <p class="text-header small text-center">Currency</p>
@@ -357,10 +357,7 @@ color: white;
                                         $final = date("Y-m-d", strtotime("+".$company_settings[0]['RFQ_expiry']." days", $time));
                                      echo $final; ?>">
             </div>
-             <div class="col-xs-3" style="
-    padding-right: 0px;
-    width: 230px;
-">
+             <div class="col-xs-2" >
                <label class="radio-inline">
                   <input type="radio" name="optradio1" value="public" style="display: block;" class="public_div" checked>Public</label>
                 
@@ -383,7 +380,7 @@ color: white;
                 </div>
             </div>
 
-            <div class="col-xs-1" style="padding-left: 0px;">
+            <div class="col-xs-1" >
                  <input type="file" class="custom-file-input" name="file1" style="width: 37px;height: 31px;" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*">
             </div>
             <div class="col-xs-1" style="padding-right: 40px;">
@@ -491,7 +488,7 @@ color: white;
 </div>
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg" >
     
         <!-- Modal content-->
         <div class="modal-content" style="box-shadow: none;border: none;">

@@ -1155,6 +1155,7 @@ $(".approvePO").click(function() {
             //var user_id = $(this).attr("data-user-id");
            var supplier_id = $(".supplier_id_"+id+"").val();
            var warehouse_id = $(".warehouse_"+id+"").find(":selected").val();
+           var tax_id = $(".tax_"+id+"").find(":selected").val();
            var date = $(".d_date_"+id+"").val();
            var shipment = $(".Shipment_"+id+"").val();
            // alert("supplier "+supplier_id);
@@ -1163,7 +1164,7 @@ $(".approvePO").click(function() {
            // alert("shipment "+shipment);
            // return;
             $.ajax({
-                url: base_url+'company/approvePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&date='+date+'&shipment='+shipment,
+                url: base_url+'company/approvePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&tax_id='+tax_id+'&date='+date+'&shipment='+shipment,
                 type: "GET",
                 dataType: 'json',
                 timeout: 600000,

@@ -201,6 +201,11 @@ class Users_m extends MY_Model
                 'label' => 'legal address',
                 'rules' => 'trim'
             ],
+            'payment_detail' => [
+                'field' => 'payment_detail',
+                'label' => 'payment detail',
+                'rules' => 'trim'
+            ],
 
 
         ]
@@ -327,6 +332,7 @@ class Users_m extends MY_Model
         $this->userFields['RFQ_expiry'] = $this->input->post('rfq_expiry');
         $this->userFields['currency_id'] = $this->input->post('currency');
         $this->userFields['legal_address'] = $this->input->post('legal_address');
+        $this->userFields['payment_detail'] = $this->input->post('payment_detail');
 
         /*$this->userDetailFields['email'] = $this->input->post('email');
         $this->userDetailFields['email_token'] = $this->my_encrypt->encode($this->input->post('email'));

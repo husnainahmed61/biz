@@ -133,7 +133,7 @@ class Company extends User_Controller
             //echo "<pre>"; print_r($user);
 
             $userDetails  = $this->merchants->userDetailsM->getUserWithDetails(
-                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address",
+                "first_name,last_name,slug,profile_picture,type,phone,country_id,state_id,city_id,business_name,business_description,tax_number,registered_address,website_url,RFQ_expiry,currency_id,legal_address,payment_detail",
                 ['u.id'=>$user['id'],'u.is_company'=>1]);
             $this->data['user']['userDetails'] = $userDetails[0];
             $this->data['user']['countries']= $this->countries->countriesM->get_all(['is_active' => 1]);
@@ -1080,6 +1080,31 @@ class Company extends User_Controller
 
                 }
             }
+            else{
+                $company_name = $this->db->select("first_name,last_name")->from('ssx_users')->where('id',$user['user_of_company'])->get()->result_array();
+                   
+                $rfqDetail = $this->db->select("name,slug")->from("ssx_auctions")->where("id",$rfq_id)->get()->result_array();
+                
+                $msg = 'Dear '.$sup_email[0]['first_name'].' '.$sup_email[0]['last_name'].' - '.$sup_email[0]['supplier_company'].',
+    
+                    '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has raised an RFQ for '.$rfqDetail[0]["name"].' on Vayzn - Procurement Web Based Platform.
+                    Please click the following link to bid and fill technical details regarding this RFQ.
+                    
+                    Visit RFQ : https://www.vayzn.com/'.$rfqDetail[0]["slug"].'/auction
+                    
+                    Regards,
+                    Vayzn - Help Desk';
+
+                //$to = $sup_email[0]['email']; //"husnainahmed61@gmail.com";
+                
+                $msg .= $email_body[0]['email_body'];
+                
+                $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
+                $headers .= 'MIME-Version: 1.0';
+                $headers .= 'Content-type: text/html; charset=iso-8859-1';
+
+                mail("saad@vayzn.com","An Rfq with PUBLIC status",$msg,$headers);
+            }
             
 
         }
@@ -1121,7 +1146,8 @@ class Company extends User_Controller
             $user = $this->get_logged_in_user();
             //$this->data['user']['approved_pos'] =  $this->companyModel->all_pos($user['user_of_company']);
             $this->data['user']['all_pos'] =  $this->companyModel->all_pos($user['user_of_company']);
-            $this->data['user']['all_warehouses'] =  $this->companyModel->get_all_warehouses($user['user_of_company']);;
+            $this->data['user']['all_warehouses'] =  $this->companyModel->get_all_warehouses($user['user_of_company']);
+            $this->data['user']['all_tax'] =  $this->companyModel->get_all_tax($user['user_of_company']);
 
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
@@ -1141,11 +1167,45 @@ class Company extends User_Controller
             // print_r(explode(",",$roles));
             // exit();
             $res = $this->companyModel->approvePO($get,$user);
-                if ($res === TRUE) {
-                    $this->response['status'] = TRUE;
-                    $this->response['type'] = 'Successful';
-                    $this->response['title'] = "Successful";
-                    $this->response['message'] = "PR Approved Successfully";
+                if (is_numeric($res)) {
+                    $mpdf = new \Mpdf\Mpdf();
+                    $data['company_info']= $this->db->select("ssxu.*,ssxud.email")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxud.user_id = ssxu.id","Left")->where("ssxu.id",$user['user_of_company'])->get()->result_array();
+                    $data['supplier_info']= $this->db->select("ssxu.*,ssxud.email")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxud.user_id = ssxu.id","Left")->where("ssxu.id",$this->input->get('supplier_id'))->get()->result_array();
+                    $data['po_info'] = $this->db->select("ssxap.*,ssxcl.address,ssxct.tax_percentage")->from("ssx_approved_po ssxap")->join("ssx_company_locations ssxcl","ssxap.warehouse = ssxcl.id","Left")->join("ssx_company_tax ssxct","ssxap.tax = ssxct.id","Left")->where("ssxap.id",$res)->get()->result_array();
+                    $data['item_info'] = $this->db->select("ssxap.*,ssxa.name,ssxa.slug,ssxa.qty,ssxa.qty_unit,ssxb.amount,ssxc.name as cur")->from("ssx_approved_po ssxap")->join("ssx_auctions ssxa","ssxap.rfq_id = ssxa.id","Left")->join("ssx_bids ssxb","ssxb.auction_id = ssxap.rfq_id","Left")->join("ssx_currencies ssxc","ssxc.id = ssxa.currency","Left")->where("ssxap.id",$res)->where("ssxb.status","accepted")->get()->result_array();
+                    
+                    $html = $this->load->view("$this->modulePath/popdf", $data, TRUE); 
+                    // render the view into HTML
+                    $pdfFilePath = FCPATH . "attach/PO.pdf";
+                    $mpdf->WriteHTML($html);
+                    $mpdf->Output($pdfFilePath, "F");
+                    
+                     $subject = "PO for ".$data['item_info'][0]['name']." from ".$data['company_info'][0]['first_name']." ".$data['company_info'][0]['last_name']."";
+                     $msg = "Dear ".$data['supplier_info'][0]['first_name']." ".$data['supplier_info'][0]['last_name']." - ".$data['supplier_info'][0]['supplier_company'].",
+
+                            ".$data['company_info'][0]['first_name']." ".$data['company_info'][0]['last_name']." has issued Purchase Order for the item https://www.vayzn.com/".$data['item_info'][0]['slug']."/auction
+                            Please find mentioned PO in the attached file
+                            
+                            Regards,
+                            Vayzn-Help Desk";
+                    
+                    $result = $this->email
+                                ->from('no-reply@vayzn.com', 'no-reply VAYZN')
+                                ->to($data['supplier_info'][0]['email'])
+                                ->subject($subject)
+                                ->message($msg)
+                                ->attach($pdfFilePath)
+                                ->send();
+                    $this->email->clear($pdfFilePath);
+                    //exit();
+                    if($result) {
+                        $this->response['status'] = TRUE;
+                        $this->response['type'] = 'Successful';
+                        $this->response['title'] = "Successful";
+                        $this->response['message'] = "PR Approved Successfully";
+                        unlink($pdfFilePath); //for delete generated pdf file. 
+                    }
+                    
                 }
                 else{
                     $this->response['status'] = FALSE;
