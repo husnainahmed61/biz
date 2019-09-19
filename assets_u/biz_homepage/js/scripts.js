@@ -179,9 +179,11 @@
         
         $.ajax({
             type: "POST",
-            url: "php/requestform-process.php",
+            url: base_url + "home/contactForm_process",
             data: "name=" + name + "&email=" + email + "&phone=" + phone + "&select=" + select + "&terms=" + terms, 
             success: function(text) {
+                console.log(text);
+                return;
                 if (text == "success") {
                     rformSuccess();
                 } else {
@@ -235,9 +237,10 @@
         var terms = $("#cterms").val();
         $.ajax({
             type: "POST",
-            url: "php/contactform-process.php",
+            url: "home/contactForm_process",
             data: "name=" + name + "&email=" + email + "&message=" + message + "&terms=" + terms, 
             success: function(text) {
+                
                 if (text == "success") {
                     cformSuccess();
                 } else {

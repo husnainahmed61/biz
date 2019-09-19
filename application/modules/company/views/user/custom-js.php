@@ -287,7 +287,7 @@
                 success: function (response) {
                     $itemInput.empty();
                     $.each(response.data, function (i, item) {
-                        $itemInput.append('<option value="' + item.id + '">' + item.item_number+' - ' + item.item_name+'</option>');
+                        $itemInput.append('<option value="' + item.id + '">'+ item.item_number+' - ' + item.item_name.substring(0,45)+'</option>');
 
                         /*console.log(i + ': ' + item.c3_id + ': ' + item.categories);*/
                     });
@@ -867,6 +867,41 @@ $(document).ready(function(){
                 }
             });
     });
+    $( "#updateUser_form" ).submit(function( event ) {
+      event.preventDefault();
+      //alert( "Handler for .submit() called." );
+            // Get form
+            var $userForm = $("#updateUser_form");
+
+            data = $userForm.serialize();
+            // console.log(data);
+            // return;     
+            $.ajax({
+                url: $("#updateUser_form").attr('action'),
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                timeout: 600000,
+                success: function (response) {
+                    // console.log(response);
+                    // return;
+                    var type = '';
+                    var message = response.message;
+                    if (response.status) {
+                        
+                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                            setTimeout(function () {
+                                window.location.href = base_url +"company/user_settings";
+                            },1500);
+                    } else if (response.status === false) {
+                        showstatusMessage('messageError', response.title, message, 3000);
+                        setTimeout(function () {
+                                window.location.href = base_url +"company/user_settings";
+                            },1500);
+                    }
+                }
+            });
+    });
     $(".updateUserRole").click(function() {
             var id = $(this).attr("data-id");
             var user_id = $(this).attr("data-user-id");
@@ -897,6 +932,57 @@ $(document).ready(function(){
                 }
             });
         });
+    $(".deleteUser").click(function() {
+            var id = $(this).attr("data-id");
+            var user_id = $(this).attr("data-user-id");
+            bootbox.confirm({
+                message: "Are you sure , to delete this user?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        console.log('This was logged in the callback: ' + result);
+                        $.ajax({
+                        url: base_url+'company/deleteUser/?user_id='+user_id,
+                        type: "GET",
+                        dataType: 'json',
+                        timeout: 600000,
+                        success: function (response) {
+                            var type = '';
+                            var message = response.message;
+                            if (response.status) {
+                                
+                                showstatusMessage('messageSuccess',response.title, message , 4000);
+                                    setTimeout(function () {
+                                        window.location.href = base_url +"company/user_managment";
+                                    },1500);
+                            } else if (response.status === false) {
+                                showstatusMessage('messageError', response.title, message, 3000);
+                                setTimeout(function () {
+                                        window.location.href = base_url +"company/user_managment";
+                                    },1500);
+                            }
+                        }
+                    });
+
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
+                }
+            });
+           // alert(user_id);
+           // return;
+    });
     $( "#warehouse_form" ).submit(function( event ) {
       event.preventDefault();
       //alert( "Handler for .submit() called." );
@@ -930,6 +1016,57 @@ $(document).ready(function(){
                     }
                 }
             });
+    });
+    $(".deleteLocation").click(function() {
+            var id = $(this).attr("data-id");
+            //var user_id = $(this).attr("data-user-id");
+            bootbox.confirm({
+                message: "Are you sure , to delete this Location?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        console.log('This was logged in the callback: ' + result);
+                        $.ajax({
+                        url: base_url+'company/deleteLocation/?location_id='+id,
+                        type: "GET",
+                        dataType: 'json',
+                        timeout: 600000,
+                        success: function (response) {
+                            var type = '';
+                            var message = response.message;
+                            if (response.status) {
+                                
+                                showstatusMessage('messageSuccess',response.title, message , 4000);
+                                    setTimeout(function () {
+                                        window.location.href = base_url +"company/location_managment";
+                                    },1500);
+                            } else if (response.status === false) {
+                                showstatusMessage('messageError', response.title, message, 3000);
+                                setTimeout(function () {
+                                        window.location.href = base_url +"company/location_managment";
+                                    },1500);
+                            }
+                        }
+                    });
+
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
+                }
+            });
+           // alert(user_id);
+           // return;
     });
     $( "#item_form" ).submit(function( event ) {
       event.preventDefault();
@@ -967,6 +1104,57 @@ $(document).ready(function(){
                 }
             });
     });
+    $(".deleteItem").click(function() {
+            var id = $(this).attr("data-id");
+            //var user_id = $(this).attr("data-user-id");
+            bootbox.confirm({
+                message: "Are you sure , to delete this Item?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        console.log('This was logged in the callback: ' + result);
+                        $.ajax({
+                        url: base_url+'company/deleteItem/?item_id='+id,
+                        type: "GET",
+                        dataType: 'json',
+                        timeout: 600000,
+                        success: function (response) {
+                            var type = '';
+                            var message = response.message;
+                            if (response.status) {
+                                
+                                showstatusMessage('messageSuccess',response.title, message , 4000);
+                                    setTimeout(function () {
+                                        window.location.href = base_url +"company/inventory_list";
+                                    },1500);
+                            } else if (response.status === false) {
+                                showstatusMessage('messageError', response.title, message, 3000);
+                                setTimeout(function () {
+                                        window.location.href = base_url +"company/inventory_list";
+                                    },1500);
+                            }
+                        }
+                    });
+
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
+                }
+            });
+           // alert(user_id);
+           // return;
+    });
     $( "#supplier_form" ).submit(function( event ) {
       event.preventDefault();
       //alert( "Handler for .submit() called." );
@@ -1002,6 +1190,57 @@ $(document).ready(function(){
                 }
             });
     });
+    $(".deleteSupplier").click(function() {
+            var id = $(this).attr("data-id");
+            //var user_id = $(this).attr("data-user-id");
+            bootbox.confirm({
+                message: "Are you sure , to delete this Supplier?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        console.log('This was logged in the callback: ' + result);
+                        $.ajax({
+                        url: base_url+'company/deleteSupplier/?supplier_id='+id,
+                        type: "GET",
+                        dataType: 'json',
+                        timeout: 600000,
+                        success: function (response) {
+                            var type = '';
+                            var message = response.message;
+                            if (response.status) {
+                                
+                                showstatusMessage('messageSuccess',response.title, message , 4000);
+                                    setTimeout(function () {
+                                        window.location.href = base_url +"company/inventory_list";
+                                    },1500);
+                            } else if (response.status === false) {
+                                showstatusMessage('messageError', response.title, message, 3000);
+                                setTimeout(function () {
+                                        window.location.href = base_url +"company/inventory_list";
+                                    },1500);
+                            }
+                        }
+                    });
+
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
+                }
+            });
+           // alert(user_id);
+           // return;
+    });
     $( "#pr_form" ).submit(function( event ) {
       event.preventDefault();
       //alert( "Handler for .submit() called." );
@@ -1036,7 +1275,62 @@ $(document).ready(function(){
                 }
             });
     });
-    
+//approve all pr
+$(".approveAllPr").click(function() {
+    bootbox.confirm({
+                message: "Are you sure , to Approve All PR?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                         $.each($("input[name='prs']:checked"), function(){
+                            var id = $(this).val();
+                            //var user_id = $(this).attr("data-user-id");
+                           var qty = $(".Quantity_"+id+"").val();
+                           var qty_unit = $(".qty_unit_"+id+"").find(":selected").val();
+                           var condition = $(".condition_"+id+"").find(":selected").val();
+                           $.ajax({
+                                url: base_url+'company/updatePrStatus/?pr_id='+id+'&qty='+qty+'&qty_unit='+qty_unit+'&condition='+condition,
+                                type: "GET",
+                                dataType: 'json',
+                                timeout: 600000,
+                                success: function (response) {
+                                    var type = '';
+                                    var message = response.message;
+                                    if (response.status) {
+                                        
+                                        showstatusMessage('messageSuccess',response.title, message , 4000);
+                                            // setTimeout(function () {
+                                            //     window.location.href = base_url +"company/pr_list";
+                                            // },1500);
+                                    } else if (response.status === false) {
+                                        showstatusMessage('messageError', response.title, message, 3000);
+                                        // setTimeout(function () {
+                                        //         window.location.href = base_url +"company/pr_list";
+                                        //     },1500);
+                                    }
+                                }
+                            });
+                        });
+                         setTimeout(function () {
+                            window.location.href = base_url +"company/pr_list";
+                        },1500);
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
+                }
+            });
+});    
 //approve - disapprove pr
     $(".approvePr").click(function() {
             var id = $(this).attr("data-id");
@@ -1046,26 +1340,47 @@ $(document).ready(function(){
            var condition = $(".condition_"+id+"").find(":selected").val();
            // alert(condition);
            // return;
-            $.ajax({
-                url: base_url+'company/updatePrStatus/?pr_id='+id+'&qty='+qty+'&qty_unit='+qty_unit+'&condition='+condition,
-                type: "GET",
-                dataType: 'json',
-                timeout: 600000,
-                success: function (response) {
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {
-                        
-                        showstatusMessage('messageSuccess',response.title, message , 4000);
-                            setTimeout(function () {
-                                window.location.href = base_url +"company/pr_list";
-                            },1500);
-                    } else if (response.status === false) {
-                        showstatusMessage('messageError', response.title, message, 3000);
-                        setTimeout(function () {
-                                window.location.href = base_url +"company/pr_list";
-                            },1500);
+           bootbox.confirm({
+                message: "Are you sure , to Approve this PR?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
                     }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        $.ajax({
+                            url: base_url+'company/updatePrStatus/?pr_id='+id+'&qty='+qty+'&qty_unit='+qty_unit+'&condition='+condition,
+                            type: "GET",
+                            dataType: 'json',
+                            timeout: 600000,
+                            success: function (response) {
+                                var type = '';
+                                var message = response.message;
+                                if (response.status) {
+                                    
+                                    showstatusMessage('messageSuccess',response.title, message , 4000);
+                                        setTimeout(function () {
+                                            window.location.href = base_url +"company/pr_list";
+                                        },1500);
+                                } else if (response.status === false) {
+                                    showstatusMessage('messageError', response.title, message, 3000);
+                                    setTimeout(function () {
+                                            window.location.href = base_url +"company/pr_list";
+                                        },1500);
+                                }
+                            }
+                        });
+                                        }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
                 }
             });
         });
@@ -1077,77 +1392,305 @@ $(document).ready(function(){
            // var condition = $(".condition_"+id+"").find(":selected").val()
            // alert(id);
            // return;
-            $.ajax({
-                url: base_url+'company/updatePrStatusdisApprovePr/?pr_id='+id,
-                type: "GET",
-                dataType: 'json',
-                timeout: 600000,
-                success: function (response) {
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {
-                        
-                        showstatusMessage('messageSuccess',response.title, message , 4000);
-                            setTimeout(function () {
-                                window.location.href = base_url +"company/pr_list";
-                            },1500);
-                    } else if (response.status === false) {
-                        showstatusMessage('messageError', response.title, message, 3000);
-                        setTimeout(function () {
-                                window.location.href = base_url +"company/pr_list";
-                            },1500);
+           bootbox.confirm({
+                message: "Are you sure , to DisApprove this PR?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
                     }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        $.ajax({
+                            url: base_url+'company/updatePrStatusdisApprovePr/?pr_id='+id,
+                            type: "GET",
+                            dataType: 'json',
+                            timeout: 600000,
+                            success: function (response) {
+                                var type = '';
+                                var message = response.message;
+                                if (response.status) {
+                                    
+                                    showstatusMessage('messageSuccess',response.title, message , 4000);
+                                        setTimeout(function () {
+                                            window.location.href = base_url +"company/pr_list";
+                                        },1500);
+                                } else if (response.status === false) {
+                                    showstatusMessage('messageError', response.title, message, 3000);
+                                    setTimeout(function () {
+                                            window.location.href = base_url +"company/pr_list";
+                                        },1500);
+                                }
+                            }
+                        });
+                                        }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
                 }
             });
+            
         });
-//end  
+//end
+//approve all rfq
+$(".approveAllrfq").click(function() {
+    bootbox.confirm({
+                message: "Are you sure , to Approve All RFQ?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                     $.each($("input[name='rfqs']:checked"), function(){
+                        var id = $(this).val();
+                        // $( "#rfq_form_"+id ).submit(function( event ) {
+                        //   event.preventDefault();
+                          //alert( "Handler for .submit() called." );
+                                // Get form+
+                                var form = $("#rfq_form_"+id)[0];
+                                var data = new FormData(form);
+                                var $loginForm = $("#rfq_form_"+id);
+
+                                //data = $loginForm.serialize();
+                                     
+                                $.ajax({
+                                    url: $("#rfq_form_"+id).attr('action'),
+                                    type: "POST",
+                                    data: data,
+                                    dataType: 'json',
+                                    timeout: 600000,
+                                    enctype: 'multipart/form-data',
+                                    processData: false,  // Important!
+                                    contentType: false,
+                                    cache: false,
+                                    success: function (response) {
+                                         console.log(response);
+                                        // return;
+                                        var type = '';
+                                        var message = response.message;
+                                        if (response.status) {
+                                            
+                                            showstatusMessage('messageSuccess',response.title, message , 4000);
+                                                // setTimeout(function () {
+                                                //     window.location.href = base_url +"company/rfq_list";
+                                                // },1500);
+                                        } else if (response.status === false) {
+                                            showstatusMessage('messageError', response.title, message, 3000);
+                                            // setTimeout(function () {
+                                            //         window.location.href = base_url +"company/rfq_list";
+                                            //     },1500);
+                                        }
+                                    }
+                                });
+                            //});
+                        });
+                     setTimeout(function () {
+                        window.location.href = base_url +"company/rfq_list";
+                    },1500);
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
+                }
+            });
+   
+});
+//end approve all rfq  
 //rffq submit
 $(".submitRFQ").click(function() {
     var id = $(this).attr("data-id");
-
-    $( "#rfq_form_"+id ).submit(function( event ) {
-      event.preventDefault();
-      //alert( "Handler for .submit() called." );
-            // Get form+
-            var form = $("#rfq_form_"+id)[0];
-
-            var data = new FormData(form);
-            var $loginForm = $("#rfq_form_"+id);
-
-
-            //data = $loginForm.serialize();
-                 
-            $.ajax({
-                url: $("#rfq_form_"+id).attr('action'),
-                type: "POST",
-                data: data,
-                dataType: 'json',
-                timeout: 600000,
-                enctype: 'multipart/form-data',
-                processData: false,  // Important!
-                contentType: false,
-                cache: false,
-                success: function (response) {
-                    // console.log(response);
-                    // return;
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {
-                        
-                        showstatusMessage('messageSuccess',response.title, message , 4000);
-                            setTimeout(function () {
-                                window.location.href = base_url +"company/rfq_list";
-                            },1500);
-                    } else if (response.status === false) {
-                        showstatusMessage('messageError', response.title, message, 3000);
-                        setTimeout(function () {
-                                window.location.href = base_url +"company/rfq_list";
-                            },1500);
+    bootbox.confirm({
+                message: "Are you sure , to Submit RFQ?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
                     }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        //alert(id);
+                        //$( "#rfq_form_"+id ).submit(function( event ) {
+                          //event.preventDefault();
+                          //alert( "Handler for .submit() called." );
+                                // Get form+
+                                var form = $("#rfq_form_"+id)[0];
+
+                                var data = new FormData(form);
+                                var $loginForm = $("#rfq_form_"+id);
+
+
+                                //data = $loginForm.serialize();
+                                     
+                                $.ajax({
+                                    url: $("#rfq_form_"+id).attr('action'),
+                                    type: "POST",
+                                    data: data,
+                                    dataType: 'json',
+                                    timeout: 600000,
+                                    enctype: 'multipart/form-data',
+                                    processData: false,  // Important!
+                                    contentType: false,
+                                    cache: false,
+                                    success: function (response) {
+                                        // console.log(response);
+                                        // return;
+                                        var type = '';
+                                        var message = response.message;
+                                        if (response.status) {
+                                            
+                                            showstatusMessage('messageSuccess',response.title, message , 4000);
+                                                setTimeout(function () {
+                                                    window.location.href = base_url +"company/rfq_list";
+                                                },1500);
+                                        } else if (response.status === false) {
+                                            showstatusMessage('messageError', response.title, message, 3000);
+                                            setTimeout(function () {
+                                                    window.location.href = base_url +"company/rfq_list";
+                                                },1500);
+                                        }
+                                    }
+                                });
+                        //});
+                                        }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
                 }
             });
-    });
+    
 });
+$(".disaproveRFQ").click(function() {
+            var id = $(this).attr("data-id");
+            //var user_id = $(this).attr("data-user-id");
+           // var qty = $(".Quantity_"+id+"").val();
+           // var qty_unit = $(".qty_unit_"+id+"").find(":selected").val();
+           // var condition = $(".condition_"+id+"").find(":selected").val()
+           // alert(id);
+           // return;
+           bootbox.confirm({
+                message: "Are you sure , to DisApprove RFQ?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        $.ajax({
+                            url: base_url+'company/disaproveRFQ/?pr_id='+id,
+                            type: "GET",
+                            dataType: 'json',
+                            timeout: 600000,
+                            success: function (response) {
+                                var type = '';
+                                var message = response.message;
+                                if (response.status) {
+                                    
+                                    showstatusMessage('messageSuccess',response.title, message , 4000);
+                                        setTimeout(function () {
+                                            window.location.href = base_url +"company/rfq_list";
+                                        },1500);
+                                } else if (response.status === false) {
+                                    showstatusMessage('messageError', response.title, message, 3000);
+                                    setTimeout(function () {
+                                            window.location.href = base_url +"company/rfq_list";
+                                        },1500);
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
+                }
+            });
+            
+        });
+//approve all po
+$(".approveAllpo").click(function() {
+    bootbox.confirm({
+        message: "Are you sure , to Approve All PO?",
+        buttons: {
+            confirm: {
+                label: 'Yes',
+                className: 'btn-success'
+            },
+            cancel: {
+                label: 'No',
+                className: 'btn-danger'
+            }
+        },
+        callback: function (result) {
+            if (result === true) {
+               $.each($("input[name='pos']:checked"), function(){
+                   var id = $(this).val();
+                   var supplier_id = $(".supplier_id_"+id+"").val();
+                   var warehouse_id = $(".warehouse_"+id+"").find(":selected").val();
+                   var tax_id = $(".tax_"+id+"").find(":selected").val();
+                   var date = $(".d_date_"+id+"").val();
+                   var shipment = $(".Shipment_"+id+"").val();
+
+                   $.ajax({
+                        url: base_url+'company/approvePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&tax_id='+tax_id+'&date='+date+'&shipment='+shipment,
+                        type: "GET",
+                        dataType: 'json',
+                        timeout: 600000,
+                        success: function (response) {
+                            var type = '';
+                            var message = response.message;
+                            if (response.status) {                        
+                                showstatusMessage('messageSuccess',response.title, message , 4000);
+                                    // setTimeout(function () {
+                                    //     window.location.href = base_url +"company/po_list";
+                                    // },1500);
+                            } else if (response.status === false) {
+                                showstatusMessage('messageError', response.title, message, 3000);
+                                // setTimeout(function () {
+                                //         window.location.href = base_url +"company/po_list";
+                                //     },1500);
+                            }
+                        }
+                    });
+                });
+               setTimeout(function () {
+                    window.location.href = base_url +"company/po_list";
+                },1500);
+            }
+            else{
+                console.log('This was logged in the callback: ' + result);
+            }
+            
+        }
+    });
+});            
+
+//end approva all po
 //approve po
 $(".approvePO").click(function() {
             var id = $(this).attr("data-id");
@@ -1163,27 +1706,49 @@ $(".approvePO").click(function() {
            // alert("date "+date);
            // alert("shipment "+shipment);
            // return;
-            $.ajax({
-                url: base_url+'company/approvePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&tax_id='+tax_id+'&date='+date+'&shipment='+shipment,
-                type: "GET",
-                dataType: 'json',
-                timeout: 600000,
-                success: function (response) {
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {                        
-                        showstatusMessage('messageSuccess',response.title, message , 4000);
-                            setTimeout(function () {
-                                window.location.href = base_url +"company/po_list";
-                            },1500);
-                    } else if (response.status === false) {
-                        showstatusMessage('messageError', response.title, message, 3000);
-                        setTimeout(function () {
-                                window.location.href = base_url +"company/po_list";
-                            },1500);
+           bootbox.confirm({
+                message: "Are you sure , to Approve PO?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
                     }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        $.ajax({
+                        url: base_url+'company/approvePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&tax_id='+tax_id+'&date='+date+'&shipment='+shipment,
+                        type: "GET",
+                        dataType: 'json',
+                        timeout: 600000,
+                        success: function (response) {
+                            var type = '';
+                            var message = response.message;
+                            if (response.status) {                        
+                                showstatusMessage('messageSuccess',response.title, message , 4000);
+                                    setTimeout(function () {
+                                        window.location.href = base_url +"company/po_list";
+                                    },1500);
+                            } else if (response.status === false) {
+                                showstatusMessage('messageError', response.title, message, 3000);
+                                setTimeout(function () {
+                                        window.location.href = base_url +"company/po_list";
+                                    },1500);
+                            }
+                        }
+                    });
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
                 }
             });
+            
         });
 $(".disapprovePO").click(function() {
             var id = $(this).attr("data-id");
@@ -1198,29 +1763,163 @@ $(".disapprovePO").click(function() {
            // alert("date "+date);
            // alert("shipment "+shipment);
            // return;
-            $.ajax({
-                url: base_url+'company/disapprovePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&date='+date+'&shipment='+shipment,
-                type: "GET",
-                dataType: 'json',
-                timeout: 600000,
-                success: function (response) {
-                    var type = '';
-                    var message = response.message;
-                    if (response.status) {                        
-                        showstatusMessage('messageSuccess',response.title, message , 4000);
-                            setTimeout(function () {
-                                window.location.href = base_url +"company/po_list";
-                            },1500);
-                    } else if (response.status === false) {
-                        showstatusMessage('messageError', response.title, message, 3000);
-                        setTimeout(function () {
-                                window.location.href = base_url +"company/po_list";
-                            },1500);
+           bootbox.confirm({
+                message: "Are you sure , to DisApprove PO?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
                     }
+                },
+                callback: function (result) {
+                    if (result === true) {
+                        $.ajax({
+                        url: base_url+'company/disapprovePO/?rfq_id='+id+'&supplier_id='+supplier_id+'&warehouse_id='+warehouse_id+'&date='+date+'&shipment='+shipment,
+                        type: "GET",
+                        dataType: 'json',
+                        timeout: 600000,
+                        success: function (response) {
+                            var type = '';
+                            var message = response.message;
+                            if (response.status) {                        
+                                showstatusMessage('messageSuccess',response.title, message , 4000);
+                                    setTimeout(function () {
+                                        window.location.href = base_url +"company/po_list";
+                                    },1500);
+                            } else if (response.status === false) {
+                                showstatusMessage('messageError', response.title, message, 3000);
+                                setTimeout(function () {
+                                        window.location.href = base_url +"company/po_list";
+                                    },1500);
+                            }
+                        }
+                    });
+                    }
+                    else{
+                        console.log('This was logged in the callback: ' + result);
+                    }
+                    
                 }
             });
+            
         });
 
 </script>
 <script type="text/javascript">
+ $('#importItems').change(function(){
+
+        event.preventDefault();
+        //alert( "Handler for .submit() called." );
+        // Get form+
+        var form = $("#importItem")[0];
+
+        var data = new FormData(form);
+        var $loginForm = $("#importItem");
+
+
+        //data = $loginForm.serialize();
+             
+        $.ajax({
+            url: $("#importItem").attr('action'),
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            timeout: 600000,
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            success: function (response) {
+                // console.log(response);
+                // return;
+                var type = '';
+                var message = response.message;
+                if (response.status) {
+                    
+                    showstatusMessage('messageSuccess',response.title, message , 4000);
+                        setTimeout(function () {
+                            window.location.href = base_url +"company/inventory_list";
+                        },1500);
+                } else if (response.status === false) {
+                    showstatusMessage('messageError', response.title, message, 3000);
+                    setTimeout(function () {
+                            window.location.href = base_url +"company/inventory_list";
+                        },1500);
+                }
+            }
+        });
+ }); 
+  $('#importPR').change(function(){
+
+        event.preventDefault();
+        //alert( "Handler for .submit() called." );
+        // Get form+
+        var form = $("#importpr")[0];
+
+        var data = new FormData(form);
+        var $loginForm = $("#importpr");
+
+
+        //data = $loginForm.serialize();
+             
+        $.ajax({
+            url: $("#importpr").attr('action'),
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            timeout: 600000,
+            enctype: 'multipart/form-data',
+            processData: false,  // Important!
+            contentType: false,
+            cache: false,
+            success: function (response) {
+                // console.log(response);
+                // return;
+                var type = '';
+                var message = response.message;
+                if (response.status) {
+                    
+                    showstatusMessage('messageSuccess',response.title, message , 4000);
+                        setTimeout(function () {
+                            window.location.href = base_url +"company/pr_list";
+                        },1500);
+                } else if (response.status === false) {
+                    showstatusMessage('messageError', response.title, message, 3000);
+                    setTimeout(function () {
+                            window.location.href = base_url +"company/pr_list";
+                        },1500);
+                }
+            }
+        });
+ });   
+</script>
+ 
+<script>
+$(document).ready(function(){
+  $("#prSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    console.log(value);
+    $("#prSerachDiv .purchase-item").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  $("#rfqSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    console.log(value);
+    $("#rfqSerachDiv .purchase-item").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+  $("#poSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    console.log(value);
+    $("#poSerachDiv .purchase-item").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
 </script>

@@ -18,6 +18,31 @@
     }
 
 </style>
+<style type="text/css">
+ /*input type file css*/
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Import File';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border-radius: 10px;
+  padding: 0px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+</style>
 <!-- DASHBOARD CONTENT -->
 <div class="dashboard-content">
     <!-- HEADLINE -->
@@ -32,16 +57,18 @@
                 <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" >Create <span class="primary">PR</span></button></a>
             </div>
             <div class="btn pull-right">
-                <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #1cbdf9 !important;">Import PR<span class="primary"></span></button></a>
+                <form action="<?=base_url('company/import_pr')?>" enctype="multipart/form-data" id="importpr">
+                    <input type="file" id="importPR" class="custom-file-input button small dark" name="file1" style="width: 74px;color: white;height: 30px;background-color: #1cbdf9 !important" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">  
+                </form>
             </div>
             <div class="btn pull-left">
-                <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button></a>
+                <button type="Submit" class="button small dark approveAllPr" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button>
             </div>
         </div>
    
     
     <!-- /HEADLINE -->
-
+    <input id="prSearch" type="text" placeholder="Search..">  
     <!-- PURCHASES LIST -->
     <div class="purchases-list col-sm-12 purchase-lst-cs">
         <!-- PURCHASES LIST HEADER -->
@@ -72,7 +99,8 @@
             </div>
             
         </div>
-        <!-- /PURCHASES LIST HEADER -->
+        <div id="prSerachDiv">
+            <!-- /PURCHASES LIST HEADER -->
         <?php $i = 1;
          foreach ($all_prs as $key => $value) { ?>
         
@@ -80,19 +108,21 @@
         <div class="purchase-item row">
             <div class="col-xs-1">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="<?=$value['id']?>" style="display: block;" name="prs">
                 </div>
             </div>
             <div class="col-xs-1">
                 <p><?=$i?></p>
             </div>
-           
-            <div class="purchase-item-info col-xs-2 visible-lg">
+            
+           <div class="purchase-item-info col-xs-2 visible-lg">
                 <a href="#"><p class="category primary"><?=$value['item_number']?></p></a>
             </div>
              <div class="purchase-item-info col-xs-3 visible-lg">
                 <a href="#"><p class="category primary"><?=$value['item_name']?></p></a>
-            </div>
+            </div> 
+            
+            
 
             <div class="purchase-item-download col-xs-2">
                  <input type="number" name="Quantity" class="Quantity_<?=$value['id']?>" value="<?=$value['quantity']?>">
@@ -132,6 +162,8 @@
             
         </div>
         <?php $i++; } ?>
+        </div>
+        
         
         <!-- /PAGER -->
     </div>

@@ -53,7 +53,7 @@
             <div class="col-xs-2">
                 <p class="text-header small">Company Name</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <p class="text-header small">Contact Person</p>
             </div>
             <div class="col-xs-2">
@@ -62,7 +62,7 @@
             <div class="col-xs-1">
                 <p class="text-header small">Contact Number</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 <p class="text-header small text-center">Action</p>
             </div>
             
@@ -86,8 +86,8 @@
                 <a href="#"><p class="category primary"><?=$value['supplier_company']?></p></a>
             </div>
 
-            <div class="col-xs-2">
-                 <p><?=$value['first_name']?></p>
+            <div class="col-xs-3">
+                 <p><?=$value['first_name'].' '.$value['last_name']?></p>
             </div>
             <div class="col-xs-2">
                  <p><?=$value['email']?></p>
@@ -96,12 +96,15 @@
                  <p><?=$value['phone']?></p>
             </div>
             
-            <div class="recommendation-wrap bid_actions col-xs-2">
+            <div class="recommendation-wrap bid_actions col-xs-1">
                    
                     <div class="recommendation-wrap">
                     <a href="<?=base_url()?>company/add_supplier/?supplier=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action deleteSupplier"  data-method="cancel" data-id="<?=$value['id']?>" style="width: 40px;height: 40px;" >
+                            <i class="fa fa-trash-o" style="margin-top: 11px; color: white;"></i>
+                        </a>
                 </div>
                 </div>
             

@@ -31,13 +31,13 @@
       <div class="col-xs-12">
             
             <div class="btn pull-left">
-                <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button></a>
+                <button type="Submit" class="button small dark approveAllpo" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button>
             </div>
         </div>
    
     
     <!-- /HEADLINE -->
-
+    <input id="poSearch" type="text" placeholder="Search..">  
     <!-- PURCHASES LIST -->
     <div class="purchases-list col-sm-12 purchase-lst-cs">
         <!-- PURCHASES LIST HEADER -->
@@ -74,13 +74,14 @@
             </div>
             
         </div>
-        <!-- /PURCHASES LIST HEADER -->
+        <div id="poSerachDiv">
+           <!-- /PURCHASES LIST HEADER -->
         <?php $i=1; foreach ($all_pos as $key => $value) { ?>
             <!-- PURCHASE ITEM -->
        
             <div class="purchase-item row">
                <div class="col-xs-1">
-                      <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                      <input class="form-check-input" name="pos" type="checkbox" id="inlineCheckbox1" value="<?=$value['auction_id']?>" style="display: block;" <?=(($value['rfq_status'] == "1") || ($value['rfq_status'] == "0"))  ? 'disabled' : ''?>>
                 </div>
                 <div class="col-xs-1">
                     <p><?=$i?></p>
@@ -127,7 +128,9 @@
                 </div>
                 
             </div>
-        <?php $i++; } ?> 
+        <?php $i++; } ?>  
+        </div>
+        
         
         
         <!-- /PAGER -->

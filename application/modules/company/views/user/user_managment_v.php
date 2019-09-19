@@ -143,7 +143,7 @@
                    style="" data-method="accept" data-id="<?=$value['id']?>" data-user-id=<?=$value['user_id']?>>
                     <span class="tick-icon">✓</span>
                 </a>
-                <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action deleteUser"  data-method="cancel" data-id="<?=$value['id']?>" >
+                <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action deleteUser"  data-method="cancel" data-id="<?=$value['id']?>" data-user-id=<?=$value['user_id']?> >
                         <i class="fa fa-trash-o" style="margin-top: 6px; color: white;"></i>
                     </a>
 

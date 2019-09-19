@@ -300,6 +300,27 @@ class Company extends User_Controller
             $this->template->setup_private_template($this->data['user']);
         }
     }
+    public function deleteLocation()
+    {
+        $location_id = $this->input->get('location_id');
+        //$roles = $this->input->get("roles");
+        // print_r(explode(",",$roles));
+        // exit();
+        $res = $this->companyModel->deleteLocation($location_id);
+            if ($res === TRUE) {
+                $this->response['status'] = TRUE;
+                $this->response['type'] = 'Successful';
+                $this->response['title'] = "Successful";
+                $this->response['message'] = "Location Deleted Successfully";
+            }
+            else{
+                $this->response['status'] = FALSE;
+                $this->response['type'] = "Failed";
+                $this->response['title'] = "Failed";
+                $this->response['message'] = "Location Deletion Failed";
+            }
+        echo json_encode($this->response);
+    }
     public function store_warehouse($value='')
     {
         if ($this->check_user_authentication('', 'home')) {
@@ -396,6 +417,27 @@ class Company extends User_Controller
            
             echo json_encode($this->response);
         }
+    }
+    public function deleteItem()
+    {
+        $item_id = $this->input->get('item_id');
+        //$roles = $this->input->get("roles");
+        // print_r(explode(",",$roles));
+        // exit();
+        $res = $this->companyModel->deleteItem($item_id);
+            if ($res === TRUE) {
+                $this->response['status'] = TRUE;
+                $this->response['type'] = 'Successful';
+                $this->response['title'] = "Successful";
+                $this->response['message'] = "Item Deleted Successfully";
+            }
+            else{
+                $this->response['status'] = FALSE;
+                $this->response['type'] = "Failed";
+                $this->response['title'] = "Failed";
+                $this->response['message'] = "Item Deletion Failed";
+            }
+        echo json_encode($this->response);
     }
     public function inventory_list()
     {
@@ -592,6 +634,27 @@ class Company extends User_Controller
             }
         echo json_encode($this->response);
     }
+    public function deleteUser()
+    {
+        $user_id = $this->input->get('user_id');
+        //$roles = $this->input->get("roles");
+        // print_r(explode(",",$roles));
+        // exit();
+        $res = $this->companyModel->deleteUser($user_id);
+            if ($res === TRUE) {
+                $this->response['status'] = TRUE;
+                $this->response['type'] = 'Successful';
+                $this->response['title'] = "Successful";
+                $this->response['message'] = "User Deleted Successfully";
+            }
+            else{
+                $this->response['status'] = FALSE;
+                $this->response['type'] = "Failed";
+                $this->response['title'] = "Failed";
+                $this->response['message'] = "User Deletion Failed";
+            }
+        echo json_encode($this->response);
+    }
     public function create_pr()
     {
         if ($this->check_user_authentication('', 'home')) {
@@ -705,6 +768,29 @@ class Company extends User_Controller
             echo json_encode($this->response);
         }
     }
+    public function disaproveRFQ()
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $get = $this->input->get();
+            //$roles = $this->input->get("roles");
+            // print_r(explode(",",$roles));
+            // exit();
+            $res = $this->companyModel->disApproveRFQ($get);
+                if ($res === TRUE) {
+                    $this->response['status'] = TRUE;
+                    $this->response['type'] = 'Successful';
+                    $this->response['title'] = "Successful";
+                    $this->response['message'] = "RFQ DisApproved Successfully";
+                }
+                else{
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "RFQ DisApprove Failed";
+                }
+            echo json_encode($this->response);
+        }
+    }
 
 
     public function rfq_list()
@@ -729,6 +815,8 @@ class Company extends User_Controller
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
             $this->data['user']['rfq_item_suppliers'] = $this->companyModel->get_rfq_suppliers($user['user_of_company'],$item);
+            //getAllSuppliers
+            $this->data['user']['all_suppliers'] = $this->companyModel->getAllSuppliers($user['user_of_company']);
             $this->data['user']['pr_id'] = $pr_id;
             $this->data['user']['pr_selected_suppliers'] = $this->db->select("supplier_id")->from("ssx_rfq_suppliers")->where("pr_id",$pr_id)->get()->result_array();
 
@@ -1001,8 +1089,9 @@ class Company extends User_Controller
             'qty_unit' => $pr_Details[0]['quantity_unit'],
             'qty' => $pr_Details[0]['quantity'],
             'bidder_type' => "all",
-            'user_id' => $user['user_of_company'],
+            'user_id' => $user['id'],
             'company_auction' => 1,
+            'company_id' => $user['user_of_company'],
             'category1_id' => $pr_Details[0]['cat1_id'],
             'category2_id' => $pr_Details[0]['cat2_id'],
             'category3_id' => $pr_Details[0]['cat3_id'],
@@ -1066,7 +1155,11 @@ class Company extends User_Controller
                         Visit RFQ : https://www.vayzn.com/'.$rfqDetail[0]["slug"].'/auction
                         
                         Regards,
-                        Vayzn - Help Desk';
+                        Vayzn - Help Desk
+                        
+                        Important Note :
+                            
+                            ';
 
                     //$to = $sup_email[0]['email']; //"husnainahmed61@gmail.com";
                     
@@ -1085,19 +1178,19 @@ class Company extends User_Controller
                    
                 $rfqDetail = $this->db->select("name,slug")->from("ssx_auctions")->where("id",$rfq_id)->get()->result_array();
                 
-                $msg = 'Dear '.$sup_email[0]['first_name'].' '.$sup_email[0]['last_name'].' - '.$sup_email[0]['supplier_company'].',
+                $msg = 'Dear Admin,
     
                     '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has raised an RFQ for '.$rfqDetail[0]["name"].' on Vayzn - Procurement Web Based Platform.
                     Please click the following link to bid and fill technical details regarding this RFQ.
                     
                     Visit RFQ : https://www.vayzn.com/'.$rfqDetail[0]["slug"].'/auction
-                    
+                    NOTE : it is public RFQ  
                     Regards,
                     Vayzn - Help Desk';
 
                 //$to = $sup_email[0]['email']; //"husnainahmed61@gmail.com";
                 
-                $msg .= $email_body[0]['email_body'];
+                //$msg .= $email_body[0]['email_body'];
                 
                 $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
                 $headers .= 'MIME-Version: 1.0';
@@ -1482,6 +1575,176 @@ class Company extends User_Controller
         }
 
         echo json_encode($this->response);
+    }
+    public function user_settings($value='')
+    {
+        if ($this->check_user_authentication('', 'home')) {
+            $user = $this->get_logged_in_user();
+            //$user_id = $this->input->get("user");
+
+            if (isset($user) && !empty($user)) {
+                $this->data['user']['user_data'] = $this->companyModel->getUserData($user['id']);
+            }
+            // print_r($this->data['user']['user_data']);
+            // exit();
+            $user = $this->merchants->getTokenById($user['id']);
+            $token = $user['email_token'];
+            $this->data['user']['token'] = $token;
+
+            $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
+            $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
+            $this->data['user']['content_view'] = "$this->modulePath/user_settings_v";
+
+            $this->setupNav();
+            $this->setupHeader1();
+            $this->template->setup_private_template($this->data['user']);
+        }
+    }
+    public function import_pr()
+    {
+        $this->load->library('excel');
+        //print_r($_FILES);
+        $user = $this->get_logged_in_user();
+        if(isset($_FILES["file1"]["name"]) && !empty($_FILES["file1"]["name"])){
+            $temp = explode(".", $_FILES["file1"]["name"]);
+            $newfilename2 =  round(microtime(true)).'-'.round(microtime(true)) . '.' . end($temp);
+
+            //$absPath = $this->config->item('resources_abs_path');
+            $absPath = FCPATH. "attach/";
+
+            $target_dir = $absPath;
+            $target_file = $target_dir . $newfilename2;
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            
+           
+                if (move_uploaded_file($_FILES["file1"]["tmp_name"], $target_file)) {
+                    $newfilename2 = $newfilename2;
+
+                    $inputFileType = PHPExcel_IOFactory::identify($target_file);
+                    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                    $objPHPExcel = $objReader->load($target_file);
+                    $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+                    $inserdata = [];
+                    //$flag = true;
+                    $i=0;
+                    foreach ($allDataInSheet as $value) {
+                        
+                      // if($flag){
+                      //   $flag =false;
+                      //   continue;
+                      // }
+                      $inserdata[$i]['company_id'] = $user['user_of_company'];
+                      $inserdata[$i]['user_id'] = $user['id'];
+                      $inserdata[$i]['item_id'] = $value['A'];
+                      $inserdata[$i]['name'] = $value['B'];
+                      $inserdata[$i]['description'] = $value['C'];
+                      $inserdata[$i]['item_condition'] = $value['D'];
+                      $inserdata[$i]['quantity_unit'] = $value['E'];
+                      $inserdata[$i]['quantity'] = $value['F'];
+                      $i++;
+                    }               
+                    //$result = $this->import->importdata($inserdata); 
+                    //print_r($inserdata);
+                    $res = $this->db->insert_batch('ssx_company_pr',$inserdata);
+                        if($res){
+                            unlink($target_file);
+                            $this->response['status'] = TRUE;
+                            $this->response['type'] = 'Successful';
+                            $this->response['title'] = "Successful";
+                            $this->response['message'] = "Data uploaded Successfully";
+                        }else{
+                            $this->response['status'] = FALSE;
+                            $this->response['type'] = "Failed";
+                            $this->response['title'] = "Failed";
+                            $this->response['message'] = "Data upload Failed";
+                        }
+                    //exit();
+
+                }
+                else{
+                    $newfilename2 = '';
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Data upload Failed";
+                } 
+            
+            }
+            echo json_encode($this->response);
+    }
+
+    public function import_items()
+    {
+        $this->load->library('excel');
+        //print_r($_FILES);
+        $user = $this->get_logged_in_user();
+        if(isset($_FILES["file1"]["name"]) && !empty($_FILES["file1"]["name"])){
+            $temp = explode(".", $_FILES["file1"]["name"]);
+            $newfilename2 =  round(microtime(true)).'-'.round(microtime(true)) . '.' . end($temp);
+
+            //$absPath = $this->config->item('resources_abs_path');
+            $absPath = FCPATH. "attach/";
+
+            $target_dir = $absPath;
+            $target_file = $target_dir . $newfilename2;
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+            
+           
+                if (move_uploaded_file($_FILES["file1"]["tmp_name"], $target_file)) {
+                    $newfilename2 = $newfilename2;
+
+                    $inputFileType = PHPExcel_IOFactory::identify($target_file);
+                    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+                    $objPHPExcel = $objReader->load($target_file);
+                    $allDataInSheet = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
+                    //$flag = true;
+                    $i=0;
+                    foreach ($allDataInSheet as $value) {
+                      // if($flag){
+                      //   $flag =false;
+                      //   continue;
+                      // }
+                      $inserdata[$i]['company_id'] = $user['user_of_company'];
+                      $inserdata[$i]['user_id'] = $user['id'];
+                      $inserdata[$i]['item_name'] = $value['A'];
+                      $inserdata[$i]['item_number'] = $value['B'];
+                      $inserdata[$i]['item_desc'] = $value['C'];
+                      $inserdata[$i]['qty_unit'] = $value['D'];
+                      $inserdata[$i]['cat1_id'] = $value['E'];
+                      $inserdata[$i]['cat2_id'] = $value['F'];
+                      $inserdata[$i]['cat3_id'] = $value['G'];
+                      $i++;
+                    }               
+                    //$result = $this->import->importdata($inserdata); 
+                    //print_r($inserdata);
+                    $res = $this->db->insert_batch('ssx_company_items',$inserdata);
+                        if($res){
+                            unlink($target_file);
+                            $this->response['status'] = TRUE;
+                            $this->response['type'] = 'Successful';
+                            $this->response['title'] = "Successful";
+                            $this->response['message'] = "Data uploaded Successfully";
+                        }else{
+                            $this->response['status'] = FALSE;
+                            $this->response['type'] = "Failed";
+                            $this->response['title'] = "Failed";
+                            $this->response['message'] = "Data upload Failed";
+                        }
+                    //exit();
+
+                }
+                else{
+                    $newfilename2 = '';
+                    $this->response['status'] = FALSE;
+                    $this->response['type'] = "Failed";
+                    $this->response['title'] = "Failed";
+                    $this->response['message'] = "Data upload Failed";
+                } 
+            
+            }
+            echo json_encode($this->response);
     }
 
     

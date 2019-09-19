@@ -169,9 +169,10 @@ class User_Controller extends MY_Base_Controller
            $user_roles = "is_admin";
         }
         else{
-            $user_roles = $this->merchants->Users_m->get_user_roles($logged_in_user['id']);
+            $user_roles = $this->merchants->Users_m->get_user_roles_m($logged_in_user['id']);
         }
         $this->data['user']['header']['user_roles'] = $user_roles;
+        return $user_roles;
     }
 
     protected function check_user_authentication($successUrl = NULL, $failureUrl = NULL)

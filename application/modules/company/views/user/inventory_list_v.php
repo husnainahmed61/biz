@@ -16,6 +16,31 @@
     }
 
 </style>
+<style type="text/css">
+ /*input type file css*/
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Import File';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border-radius: 10px;
+  padding: 0px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+</style>
 <!-- DASHBOARD CONTENT -->
 <div class="dashboard-content">
     <!-- HEADLINE -->
@@ -30,7 +55,10 @@
                 <a href="<?=base_url('company/add_inventory')?>"><button type="Submit" class="button small dark" >Add <span class="primary">Inventory</span></button></a>
             </div>
             <div class="btn pull-right">
-                <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #1cbdf9 !important;">Import Inventory<span class="primary"></span></button></a>
+                <form action="<?=base_url('company/import_items')?>" enctype="multipart/form-data" id="importItem">
+                    <input type="file" id="importItems" class="custom-file-input button small dark" name="file1" style="width: 74px;color: white;height: 30px;   background-color: #1cbdf9 !important" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">  
+                </form>
+                             
             </div>
            
         </div>
@@ -49,7 +77,7 @@
             <div class="col-xs-3">
                 <p class="text-header small">Category</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-3">
                 <p class="text-header small">Item Number</p>
             </div>
             <div class="col-xs-3">
@@ -58,7 +86,7 @@
             <div class="col-xs-1">
                 <p class="text-header small">Quantity Unit</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 <p class="text-header small text-center">Action</p>
             </div>
             
@@ -72,13 +100,13 @@
         <div class="purchase-item row">
            
             <div class="col-xs-1">
-                <p><?=$value['id']?></p>
+                <p><?=$i?></p>
             </div>
            
             <div class="col-xs-3 visible-lg">
                 <a href="#"><p class="category primary"><?=$value['cat_name']?></p></a>
             </div>
-             <div class="col-xs-2 visible-lg">
+             <div class="col-xs-3 visible-lg">
                 <a href="#"><p class="category primary"><?=$value['item_number']?></p></a>
             </div>
 
@@ -89,11 +117,15 @@
                  <p><?=$value['qty_unit']?></p>
             </div>
             
-            <div class="recommendation-wrap bid_actions col-xs-2">
+            <div class="recommendation-wrap bid_actions col-xs-1">
                   <div class="recommendation-wrap">
                     <a href="<?=base_url()?>company/add_inventory/?item=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
+                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action deleteItem"  data-method="cancel" data-id="<?=$value['id']?>" style="width: 40px;
+    height: 40px;"  >
+                            <i class="fa fa-trash-o" style="margin-top: 11px; color: white;"></i>
+                        </a>
                 </div>
                 </div>
             

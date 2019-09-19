@@ -10,8 +10,19 @@ $user_id = $user_id['id'];
             <!-- HEADLINE -->
             <div class="headline buttons two primary col-sm-12 latest-item-main" style="margin-bottom: 4px;">
                 <h4>Your Inbox (<?=count($conversations)?>)</h4>
+                <?php if ($user_roles == "is_admin") { ?>
+                <form method="post" action="<?=base_url()?>inbox">
+                    <select style="width: fit-content;margin-top: 16px;margin-left: 50px;" name="user_convo">
+                        <option>Select User</option>
+                        <?php foreach ($all_users as $key => $value) { ?>
+                        <option value="<?=$value['user_id']?>" <?=(isset($selected_id) && $selected_id == $value['user_id']) ? 'selected' : '' ?> ><?=$value['first_name'].' '.$value['last_name']?></option>
+                        <?php } ?>
+                    </select>
+                <button type="submit"> Get Convo</button>    
+                </form>
                 
-				<a href="" class="button mid-short secondary open-new-message" data-toggle="modal" data-target="#myModal">New Message</a>
+                <?php } ?>
+				<a href="" class="button mid-short secondary open-new-message" data-toggle="modal" data-target="#myModal">New Message</a>    
 				<a href="#" class="button mid-short primary">Delete Selected</a>
             </div>
             <!-- /HEADLINE -->

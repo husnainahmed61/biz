@@ -110,6 +110,7 @@ class Company_m extends MY_Model
             'user_id' => $insert_id,
             'email' => $data['Email'],
             'password_en' => $this->my_encrypt->encode($pass),
+            'email_token' => $this->my_encrypt->encode($data['Email']),
             'account_status' => 'verified',
         );
         $this->db->insert('ssx_user_details', $data2);
@@ -190,6 +191,47 @@ class Company_m extends MY_Model
         }
         return $res;      
     }
+    public function deleteUser($user_id='')
+    {
+
+        $where = array(
+        'user_id' => $user_id,
+        );
+        $res1 = $this->db->select("*")->from("ssx_approved_po")->where($where)->get()->result_array();
+        $res2 = $this->db->select("*")->from("ssx_company_items")->where($where)->get()->result_array();
+        $res3 = $this->db->select("*")->from("ssx_company_locations")->where($where)->get()->result_array();
+        $res4 = $this->db->select("*")->from("ssx_company_pr")->where($where)->get()->result_array();
+        $res5 = $this->db->select("*")->from("ssx_company_rfqs")->where($where)->get()->result_array();
+        $res6 = $this->db->select("*")->from("ssx_company_tax")->where($where)->get()->result_array();
+        $res7 = $this->db->select("*")->from("ssx_rfq_email")->where($where)->get()->result_array();
+        $res8 = $this->db->select("*")->from("ssx_rfq_specfications")->where($where)->get()->result_array();
+        $res9 = $this->db->select("*")->from("ssx_rfq_suppliers")->where($where)->get()->result_array();
+        //ssx_approved_po
+        //ssx_company_items
+        //ssx_company_locations
+        //ssx_company_pr
+        //ssx_company_rfqs
+        //ssx_company_tax
+        //ssx_rfq_email
+        //ssx_rfq_specfications
+        //ssx_rfq_suppliers
+        if (isset($res1[0]['user_id']) || isset($res2[0]['user_id']) || isset($res3[0]['user_id']) || isset($res4[0]['user_id']) || isset($res5[0]['user_id']) || isset($res6[0]['user_id']) || isset($res7[0]['user_id']) || isset($res8[0]['user_id']) || isset($res9[0]['user_id']) ) {
+            return FALSE;
+        }
+        else{
+            $this->db->where($where);
+            $this->db->delete('ssx_user_roles');
+
+            $this->db->where('id',$user_id);
+            $this->db->delete('ssx_users');
+
+            $this->db->where($where);
+            $this->db->delete('ssx_user_details');
+
+            return TRUE;
+        }
+      
+    }
     public function getUserData($user_id='')
     {
         return $this->db->select("ssxu.*,ssxud.email")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxu.id=ssxud.user_id","Left")->where("ssxu.id",$user_id)->get()->result_array();
@@ -216,6 +258,34 @@ class Company_m extends MY_Model
         );
          return $this->db->insert('ssx_company_locations', $data);
 
+    }
+    public function deleteLocation($location_id='')
+    {
+
+        $where = array(
+        'warehouse' => $location_id,
+        );
+        $res1 = $this->db->select("*")->from("ssx_approved_po")->where($where)->get()->result_array();
+        //ssx_approved_po
+        //ssx_company_items
+        //ssx_company_locations
+        //ssx_company_pr
+        //ssx_company_rfqs
+        //ssx_company_tax
+        //ssx_rfq_email
+        //ssx_rfq_specfications
+        //ssx_rfq_suppliers
+        if (isset($res1[0]['warehouse']) ) {
+            return FALSE;
+        }
+        else{
+            
+            $this->db->where('id',$location_id);
+            $this->db->delete('ssx_company_locations');
+
+            return TRUE;
+        }
+      
     }
     public function get_all_warehouses($company_id='')
     {
@@ -262,6 +332,35 @@ class Company_m extends MY_Model
          return $this->db->insert('ssx_company_items', $data);
 
     }
+    public function deleteItem($item_id='')
+    {
+
+        $where = array(
+        'item_id' => $item_id,
+        );
+        $res1 = $this->db->select("*")->from("ssx_company_pr")->where($where)->get()->result_array();
+        //ssx_approved_po
+        //ssx_company_items
+        //ssx_company_locations
+        //ssx_company_pr
+        //ssx_company_rfqs
+        //ssx_company_tax
+        //ssx_rfq_email
+        //ssx_rfq_specfications
+        //ssx_rfq_suppliers
+        if (isset($res1[0]['item_id']) ) {
+            return FALSE;
+        }
+        else{
+            
+            $this->db->where('id',$item_id);
+            $this->db->delete('ssx_company_items');
+
+            return TRUE;
+        }
+      
+    }
+
     public function get_all_inventory($company_id='')
     {
         return $this->db->select("ssxci.*,ssxc3.name as cat_name")->from("ssx_company_items ssxci")->join("ssx_categories3 ssxc3","ssxc3.id=ssxci.cat3_id","Left" )->where("ssxci.company_id",$company_id)->get()->result_array();
@@ -322,7 +421,6 @@ class Company_m extends MY_Model
                 $msg = 'Dear '.$data['first_name'].' '.$data['last_name'].' - '.$data['company_name'].',
     
                     '.$company_name[0]['first_name'].' '.$company_name[0]['last_name'].' has added you as its offical supplier on Vayzn - Procurement Web Based Platform.
-                    Please refer following credentials to login and resume selling your products via Vayzn
                     
                     Login Here : https://www.vayzn.com
                     
@@ -378,6 +476,7 @@ class Company_m extends MY_Model
                 'user_id' => $insert_id,
                 'email' => $data['email'],
                 'password_en' => $this->my_encrypt->encode($pass),
+                'email_token' => $this->my_encrypt->encode($data['email']),
                 'account_status' => 'verified',
             );
             $this->db->insert('ssx_user_details', $data2);
@@ -453,7 +552,7 @@ class Company_m extends MY_Model
     }
     public function getAllSuppliers($company_id='')
     {
-        return $this->db->select("ssxu.*,ssxud.email,ssxc3.name as cat3name")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxu.id=ssxud.user_id","Left")->join("ssx_followers ssxf","ssxf.follower_id=ssxu.id AND ssxf.following_id=".$company_id,"Left")->join("ssx_categories3 ssxc3","ssxf.cat3_id=ssxc3.id","Left")->where("ssxu.supplier_of_company",$company_id)->get()->result_array();
+        return $this->db->select("ssxu.*,ssxud.email,ssxc3.name as cat3name")->from("ssx_users ssxu")->join("ssx_user_details ssxud","ssxu.id=ssxud.user_id","Left")->join("ssx_followers ssxf","ssxf.follower_id=ssxu.id AND ssxf.following_id=".$company_id,"Left")->join("ssx_categories3 ssxc3","ssxf.cat3_id=ssxc3.id","Left")->where("ssxu.is_supplier",1)->get()->result_array();
     }
     public function get_supplier($supplier_id='')
     {
@@ -476,7 +575,7 @@ class Company_m extends MY_Model
     }
     public function getAllPr($company_id='')
     {
-        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$company_id)->where("ssxcp.status ",NULL)->or_where("ssxcp.status",0)->get()->result_array();
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$company_id)->where("ssxcp.status ",NULL)->get()->result_array();
         
     }
     public function updatePrStatus($get='')
@@ -495,6 +594,15 @@ class Company_m extends MY_Model
     {
         $data = array(
             'status' => 0,
+        );
+
+        $this->db->where('id', $get['pr_id']);
+        return $this->db->update('ssx_company_pr', $data);
+    }
+    public function disApproveRFQ($get='')
+    {
+        $data = array(
+            'status' => NULL,
         );
 
         $this->db->where('id', $get['pr_id']);

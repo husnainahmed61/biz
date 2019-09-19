@@ -1,6 +1,12 @@
 <?php
 //echo "<pre>";
 //print_r($pr_selected_suppliers);
+//item suppliers
+$all_sup = [];
+foreach ($rfq_item_suppliers as $key => $value) {
+    array_push($all_sup, $value['supplier_id']);
+}
+//selected item suppliers
 $total_sup = [];
 foreach ($pr_selected_suppliers as $key => $value) {
     array_push($total_sup, $value['supplier_id']);
@@ -27,11 +33,11 @@ $sel_sup = count($total_sup);
             </tr>
         </thead>
         <tbody>
-        	<?php $i=1;  foreach ($rfq_item_suppliers as $key => $value) { ?>
+        	<?php $i=1;  foreach ($all_suppliers as $key => $value) { ?>
             <tr>
-            	<td><input type="checkbox" name="supplier_id[]" value="<?=$value['supplier_id']?>" style="display: block;" <?=(in_array($value['supplier_id'], $total_sup)) ? 'checked' : ''?>></td>
+            	<td><input type="checkbox" name="supplier_id[]" value="<?=$value['id']?>" style="display: block;" <?=(in_array($value['id'], $total_sup) || in_array($value['id'], $all_sup)) ? 'checked' : ''?>></td>
                 <td><?=$i?></td>
-                <td><?=$value['first_name']?></td>
+                <td><?=$value['first_name'].' '.$value['last_name']?></td>
                 
             </tr> 
             <?php $i++; } ?>           

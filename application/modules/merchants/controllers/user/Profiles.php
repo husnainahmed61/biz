@@ -13,6 +13,7 @@ class Profiles extends User_Controller
     private $moduleName;
     private $loggedInUser; // Uzair
     private $imageFiles; // UZair
+    private $user_roles;
     /**
      * Profiles constructor.
      */
@@ -24,7 +25,7 @@ class Profiles extends User_Controller
         $this->modulePath = "$this->moduleName/$this->userName";
         $this->data['user']['pageHeader'] = 'Profile';
         /*$this->data['admin']['pageDescription'] = 'Dress Categories description';*/
-        $this->get_user_roles();
+        $this->user_roles = $this->get_user_roles();
         $this->loggedInUser = $this->get_logged_in_user(); //UZair
 
         $this->load->model('Users_m', 'usersM', TRUE);
@@ -420,6 +421,7 @@ class Profiles extends User_Controller
     }
     public function getUserConvo()
     {
+        //getUserConvo_Company
         return $this->usersM->getUserConvo($this->loggedInUser['id']);
 
         //$res = $this->usersM->getUserConvo($this->loggedInUser['id']);
@@ -533,12 +535,30 @@ class Profiles extends User_Controller
     }
     public function Inbox()
     {
+        $user_id = $this->input->post("user_convo");
+        // print_r($user_id);
+        // exit();
         if ($this->check_user_authentication('', 'home'))
         {
+            $user = $this->get_logged_in_user();
             $this->data['user']['base_resources_url_auction'] = $this->config->item('base_resources_url') . "images/auctions/";
             $user = $this->get_logged_in_user(); //$user['id']; user id can get
-
-            $this->data['user']['conversations'] = $this->getUserConvo();
+            $this->data['user']['all_users'] = $this->db->select("ssxur.*,ssxu.first_name,ssxu.last_name")->from("ssx_user_roles ssxur")->join("ssx_users ssxu","ssxur.user_id = ssxu.id","Left")->where("ssxur.company_id",$user['user_of_company'])->get()->result_array();
+            if ($this->user_roles == "is_admin") {
+                //getUserConvo_Company
+                if (isset($user_id) && !empty($user_id)) {
+                    $this->data['user']['selected_id'] = $user_id;
+                    $this->data['user']['conversations'] = $this->usersM->getUserConvo($user_id);
+                }
+                else{
+                    $this->data['user']['conversations'] = $this->usersM->getUserConvo_Company($user['user_of_company']);
+                }
+                
+            }
+            else{
+                $this->data['user']['conversations'] = $this->getUserConvo();
+            }
+            
             $this->data['user']['content_view'] = "$this->modulePath/inbox";
             // $this->setupHeader1();
             // $this->setupNav();

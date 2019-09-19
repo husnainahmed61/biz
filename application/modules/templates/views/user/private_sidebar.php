@@ -201,6 +201,16 @@ $user_login = $this->session->userdata("user_login");
                 
             </li>
             <!-- /DROPDOWN ITEM -->
+            <?php if ($user_roles != "is_admin" ){ ?>
+              <!-- DROPDOWN ITEM -->
+            <li class="dropdown-item">
+                <a href="<?=base_url('company/user_settings')?>">
+                    <span class="sl-icon icon-star"></span>
+                    User Settings
+                </a>
+            </li>
+            <!-- /DROPDOWN ITEM -->
+             <?php } ?>
         </ul>
         <!-- /DROPDOWN -->
 

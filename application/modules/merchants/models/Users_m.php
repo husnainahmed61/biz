@@ -278,7 +278,7 @@ class Users_m extends MY_Model
         $this->userFields['RFQ_expiry'] = $this->input->post('rfq_expiry');
         $this->userFields['currency_id'] = $this->input->post('currency');
         $this->userFields['legal_address'] = $this->input->post('legal_address');
-
+        
         $this->userDetailFields['email'] = $this->input->post('email');
         $this->userDetailFields['email_token'] = $this->my_encrypt->encode($this->input->post('email'));
         $this->userDetailFields['password_en'] = $this->my_encrypt->encode($this->input->post('password'));
@@ -440,6 +440,44 @@ class Users_m extends MY_Model
         }
         return $auction_chats;
     }
+    public function getUserConvo_Company($value='')
+    {
+        $auction_chats = [];
+        $auction_convo = [];
+        $this->db->trans_start();
+        $this->db->distinct('ssxc.auction_id');
+        $this->db->select("ssxc.auction_id");
+        $this->db->from("ssx_conversations ssxc");
+        //$this->db->join("ssx_users ssxu","ssxc.recieved_by_user=ssxu.id","Left");
+        //$this->db->join("ssx_auctions ssxa","ssxc.auction_id = ssxa.id","Left");
+        $this->db->where("rec_company_id",$value);
+        $this->db->or_where("sen_company_id ",$value);
+        // /$this->db->group_by("ssxc.auction_id");
+        $res = $this->db->get();
+        $this->db->trans_complete();
+        //print_r($this->db->trans_status());
+        //exit();
+        $res = $res->result_array();
+        foreach ($res as $key => $value) {
+            $this->db->select("ssxc.*,(SELECT ssx_auctions.image_sm_1 FROM ssx_auctions WHERE ssx_auctions.id=ssxc.auction_id) AS auction_image");
+            $this->db->from("ssx_conversations ssxc");
+            $this->db->where("auction_id",$value['auction_id']);
+            $convo = $this->db->get()->result_array();
+
+            $auction_convo["name"] = $convo[0]['auction_name'];
+            $auction_convo["slug"] = $convo[0]['auction_slug'];
+            $auction_convo["image"] = $convo[0]['auction_image'];
+            $auction_convo["auction_id"] = $convo[0]['auction_id'];
+            $auction_convo["created_at"] = $convo[0]['created_at'];
+            $auction_convo["result"] = $convo;
+
+            array_push($auction_chats, $auction_convo);
+
+            //$auction_chats[$value['auction_id']]
+
+        }
+        return $auction_chats;
+    }
 
     public function getMessagesById($value='')
     {
@@ -514,10 +552,15 @@ class Users_m extends MY_Model
     }
     public function addConvoId($auction_id='',$auctioneer_id='',$user_id='')
     {
+        $res = $this->db->select("user_of_company")->from("ssx_users")->where("id",$auctioneer_id)->get()->result_array();
+        $res2 = $this->db->select("user_of_company")->from("ssx_users")->where("id",$user_id)->get()->result_array();
+
         $data = array(
         'auction_id' => $auction_id,
         'recieved_by_user' => $auctioneer_id,
-        'sent_by_user' => $user_id
+        'rec_company_id' => $res[0]['user_of_company'],
+        'sent_by_user' => $user_id,
+        'sen_company_id' => $res2[0]['user_of_company'],
         );
 
         $this->db->trans_start();
@@ -543,7 +586,7 @@ class Users_m extends MY_Model
     {
         if (!empty($auction_id)) {
             $this->db->trans_start();
-            $this->db->select("ssxa.*,ssxu.first_name,ssxu.last_name,ssxu.id as auctioneer_id");
+            $this->db->select("ssxa.*,ssxu.first_name,ssxu.last_name,ssxu.id as auctioneer_id,ssxu.user_of_company");
             $this->db->from("ssx_auctions ssxa");
             $this->db->join("ssx_users ssxu","ssxa.user_id = ssxu.id","Left");
             $this->db->where("ssxa.id",$auction_id);
@@ -552,7 +595,7 @@ class Users_m extends MY_Model
         }
         if (!empty($user_id)) {
             $this->db->trans_start();
-            $this->db->select("ssxu.first_name,ssxu.last_name,ssxu.id as user_id");
+            $this->db->select("ssxu.first_name,ssxu.last_name,ssxu.id as user_id,ssxu.user_of_company");
             $this->db->from("ssx_users ssxu");
             $this->db->where("ssxu.id",$user_id);
             $this->db->trans_complete();            
@@ -570,7 +613,9 @@ class Users_m extends MY_Model
         $data = array(
         'auction_id' => $auction_id,
         'recieved_by_user' => $auctioneer_id,
+        'rec_company_id' => $res2['user_of_company'],
         'sent_by_user' => $user_id,
+        'sen_company_id' => $res['user_of_company'],
         'auction_name' => $res['name'],
         'auction_slug' => $res['slug'],
         'auctioneer_name' => $res['first_name'].' '.$res['last_name'],
@@ -586,6 +631,7 @@ class Users_m extends MY_Model
             $data2 = array(
             'convo_id' => $insert_id, 
             'sender_user_id' => $user_id,
+            'company_id' =>$res['user_of_company'],
             'message' => $message
             );
             //print_r($insert_id); exit();
@@ -608,9 +654,11 @@ class Users_m extends MY_Model
     }
     public function insertMessagebyConvo($convo_id='',$sender_id='',$message='',$type='')
     {
+        $res2 = $this->db->select("user_of_company")->from("ssx_users")->where("id",$sender_id)->get()->result_array();
         $data = array(
             'convo_id' => $convo_id, 
             'sender_user_id' => $sender_id,
+            'company_id' =>$res2[0]['user_of_company'],
             'message' => $message,
             'type' => $type
         );
@@ -823,7 +871,7 @@ class Users_m extends MY_Model
         
         //return FALSE;
     }
-    public function get_user_roles($logged_in_user='')
+    public function get_user_roles_m($logged_in_user='')
     {
         return $this->db->select("*")->from("ssx_user_roles")->where("user_id",$logged_in_user)->get()->result_array();
     }

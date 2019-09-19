@@ -279,11 +279,11 @@ color: white;
     </div>
     <div class="col-xs-12">
             <div class="btn pull-left">
-                <a href="<?=base_url('company/create_pr')?>"><button type="Submit" class="button small dark" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button></a>
+                <button type="Submit" class="button small dark approveAllrfq" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button>
             </div>
         </div>
     <!-- /HEADLINE -->
-
+    <input id="rfqSearch" type="text" placeholder="Search..">  
     <!-- PURCHASES LIST -->
     <div class="purchases-list col-sm-12 purchase-lst-cs">
         <!-- PURCHASES LIST HEADER -->
@@ -326,17 +326,18 @@ color: white;
             </div>
             
         </div>
-        <?php 
+        <div id="rfqSerachDiv">
+            <?php 
         $i=1;
         foreach ($all_rfq as $key => $value) { ?>
         
         <!-- /PURCHASES LIST HEADER -->
-       <form method="post" action="<?=base_url()?>company/storerfq" id="rfq_form_<?=$value['id']?>" enctype="multipart/form-data">
+       <form method="post" action="<?=base_url()?>company/storerfq" id="rfq_form_<?=$value['id']?>" enctype="multipart/form-data" class="allforms" data-id="<?=$value['id']?>">
         <div class="purchase-item row">
             <div class="row" style="margin-right: 0px; margin-left: 0px;">
               <div class="col-xs-6">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" style="display: block;">
+                  <input class="form-check-input" type="checkbox" name="rfqs" id="inlineCheckbox1" value="<?=$value['id']?>" style="display: block;">
                 </div>
                 </div>
                 <div class="col-xs-6">
@@ -371,9 +372,7 @@ color: white;
                     +
                 </a>
             </div>
-            <div class="col-xs-2" style="
-    padding-left: 40px;
-">
+            <div class="col-xs-2" style="padding-left: 40px;">
                  <div id="image-preview<?=$value['id']?>" class="image-preview">
                   <label for="image-upload<?=$value['id']?>" id="image-label<?=$value['id']?>" class="image-label">+</label>
                   <input type="file" name="image0" id="image-upload<?=$value['id']?>" data-id="<?=$value['id']?>" class="image-upload photo_add" style="width: 0px;"/>
@@ -407,9 +406,9 @@ color: white;
             </div>
             <input type="hidden" name="pr_id" value="<?=$value['id']?>">
             <div class="recommendation-wrap bid_actions col-xs-1">
-                    <button type="" data-id="<?=$value['id']?>" class="submitRFQ" >
+                    <button type="button" data-id="<?=$value['id']?>" class="submitRFQ" >
                         <span class="tick-icon">✓</span></button>
-                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action "
+                    <a href="#" data-id="<?=$value['id']?>" class="recommendation bad hoverable open-recommendation-form icon-dectick action disaproveRFQ"
                     style="" data-method="cancel" data-id="" >
                         <span class="close-icon">✕</span>
                     </a>
@@ -420,6 +419,8 @@ color: white;
         </form>
         <?php $i++; } ?>
         <!-- /PURCHASE ITEM -->
+        </div>
+        
       
         
         <!-- /PAGER -->

@@ -38,10 +38,10 @@
             <div class="col-xs-2 purchase-item-details-list">
                 <p class="text-header small">Name</p>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-8">
                 <p class="text-header small">Address</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-1">
                 <p class="text-header small text-center">Action</p>
             </div>
             
@@ -63,14 +63,18 @@
                     <p class="text-header tiny">Check Invoice</p> -->
                 </div>
 
-                <div class="purchase-item-download col-xs-6">
+                <div class="purchase-item-download col-xs-8">
                      <p><?=$value['address']?></p>
                 </div>
                 
-                <div class="purchase-item-recommend col-xs-2">
+                <div class="purchase-item-recommend col-xs-1">
                     <div class="recommendation-wrap">
-                        <a href="<?=base_url()?>company/add_warehouse/?warehouse=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
+                        <a href="<?=base_url()?>company/add_warehouse/?warehouse=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form" style="margin-right: 0px">
                             <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action deleteLocation"  data-method="cancel" data-id="<?=$value['id']?>" style="width: 40px;
+    height: 40px;" data-user-id=<?=$value['user_id']?>  >
+                            <i class="fa fa-trash-o" style="margin-top: 11px; color: white;"></i>
                         </a>
                         <!-- <a href="#" class="recommendation bad hoverable open-recommendation-form">
                             <span class="glyphicon glyphicon-trash"></span>

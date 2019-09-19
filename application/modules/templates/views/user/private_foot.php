@@ -6,6 +6,8 @@
 <!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script> -->
 <script src="<?=base_url();?>assets_u/js/bootstrap3.min.js"></script>
+<script src="<?= base_url('assets_u/vendors/bootbox.all.min.js');?>"></script>
+
 <script src="<?= base_url('assets_u/vendors/jquery-validation-1.17.0/dist/jquery.validate.min.js');?>"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="<?=base_url();?>assets_u/js/vendor/jquery.sumoselect.js"></script>
@@ -147,5 +149,6 @@ function showstatusMessage(type, heading, text, delay) {
   <script type="text/javascript">
    $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    
 });
 </script>

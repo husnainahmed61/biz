@@ -179,9 +179,11 @@
         
         $.ajax({
             type: "POST",
-            url: "php/requestform-process.php",
+            url: $("#requestForm").attr('action'),
             data: "name=" + name + "&email=" + email + "&phone=" + phone + "&select=" + select + "&terms=" + terms, 
             success: function(text) {
+                // console.log(text);
+                // return;
                 if (text == "success") {
                     rformSuccess();
                 } else {

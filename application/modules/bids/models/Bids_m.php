@@ -295,7 +295,7 @@ class Bids_m extends MY_Model
     {
         if (!empty($auction_id)) {
             $this->db->trans_start();
-            $this->db->select("ssxa.*,ssxu.first_name,ssxu.last_name,ssxu.id as auctioneer_id");
+            $this->db->select("ssxa.*,ssxu.first_name,ssxu.last_name,ssxu.id as auctioneer_id,ssxu.user_of_company");
             $this->db->from("ssx_auctions ssxa");
             $this->db->join("ssx_users ssxu","ssxa.user_id = ssxu.id","Left");
             $this->db->where("ssxa.id",$auction_id);
@@ -304,7 +304,7 @@ class Bids_m extends MY_Model
         }
         if (!empty($auctioneer_id)) {
             $this->db->trans_start();
-            $this->db->select("ssxu.first_name,ssxu.last_name,ssxu.id as user_id");
+            $this->db->select("ssxu.first_name,ssxu.last_name,ssxu.id as user_id,ssxu.user_of_company");
             $this->db->from("ssx_users ssxu");
             $this->db->where("ssxu.id",$auctioneer_id);
             $this->db->trans_complete();            
@@ -322,7 +322,9 @@ class Bids_m extends MY_Model
         $data = array(
         'auction_id' => $auction_id,
         'recieved_by_user' => $auctioneer_id,
+        'rec_company_id' => $res2['user_of_company'],
         'sent_by_user' => $user_id,
+        'sen_company_id' => $res['user_of_company'],
         'auction_name' => $res['name'],
         'auction_slug' => $res['slug'],
         'auctioneer_name' => $res['first_name'].' '.$res['last_name'],
@@ -338,6 +340,7 @@ class Bids_m extends MY_Model
             $data2 = array(
             'convo_id' => $insert_id, 
             'sender_user_id' => $user_id,
+            'company_id' =>$res['user_of_company'],
             'message' => $message
             );
             //print_r($insert_id); exit();
@@ -361,9 +364,11 @@ class Bids_m extends MY_Model
 
     public function insertMessagebyConvo($convo_id='',$sender_id='',$message='')
     {
+        $res2 = $this->db->select("user_of_company")->from("ssx_users")->where("id",$sender_id)->get()->result_array();
         $data = array(
             'convo_id' => $convo_id, 
             'sender_user_id' => $sender_id,
+            'company_id' => $res2[0]['user_of_company'],
             'message' => $message
         );
             $this->db->trans_start();

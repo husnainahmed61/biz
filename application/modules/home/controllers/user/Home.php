@@ -270,4 +270,38 @@ class Home extends User_Controller
             'html_url' => $items[0]["slug"]."/auction"  );
         echo json_encode($arrayName);
     }
+    public function contactForm_process()
+    {
+       $get = $_REQUEST;
+       // print_r($get);
+       // exit();
+       $msg = 'Dear Admin,
+    
+            You have recieved an request from biz.vayzn.com
+            here is the form data 
+            Name : '.$get['name'].'
+            email : '.$get['email'].'
+            phone : '.$get['phone'].'
+            select : '.$get['select'].'
+                     
+            Regards,
+            Vayzn - Help Desk';
+
+        //$to = $sup_email[0]['email']; //"husnainahmed61@gmail.com";
+        
+        //$msg .= $email_body[0]['email_body'];
+        
+        $headers = 'From: <no-reply@vayzn.com>' . "\r\n";
+        $headers .= 'MIME-Version: 1.0';
+        $headers .= 'Content-type: text/html; charset=iso-8859-1';
+
+        
+        if(mail("saad@vayzn.com","Request Form Submitted",$msg,$headers))
+        {
+            echo "success";
+        }
+        else{
+            return FALSE;
+        }
+    }
 }

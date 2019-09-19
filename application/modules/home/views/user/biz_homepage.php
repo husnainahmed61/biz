@@ -553,7 +553,7 @@
 
                     <!-- Request Form -->
                     <div class="form-container">
-                        <form id="requestForm" data-toggle="validator" data-focus="false">
+                        <form id="requestForm" data-toggle="validator" action="<?=base_url()?>home/contactForm_process" data-focus="false">
                             <div class="form-group">
                                 <input type="text" class="form-control-input" id="rname" name="rname" required>
                                 <label class="label-control" for="rname">Full name</label>
@@ -570,11 +570,11 @@
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
-                                <select class="form-control-select" id="rselect" required>
+                                <select class="form-control-select" id="rselect" required name="intrested_in">
                                     <option class="select-option" value="" disabled selected>Interested in...</option>
-                                    <option class="select-option" value="Personal Loan">Basic</option>
-                                    <option class="select-option" value="Car Loan">Essential</option>
-                                    <option class="select-option" value="House Loan">Complete</option>
+                                    <option class="select-option" value="Basic">Basic</option>
+                                    <option class="select-option" value="Essential">Essential</option>
+                                    <option class="select-option" value="Complete">Complete</option>
                                 </select>
                                 <div class="help-block with-errors"></div>
                             </div>
