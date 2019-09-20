@@ -102,9 +102,7 @@
                     <a href="<?=base_url()?>company/add_supplier/?supplier=<?=$value['id']?>" class="recommendation good hoverable open-recommendation-form">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
-                    <a href="#" class="recommendation bad hoverable open-recommendation-form icon-dectick action deleteSupplier"  data-method="cancel" data-id="<?=$value['id']?>" style="width: 40px;height: 40px;" >
-                            <i class="fa fa-trash-o" style="margin-top: 11px; color: white;"></i>
-                        </a>
+                    
                 </div>
                 </div>
             

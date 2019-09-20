@@ -9,6 +9,7 @@
 class Company extends User_Controller
 {
     public $response;
+    private $user_roles;
 
     function __construct()
     {
@@ -20,7 +21,7 @@ class Company extends User_Controller
         $this->moduleName = 'company';
         $this->modulePath = "$this->moduleName/$this->userName";
 
-        $this->get_user_roles();
+        $this->user_roles = $this->get_user_roles();
         $this->loggedInUser = $this->get_logged_in_user(); //UZair
         $this->data['user']['head']['pageLevelPlugins']['css'] = ['bs-select'];
         $this->data['user']['foot']['pageLevelPlugins']['js'] = ['bs-select','pagination'];
@@ -710,9 +711,25 @@ class Company extends User_Controller
     }
     public function pr_list()
     {
+        $user_id = $this->input->post("user_pr");
         if ($this->check_user_authentication('', 'home')) {
             $user = $this->get_logged_in_user();
-            $this->data['user']['all_prs'] = $this->companyModel->getAllPr($user['user_of_company']);
+            $this->data['user']['all_users'] = $this->db->select("ssxur.*,ssxu.first_name,ssxu.last_name")->from("ssx_user_roles ssxur")->join("ssx_users ssxu","ssxur.user_id = ssxu.id","Left")->where("ssxur.company_id",$user['user_of_company'])->get()->result_array();
+            if ($this->user_roles == "is_admin") {
+                //getUserConvo_Company
+                if (isset($user_id) && !empty($user_id)) {
+                    $this->data['user']['selected_id'] = $user_id;
+                    $this->data['user']['all_prs'] = $this->companyModel->getAllUserPr($user_id);
+                }
+                else{
+                    $this->data['user']['all_prs'] = $this->companyModel->getAllPr($user['user_of_company']);
+                }
+                
+            }
+            else{
+                $this->data['user']['all_prs'] = $this->companyModel->getAllUserPr($user['id']);
+            }
+            
             $this->data['user']['serverDateTime'] = new DateTime($this->serverDateTime);
             $this->data['user']['categories3'] = $this->categories3->cat3Model->getAll();
             $this->data['user']['content_view'] = "$this->modulePath/pr_list_v";

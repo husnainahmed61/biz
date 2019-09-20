@@ -24,7 +24,7 @@
   visibility: hidden;
 }
 .custom-file-input::before {
-  content: 'Import File';
+  content: '  Import File';
   display: inline-block;
   background: linear-gradient(top, #f9f9f9, #e3e3e3);
   border-radius: 10px;
@@ -58,12 +58,26 @@
             </div>
             <div class="btn pull-right">
                 <form action="<?=base_url('company/import_pr')?>" enctype="multipart/form-data" id="importpr">
-                    <input type="file" id="importPR" class="custom-file-input button small dark" name="file1" style="width: 74px;color: white;height: 30px;background-color: #1cbdf9 !important" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">  
+                    <input type="file" id="importPR" class="custom-file-input button small dark" name="file1" style="width: 74px;color: white;height: 30px;background-color: #1cbdf9 !important;font-size: 0px;width: 100px;" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">  
                 </form>
             </div>
             <div class="btn pull-left">
                 <button type="Submit" class="button small dark approveAllPr" style="background-color: #00d7b3 !important;">Approve all<span class="primary"></span></button>
             </div>
+            <?php if ($user_roles == "is_admin") { ?>
+            <div class="pull-left">    
+            <form method="post" action="<?=base_url('company/pr_list')?>" style="display: inline-flex;">
+                <select name="user_pr" style="height: 33px; line-height: 33px;margin-top: 5px;color: black;font-size: 14px;background-color: white;">
+                    <option>Select User</option>
+                    <?php foreach ($all_users as $key => $value) { ?>
+                    <option value="<?=$value['user_id']?>" <?=(isset($selected_id) && $selected_id == $value['user_id']) ? 'selected' : '' ?> ><?=$value['first_name'].' '.$value['last_name']?></option>
+                    <?php } ?>
+                </select>
+            <button type="submit" class="button small dark" style="background-color: #00d7b3 !important; margin-top: 7px;"> Get Pr</button>    
+            </form>
+            </div>
+            <?php } ?>
+            
         </div>
    
     

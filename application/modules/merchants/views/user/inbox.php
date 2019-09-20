@@ -5,25 +5,32 @@ $user_id = $user_id['id'];
 // print_r($conversations);
 // exit();
 ?>
+<style type="text/css">
+    .mybuuton{
+        outline: none !important; 
+         outline-offset: -2px;
+    }
+</style>
         <!-- DASHBOARD CONTENT -->
         <div class="dashboard-content" style="padding: 4px 0 90px;"> 
             <!-- HEADLINE -->
             <div class="headline buttons two primary col-sm-12 latest-item-main" style="margin-bottom: 4px;">
                 <h4>Your Inbox (<?=count($conversations)?>)</h4>
+                
+				<a href="" class="button mid-short secondary open-new-message" data-toggle="modal" data-target="#myModal">New Message</a>    
+				<a href="#" class="button mid-short primary">Delete Selected</a>
                 <?php if ($user_roles == "is_admin") { ?>
-                <form method="post" action="<?=base_url()?>inbox">
-                    <select style="width: fit-content;margin-top: 16px;margin-left: 50px;" name="user_convo">
+                <form method="post" action="<?=base_url()?>inbox" style="margin-top: 0px" >
+                    <select style="width: fit-content;margin-top: 18px;margin-left: 50px;height: 30px;line-height: 30px;color: black;background-color: white;border: 1px solid #888888;" name="user_convo">
                         <option>Select User</option>
                         <?php foreach ($all_users as $key => $value) { ?>
                         <option value="<?=$value['user_id']?>" <?=(isset($selected_id) && $selected_id == $value['user_id']) ? 'selected' : '' ?> ><?=$value['first_name'].' '.$value['last_name']?></option>
                         <?php } ?>
                     </select>
-                <button type="submit"> Get Convo</button>    
+                <button type="submit" class="button mid-short secondary"> Get Convo</button>    
                 </form>
                 
                 <?php } ?>
-				<a href="" class="button mid-short secondary open-new-message" data-toggle="modal" data-target="#myModal">New Message</a>    
-				<a href="#" class="button mid-short primary">Delete Selected</a>
             </div>
             <!-- /HEADLINE -->
             <input id="myInput" type="text" placeholder="Search..">  
@@ -64,7 +71,7 @@ $user_id = $user_id['id'];
                                         
                                     </p>                                
                                 </div>
-                                 <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo_<?=$value['auction_id']?>" style="width: 180px;margin-bottom: 20px;background-color: white;color: black;text-align: left"><?=$value['name']?></button>
+                                 <button type="button" class="btn mybuuton" data-toggle="collapse" data-target="#demo_<?=$value['auction_id']?>" style="width: 180px;margin-bottom: 20px;background-color: white;color: black;text-align: left;border: none; "><?=$value['name']?></button>
                                  <div class="inbox-message-date">
                                     <p></p>
                                 </div>

@@ -578,6 +578,11 @@ class Company_m extends MY_Model
         return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.company_id",$company_id)->where("ssxcp.status ",NULL)->get()->result_array();
         
     }
+    public function getAllUserPr($user_id='')
+    {
+        return $this->db->select("ssxcp.*,ssxci.item_name,ssxci.item_number")->from("ssx_company_pr ssxcp")->join("ssx_company_items ssxci","ssxcp.item_id = ssxci.id","Left")->where("ssxcp.user_id",$user_id)->where("ssxcp.status ",NULL)->get()->result_array();
+        
+    }
     public function updatePrStatus($get='')
     {
         $data = array(
